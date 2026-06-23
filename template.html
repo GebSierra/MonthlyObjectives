@@ -116,7 +116,8 @@
 const DATA = JSON.parse(document.getElementById('data').textContent);
 const STATUS = {notStarted:{label:'Not Started',cls:'red'},inProgress:{label:'In Progress',cls:'yellow'},done:{label:'Done',cls:'green'}};
 let current = (function(){
-  if(DATA.activeMonth){const i=DATA.months.findIndex(m=>m.key===DATA.activeMonth); if(i>=0) return i;}
+  const pref = DATA.defaultMonth || DATA.activeMonth;
+  if(pref){const i=DATA.months.findIndex(m=>m.key===pref); if(i>=0) return i;}
   return DATA.months.length-1;
 })();
 
