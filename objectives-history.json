@@ -231,7 +231,7 @@
         {
           "title": "Draft a Discipleship model and present that to the elders",
           "status": "notStarted",
-          "top": false
+          "top": true
         },
         {
           "title": "Thank volunteers three times from the stage.",
@@ -256,12 +256,7 @@
         {
           "title": "Draft a guest connection Sunday morning SOP for volunteers to follow (delegate to Unruhs?)",
           "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Call Dave Stowasser",
-          "status": "notStarted",
-          "top": false
+          "top": true
         },
         {
           "title": "Schedule guest preachers for the year",
@@ -311,6 +306,11 @@
         {
           "title": "Continue building and implementing the monthly objectives system",
           "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Call Dave Stowasser",
+          "status": "done",
           "top": false
         },
         {
