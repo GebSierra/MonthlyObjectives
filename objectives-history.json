@@ -9,12 +9,27 @@
       "label": "June 2026",
       "items": [
         {
+          "title": "Connect and Care For Unruhs",
+          "status": "done",
+          "top": false
+        },
+        {
           "title": "Begin working on Colossians memorization.",
           "status": "notStarted",
           "top": false
         },
         {
-          "title": "Draft a discipleship model and present it to the elders.",
+          "title": "Set aside a week to do long-range planning for preaching through Acts.",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Write your EFCA paper for licensing",
+          "status": "done",
+          "top": true
+        },
+        {
+          "title": "Draft a Discipleship model and present that to the elders",
           "status": "notStarted",
           "top": true
         },
@@ -24,97 +39,77 @@
           "top": false
         },
         {
-          "title": "Deep work session on how to care for the flock well (June 19).",
+          "title": "Have a deep work about how to care for flock well on June 19th",
           "status": "notStarted",
           "top": false
         },
         {
-          "title": "Follow up with elders on how discipleship is going.",
+          "title": "Research sermon hosting options: Go, no go on SermonAudio.com",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Follow up with elders on how discipleship is going",
           "status": "notStarted",
           "top": false
         },
         {
-          "title": "Fix the www domain issue with our website.",
+          "title": "Fix the www domain issue with our website",
           "status": "notStarted",
           "top": false
         },
         {
-          "title": "Draft a guest-connection Sunday-morning SOP for volunteers to follow (delegate to Unruhs?).",
+          "title": "Draft a guest connection Sunday morning SOP for volunteers to folllow [Delegate to Unruhs?]",
           "status": "notStarted",
           "top": true
         },
         {
-          "title": "Set aside a week for long-range planning to preach through Acts.",
-          "status": "inProgress",
+          "title": "Go, no‑go on scripture memory day",
+          "status": "done",
           "top": false
         },
         {
-          "title": "Research sermon hosting options: go / no-go on SermonAudio.com.",
-          "status": "inProgress",
+          "title": "Scripture memory is actively encouraged during announcements and in church life.",
+          "status": "done",
           "top": false
         },
         {
-          "title": "Define and implement next steps for the tech team with Ben Chambers.",
-          "status": "inProgress",
+          "title": "New guest connection workers trained and ready to serve.",
+          "status": "done",
           "top": false
         },
         {
-          "title": "Consolidate personal accounts into corporate accounts (email, logins, website, YouTube, Drive, Microsoft, G Suite, tech-team slide email).",
-          "status": "inProgress",
+          "title": "Add Geb as the Ministry team leader over the website",
+          "status": "done",
           "top": false
         },
         {
-          "title": "Unify hosting and website credentials into a corporate account.",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Talk with Paula Ralph to clear the way for Dwight to serve; make sure she is okay.",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Write your EFCA paper for licensing.",
+          "title": "Get Dwight trained in church center scheduling so that he can manage the guest connection volunteer schedule.",
           "status": "done",
           "top": true
         },
         {
-          "title": "Connect with and care for the Unruhs.",
-          "status": "done",
+          "title": "Hosting and Website credentials unified into a corporate account",
+          "status": "inProgress",
           "top": false
         },
         {
-          "title": "Go / no-go on scripture memory day.",
-          "status": "done",
+          "title": "Next steps for Tech Teacm defined and implemented with Ben Chambers",
+          "status": "inProgress",
           "top": false
         },
         {
-          "title": "Scripture memory actively encouraged during announcements and in church life.",
-          "status": "done",
+          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "status": "inProgress",
           "top": false
         },
         {
-          "title": "New guest-connection workers trained and ready to serve.",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Add Geb as the ministry team leader over the website.",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Get Dwight trained in Church Center scheduling to manage the guest-connection volunteer schedule.",
-          "status": "done",
-          "top": true
-        },
-        {
-          "title": "Discipleship — implement elders' monthly discipleship.",
+          "title": "Discipleship - Implement elders' monthly discipleship",
           "status": "quarterly",
           "top": false
         },
         {
-          "title": "Technology — go / no-go on SermonAudio.",
+          "title": "Technology: go, no‑go on Sermon Audio.",
           "status": "quarterly",
           "top": false
         },
@@ -129,8 +124,13 @@
           "top": false
         },
         {
-          "title": "Three-year theme rock.",
+          "title": "Three-year theme rock",
           "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Talk With Paula Ralph to clear the way for Dwight to serve. Make sure she's ok.",
+          "status": "inProgress",
           "top": false
         }
       ]
