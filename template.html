@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#ffffff; --ink:#1f2430; --muted:#6b7280; --line:#e6e8ec;
+    --red:#e5484d; --red-soft:#fdecec; --yellow:#d9920b; --yellow-soft:#fdf4e3;
+    --green:#1f9d57; --green-soft:#e9f8ef; --blue:#2f6fed; --blue-soft:#eaf1fe;
+    --gold:#e0a106; --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.45}
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 22px 64px}
+  header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:8px}
+  h1{font-size:30px;margin:0;letter-spacing:-.02em}
+  .subtitle{color:var(--muted);font-size:15px;margin-top:4px}
+  .updated{color:var(--muted);font-size:13px;white-space:nowrap}
+  .months{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 8px}
+  .month-tab{border:1px solid var(--line);background:var(--card);color:var(--ink);
+    padding:8px 16px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;
+    box-shadow:var(--shadow);transition:.15s}
+  .month-tab:hover{border-color:#c7ccd4}
+  .month-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .stats{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 24px;align-items:center}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);min-width:104px}
+  .stat .num{font-size:24px;font-weight:700;line-height:1}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+  .stat.red .num{color:var(--red)} .stat.yellow .num{color:var(--yellow)} .stat.green .num{color:var(--green)}
+  .bar-wrap{flex:1;min-width:220px}
+  .bar-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px}
+  .bar{height:12px;background:#e8eaee;border-radius:999px;overflow:hidden;display:flex}
+  .bar>span{display:block;height:100%}
+  .bar .b-green{background:var(--green)} .bar .b-yellow{background:var(--yellow)} .bar .b-red{background:var(--red)}
+  .top-strip{background:linear-gradient(180deg,#fffdf6,#fff);border:1px solid #f0e2b8;
+    border-radius:16px;padding:16px 18px;margin-bottom:24px;box-shadow:var(--shadow)}
+  .top-strip h2{margin:0 0 12px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px}
+  .top-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+  .top-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;align-self:center}
+  .pill.notStarted{background:var(--red-soft);color:var(--red)}
+  .pill.inProgress{background:var(--yellow-soft);color:var(--yellow)}
+  .pill.done{background:var(--green-soft);color:var(--green)}
+  .board{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:860px){.board{grid-template-columns:1fr}}
+  .col{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+  .col-head{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:15px;border-bottom:1px solid var(--line)}
+  .col-head .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:9px}
+  .col-head .count{font-size:13px;color:var(--muted);font-weight:600}
+  .col.red .col-head{background:var(--red-soft)} .col.red .dot{background:var(--red)}
+  .col.yellow .col-head{background:var(--yellow-soft)} .col.yellow .dot{background:var(--yellow)}
+  .col.green .col-head{background:var(--green-soft)} .col.green .dot{background:var(--green)}
+  .col-body{padding:12px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card{border:1px solid var(--line);border-left-width:4px;border-radius:10px;padding:11px 13px;font-size:14px;background:#fff}
+  .col.red .card{border-left-color:var(--red)} .col.yellow .card{border-left-color:var(--yellow)} .col.green .card{border-left-color:var(--green)}
+  .card.top{background:linear-gradient(180deg,#fffdf4,#fff);border-left-color:var(--gold)!important;box-shadow:0 0 0 1px #f0e2b8 inset}
+  .card .star{color:var(--gold);font-weight:700;margin-right:4px}
+  .card.done-card{text-decoration:none}
+  .empty{color:var(--muted);font-size:13px;font-style:italic;padding:6px 4px}
+  .quarter{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .quarter .col-head{background:var(--blue-soft)} .quarter .dot{background:var(--blue)}
+  .quarter-body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+  .quarter-body .card{border-left-color:var(--blue)}
+  footer{margin-top:34px;color:var(--muted);font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="hTitle"></h1>
+      <div class="subtitle" id="hSub"></div>
+    </div>
+    <div class="updated" id="hUpdated"></div>
+  </header>
+
+  <div class="months" id="months"></div>
+  <div class="top-strip" id="topStrip" style="display:none">
+    <h2>★ Top Objectives This Month</h2>
+    <div class="top-list" id="topList"></div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="board" id="board"></div>
+  <div class="quarter" id="quarter" style="display:none">
+    <div class="col-head"><span><span class="dot"></span>Quarterly Goals</span><span class="count" id="qCount"></span></div>
+    <div class="quarter-body" id="quarterBody"></div>
+  </div>
+  <footer id="foot"></footer>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const STATUS = {notStarted:{label:'Not Started',cls:'red'},inProgress:{label:'In Progress',cls:'yellow'},done:{label:'Done',cls:'green'}};
+let current = DATA.months.length - 1; // default to latest
+
+function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+function renderMonths(){
+  const box=document.getElementById('months'); box.innerHTML='';
+  DATA.months.forEach((m,i)=>{
+    const b=document.createElement('button');
+    b.className='month-tab'+(i===current?' active':'');
+    b.textContent=m.label; b.onclick=()=>{current=i;render();};
+    box.appendChild(b);
+  });
+}
+function card(it){
+  const star = it.top ? '<span class="star">★</span>' : '';
+  return `<div class="card${it.top?' top':''}">${star}${esc(it.title)}</div>`;
+}
+function render(){
+  document.getElementById('hTitle').textContent=DATA.title;
+  document.getElementById('hSub').textContent=DATA.subtitle;
+  document.getElementById('hUpdated').textContent='Last updated: '+DATA.lastUpdated;
+  renderMonths();
+  const m=DATA.months[current];
+  const by={notStarted:[],inProgress:[],done:[],quarterly:[]};
+  m.items.forEach(it=>(by[it.status]||by.quarterly).push(it));
+
+  // top objectives strip
+  const tops=m.items.filter(it=>it.top);
+  const strip=document.getElementById('topStrip'), tl=document.getElementById('topList');
+  if(tops.length){strip.style.display='';tl.innerHTML=tops.map(it=>{
+    const st=STATUS[it.status]||{label:'Quarterly',cls:''};
+    return `<div class="top-item"><span class="pill ${it.status}">${st.label}</span><span>${esc(it.title)}</span></div>`;}).join('');}
+  else strip.style.display='none';
+
+  // stats
+  const total=by.notStarted.length+by.inProgress.length+by.done.length;
+  const pct=total?Math.round(by.done.length/total*100):0;
+  document.getElementById('stats').innerHTML=`
+    <div class="stat red"><div class="num">${by.notStarted.length}</div><div class="lbl">Not Started</div></div>
+    <div class="stat yellow"><div class="num">${by.inProgress.length}</div><div class="lbl">In Progress</div></div>
+    <div class="stat green"><div class="num">${by.done.length}</div><div class="lbl">Done</div></div>
+    <div class="bar-wrap">
+      <div class="bar-label"><span>${pct}% complete</span><span>${by.done.length}/${total} objectives</span></div>
+      <div class="bar">
+        <span class="b-green" style="width:${total?by.done.length/total*100:0}%"></span>
+        <span class="b-yellow" style="width:${total?by.inProgress.length/total*100:0}%"></span>
+        <span class="b-red" style="width:${total?by.notStarted.length/total*100:0}%"></span>
+      </div>
+    </div>`;
+
+  // board
+  const order=['notStarted','inProgress','done'];
+  document.getElementById('board').innerHTML=order.map(k=>{
+    const st=STATUS[k], items=by[k];
+    const body=items.length?items.map(card).join(''):'<div class="empty">Nothing here yet.</div>';
+    return `<div class="col ${st.cls}"><div class="col-head"><span><span class="dot"></span>${st.label}</span><span class="count">${items.length}</span></div><div class="col-body">${body}</div></div>`;
+  }).join('');
+
+  // quarterly
+  const q=document.getElementById('quarter');
+  if(by.quarterly.length){q.style.display='';
+    document.getElementById('qCount').textContent=by.quarterly.length;
+    document.getElementById('quarterBody').innerHTML=by.quarterly.map(card).join('');}
+  else q.style.display='none';
+
+  document.getElementById('foot').textContent='Mirrors the “'+ (DATA.title) +'” board in TickTick · refreshed automatically twice a week.';
+}
+render();
+</script>
+</body>
+</html>

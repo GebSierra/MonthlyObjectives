@@ -1,0 +1,39 @@
+{
+  "title": "Monthly Objectives",
+  "subtitle": "Trinity Bible Church · Prepared for the Elders & Gary DeBock",
+  "lastUpdated": "2026-06-23",
+  "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
+  "months": [
+    {
+      "key": "2026-06",
+      "label": "June 2026",
+      "items": [
+        { "title": "Begin working on Colossians memorization.", "status": "notStarted", "top": false },
+        { "title": "Draft a discipleship model and present it to the elders.", "status": "notStarted", "top": true },
+        { "title": "Thank volunteers three times from the stage.", "status": "notStarted", "top": false },
+        { "title": "Deep work session on how to care for the flock well (June 19).", "status": "notStarted", "top": false },
+        { "title": "Follow up with elders on how discipleship is going.", "status": "notStarted", "top": false },
+        { "title": "Fix the www domain issue with our website.", "status": "notStarted", "top": false },
+        { "title": "Draft a guest-connection Sunday-morning SOP for volunteers to follow (delegate to Unruhs?).", "status": "notStarted", "top": true },
+        { "title": "Set aside a week for long-range planning to preach through Acts.", "status": "inProgress", "top": false },
+        { "title": "Research sermon hosting options: go / no-go on SermonAudio.com.", "status": "inProgress", "top": false },
+        { "title": "Define and implement next steps for the tech team with Ben Chambers.", "status": "inProgress", "top": false },
+        { "title": "Consolidate personal accounts into corporate accounts (email, logins, website, YouTube, Drive, Microsoft, G Suite, tech-team slide email).", "status": "inProgress", "top": false },
+        { "title": "Unify hosting and website credentials into a corporate account.", "status": "inProgress", "top": false },
+        { "title": "Talk with Paula Ralph to clear the way for Dwight to serve; make sure she is okay.", "status": "inProgress", "top": false },
+        { "title": "Write your EFCA paper for licensing.", "status": "done", "top": true },
+        { "title": "Connect with and care for the Unruhs.", "status": "done", "top": false },
+        { "title": "Go / no-go on scripture memory day.", "status": "done", "top": false },
+        { "title": "Scripture memory actively encouraged during announcements and in church life.", "status": "done", "top": false },
+        { "title": "New guest-connection workers trained and ready to serve.", "status": "done", "top": false },
+        { "title": "Add Geb as the ministry team leader over the website.", "status": "done", "top": false },
+        { "title": "Get Dwight trained in Church Center scheduling to manage the guest-connection volunteer schedule.", "status": "done", "top": true },
+        { "title": "Discipleship — implement elders' monthly discipleship.", "status": "quarterly", "top": false },
+        { "title": "Technology — go / no-go on SermonAudio.", "status": "quarterly", "top": false },
+        { "title": "EFCA credentialing.", "status": "quarterly", "top": false },
+        { "title": "Guest connections rock.", "status": "quarterly", "top": false },
+        { "title": "Three-year theme rock.", "status": "quarterly", "top": false }
+      ]
+    }
+  ]
+}
