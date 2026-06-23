@@ -197,9 +197,149 @@
     {
       "key": "2026-07",
       "label": "July 2026",
-      "items": [],
-      "note": "July's objectives will appear here once they're set at the start of the month. (This tab is a preview so you can see how to move between months.)"
+      "items": [
+        {
+          "title": "Begin working on Colossians memorization.",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Hosting and Website credentials unified into a corporate account",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Talk With Paula Ralph to clear the way for Dwight to serve. Make sure she's ok.",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "I want to be transparent and help the elders understand what my life looks like by 1) Sharing monthly goals 2) Being more intentional in discussion",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Have the proposed tech team changes implemented with Ben Chambers",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Draft a Discipleship model and present that to the elders",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Thank volunteers three times from the stage.",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Have a deep-work session on caring well for the flock",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Follow up with elders on how discipleship is going",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Fix the www domain issue with our website",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Draft a guest connection Sunday morning SOP for volunteers to follow (delegate to Unruhs?)",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Call Dave Stowasser",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Schedule guest preachers for the year",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Prepare for the September baby: plan ministry events ahead and prepare early",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Set aside strategic time to prepare for the Quarterly Pulse: reflect on the quarter and review the VTO",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Reach out to young adults to invite them to the summer party",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Get together with Stephanie",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Get together with Lori (for RTBC)",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Call Dan Foster",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Have one of the other elders over (the Korhorns or the Jones)",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Track my hours to share with the elders",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Continue building and implementing the monthly objectives system",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Discipleship - Implement elders' monthly discipleship",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Technology: go, no-go on Sermon Audio.",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "EFCA credentialing.",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Guest connections rock.",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Three-year theme rock",
+          "status": "quarterly",
+          "top": false
+        }
+      ]
     }
   ],
-  "activeMonth": "2026-06"
+  "activeMonth": "2026-07"
 }
