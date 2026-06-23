@@ -67,6 +67,14 @@
   .quarter .col-head{background:var(--blue-soft)} .quarter .dot{background:var(--blue)}
   .quarter-body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
   .quarter-body .card{border-left-color:var(--blue)}
+  .people{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .people .col-head{background:#eef2f4} .people .dot{background:#5b7083}
+  .people-intro{padding:14px 16px 0;font-size:14px;color:var(--ink)}
+  .people-caption{padding:2px 16px 12px;font-size:12px;color:var(--muted);font-style:italic}
+  .people-body{padding:0 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+  .people-body .card{border-left-color:#5b7083}
+  .people-body .pname{font-weight:700}
+  .people-body .pnote{color:var(--muted);font-size:13px;margin-top:2px}
   footer{margin-top:34px;color:var(--muted);font-size:12.5px;text-align:center}
 </style>
 </head>
@@ -91,6 +99,12 @@
   <div class="quarter" id="quarter" style="display:none">
     <div class="col-head"><span><span class="dot"></span>Quarterly Goals</span><span class="count" id="qCount"></span></div>
     <div class="quarter-body" id="quarterBody"></div>
+  </div>
+  <div class="people" id="people" style="display:none">
+    <div class="col-head"><span><span class="dot"></span>People</span><span class="count" id="pCount"></span></div>
+    <div class="people-intro">Some of the people I was able to connect with this month</div>
+    <div class="people-caption">Experimental section generated from personal notes; not comprehensive.</div>
+    <div class="people-body" id="peopleBody"></div>
   </div>
   <footer id="foot"></footer>
 </div>
@@ -165,6 +179,13 @@ function render(){
     document.getElementById('qCount').textContent=by.quarterly.length;
     document.getElementById('quarterBody').innerHTML=by.quarterly.map(card).join('');}
   else q.style.display='none';
+
+  const pe=document.getElementById('people');
+  const ppl=(m.people||[]);
+  if(ppl.length){pe.style.display='';
+    document.getElementById('pCount').textContent=ppl.length;
+    document.getElementById('peopleBody').innerHTML=ppl.map(p=>`<div class="card"><div class="pname">${esc(p.name)}</div>${p.note?`<div class="pnote">${esc(p.note)}</div>`:''}</div>`).join('');}
+  else {pe.style.display='none';}
 
   document.getElementById('foot').textContent='Mirrors the “'+ DATA.title +'” board in TickTick · refreshed automatically twice a week.';
 }

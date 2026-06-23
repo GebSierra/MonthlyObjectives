@@ -56,7 +56,10 @@ data["activeMonth"]=active
 label=datetime.datetime.strptime(active+"-01","%Y-%m-%d").strftime("%B %Y")
 data["lastUpdated"]=today.strftime("%Y-%m-%d")
 months={m["key"]:m for m in data.get("months",[])}
-months[active]={"key":active,"label":label,"items":items}  # note (if any) is intentionally dropped once real items arrive
+prev=months.get(active,{})
+entry={"key":active,"label":label,"items":items}
+if prev.get("people"): entry["people"]=prev["people"]  # preserve curated People list across objective refreshes
+months[active]=entry
 data["months"]=[months[k] for k in sorted(months)]
 json.dump(data,open(p("objectives-history.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
 

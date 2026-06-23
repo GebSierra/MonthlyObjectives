@@ -133,6 +133,40 @@
           "status": "inProgress",
           "top": false
         }
+      ],
+      "people": [
+        {
+          "name": "Dwight and Demi Unruh",
+          "note": "Connecting with them and helping them get plugged in at church."
+        },
+        {
+          "name": "Ben Peak",
+          "note": "Spent time talking with and encouraging him."
+        },
+        {
+          "name": "Nathan Delguanto",
+          "note": "Talked about his ministry direction."
+        },
+        {
+          "name": "Tina",
+          "note": "A neighbor; connected over a shared dentistry background."
+        },
+        {
+          "name": "The Tiptons (Elizabeth and family)",
+          "note": "Got to know their family."
+        },
+        {
+          "name": "Becky Ridgewood",
+          "note": "Edwardsburg neighbor and local schoolteacher."
+        },
+        {
+          "name": "Jason D.",
+          "note": ""
+        },
+        {
+          "name": "Dan Jones",
+          "note": ""
+        }
       ]
     },
     {
