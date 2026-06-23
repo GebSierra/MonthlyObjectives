@@ -26,6 +26,9 @@
     box-shadow:var(--shadow);transition:.15s}
   .month-tab:hover{border-color:#c7ccd4}
   .month-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .month-tab .tag{font-size:11px;opacity:.7;margin-left:6px}
+  .note{background:var(--blue-soft);border:1px solid #cfe0fb;color:#23457f;border-radius:12px;
+    padding:11px 15px;font-size:14px;margin:8px 0 18px}
   .stats{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 24px;align-items:center}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);min-width:104px}
   .stat .num{font-size:24px;font-weight:700;line-height:1}
@@ -59,7 +62,6 @@
   .col.red .card{border-left-color:var(--red)} .col.yellow .card{border-left-color:var(--yellow)} .col.green .card{border-left-color:var(--green)}
   .card.top{background:linear-gradient(180deg,#fffdf4,#fff);border-left-color:var(--gold)!important;box-shadow:0 0 0 1px #f0e2b8 inset}
   .card .star{color:var(--gold);font-weight:700;margin-right:4px}
-  .card.done-card{text-decoration:none}
   .empty{color:var(--muted);font-size:13px;font-style:italic;padding:6px 4px}
   .quarter{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
   .quarter .col-head{background:var(--blue-soft)} .quarter .dot{background:var(--blue)}
@@ -79,8 +81,9 @@
   </header>
 
   <div class="months" id="months"></div>
+  <div class="note" id="note" style="display:none"></div>
   <div class="top-strip" id="topStrip" style="display:none">
-    <h2>★ Top Objectives This Month</h2>
+    <h2>&#9733; Top Objectives This Month</h2>
     <div class="top-list" id="topList"></div>
   </div>
   <div class="stats" id="stats"></div>
@@ -92,11 +95,14 @@
   <footer id="foot"></footer>
 </div>
 
-<script id="data" type="application/json">{"title": "Monthly Objectives", "subtitle": "Trinity Bible Church · Prepared for the Elders & Gary DeBock", "lastUpdated": "2026-06-23", "ticktickProjectId": "6a2c3f2eebcf3900000001fe", "months": [{"key": "2026-06", "label": "June 2026", "items": [{"title": "Begin working on Colossians memorization.", "status": "notStarted", "top": false}, {"title": "Draft a discipleship model and present it to the elders.", "status": "notStarted", "top": true}, {"title": "Thank volunteers three times from the stage.", "status": "notStarted", "top": false}, {"title": "Deep work session on how to care for the flock well (June 19).", "status": "notStarted", "top": false}, {"title": "Follow up with elders on how discipleship is going.", "status": "notStarted", "top": false}, {"title": "Fix the www domain issue with our website.", "status": "notStarted", "top": false}, {"title": "Draft a guest-connection Sunday-morning SOP for volunteers to follow (delegate to Unruhs?).", "status": "notStarted", "top": true}, {"title": "Set aside a week for long-range planning to preach through Acts.", "status": "inProgress", "top": false}, {"title": "Research sermon hosting options: go / no-go on SermonAudio.com.", "status": "inProgress", "top": false}, {"title": "Define and implement next steps for the tech team with Ben Chambers.", "status": "inProgress", "top": false}, {"title": "Consolidate personal accounts into corporate accounts (email, logins, website, YouTube, Drive, Microsoft, G Suite, tech-team slide email).", "status": "inProgress", "top": false}, {"title": "Unify hosting and website credentials into a corporate account.", "status": "inProgress", "top": false}, {"title": "Talk with Paula Ralph to clear the way for Dwight to serve; make sure she is okay.", "status": "inProgress", "top": false}, {"title": "Write your EFCA paper for licensing.", "status": "done", "top": true}, {"title": "Connect with and care for the Unruhs.", "status": "done", "top": false}, {"title": "Go / no-go on scripture memory day.", "status": "done", "top": false}, {"title": "Scripture memory actively encouraged during announcements and in church life.", "status": "done", "top": false}, {"title": "New guest-connection workers trained and ready to serve.", "status": "done", "top": false}, {"title": "Add Geb as the ministry team leader over the website.", "status": "done", "top": false}, {"title": "Get Dwight trained in Church Center scheduling to manage the guest-connection volunteer schedule.", "status": "done", "top": true}, {"title": "Discipleship — implement elders' monthly discipleship.", "status": "quarterly", "top": false}, {"title": "Technology — go / no-go on SermonAudio.", "status": "quarterly", "top": false}, {"title": "EFCA credentialing.", "status": "quarterly", "top": false}, {"title": "Guest connections rock.", "status": "quarterly", "top": false}, {"title": "Three-year theme rock.", "status": "quarterly", "top": false}]}]}</script>
+<script id="data" type="application/json">{"title": "Monthly Objectives", "subtitle": "Trinity Bible Church · Prepared for the Elders & Gary DeBock", "lastUpdated": "2026-06-23", "ticktickProjectId": "6a2c3f2eebcf3900000001fe", "months": [{"key": "2026-06", "label": "June 2026", "items": [{"title": "Begin working on Colossians memorization.", "status": "notStarted", "top": false}, {"title": "Draft a discipleship model and present it to the elders.", "status": "notStarted", "top": true}, {"title": "Thank volunteers three times from the stage.", "status": "notStarted", "top": false}, {"title": "Deep work session on how to care for the flock well (June 19).", "status": "notStarted", "top": false}, {"title": "Follow up with elders on how discipleship is going.", "status": "notStarted", "top": false}, {"title": "Fix the www domain issue with our website.", "status": "notStarted", "top": false}, {"title": "Draft a guest-connection Sunday-morning SOP for volunteers to follow (delegate to Unruhs?).", "status": "notStarted", "top": true}, {"title": "Set aside a week for long-range planning to preach through Acts.", "status": "inProgress", "top": false}, {"title": "Research sermon hosting options: go / no-go on SermonAudio.com.", "status": "inProgress", "top": false}, {"title": "Define and implement next steps for the tech team with Ben Chambers.", "status": "inProgress", "top": false}, {"title": "Consolidate personal accounts into corporate accounts (email, logins, website, YouTube, Drive, Microsoft, G Suite, tech-team slide email).", "status": "inProgress", "top": false}, {"title": "Unify hosting and website credentials into a corporate account.", "status": "inProgress", "top": false}, {"title": "Talk with Paula Ralph to clear the way for Dwight to serve; make sure she is okay.", "status": "inProgress", "top": false}, {"title": "Write your EFCA paper for licensing.", "status": "done", "top": true}, {"title": "Connect with and care for the Unruhs.", "status": "done", "top": false}, {"title": "Go / no-go on scripture memory day.", "status": "done", "top": false}, {"title": "Scripture memory actively encouraged during announcements and in church life.", "status": "done", "top": false}, {"title": "New guest-connection workers trained and ready to serve.", "status": "done", "top": false}, {"title": "Add Geb as the ministry team leader over the website.", "status": "done", "top": false}, {"title": "Get Dwight trained in Church Center scheduling to manage the guest-connection volunteer schedule.", "status": "done", "top": true}, {"title": "Discipleship — implement elders' monthly discipleship.", "status": "quarterly", "top": false}, {"title": "Technology — go / no-go on SermonAudio.", "status": "quarterly", "top": false}, {"title": "EFCA credentialing.", "status": "quarterly", "top": false}, {"title": "Guest connections rock.", "status": "quarterly", "top": false}, {"title": "Three-year theme rock.", "status": "quarterly", "top": false}]}, {"key": "2026-07", "label": "July 2026", "items": [], "note": "July's objectives will appear here once they're set at the start of the month. (This tab is a preview so you can see how to move between months.)"}], "activeMonth": "2026-06"}</script>
 <script>
 const DATA = JSON.parse(document.getElementById('data').textContent);
 const STATUS = {notStarted:{label:'Not Started',cls:'red'},inProgress:{label:'In Progress',cls:'yellow'},done:{label:'Done',cls:'green'}};
-let current = DATA.months.length - 1; // default to latest
+let current = (function(){
+  if(DATA.activeMonth){const i=DATA.months.findIndex(m=>m.key===DATA.activeMonth); if(i>=0) return i;}
+  return DATA.months.length-1;
+})();
 
 function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
 
@@ -105,12 +111,13 @@ function renderMonths(){
   DATA.months.forEach((m,i)=>{
     const b=document.createElement('button');
     b.className='month-tab'+(i===current?' active':'');
-    b.textContent=m.label; b.onclick=()=>{current=i;render();};
+    const tag = (DATA.activeMonth===m.key)?'<span class="tag">current</span>':'';
+    b.innerHTML=esc(m.label)+tag; b.onclick=()=>{current=i;render();};
     box.appendChild(b);
   });
 }
 function card(it){
-  const star = it.top ? '<span class="star">★</span>' : '';
+  const star = it.top ? '<span class="star">&#9733;</span>' : '';
   return `<div class="card${it.top?' top':''}">${star}${esc(it.title)}</div>`;
 }
 function render(){
@@ -119,18 +126,18 @@ function render(){
   document.getElementById('hUpdated').textContent='Last updated: '+DATA.lastUpdated;
   renderMonths();
   const m=DATA.months[current];
+  const noteEl=document.getElementById('note');
+  if(m.note){noteEl.style.display='';noteEl.textContent=m.note;} else {noteEl.style.display='none';}
   const by={notStarted:[],inProgress:[],done:[],quarterly:[]};
-  m.items.forEach(it=>(by[it.status]||by.quarterly).push(it));
+  (m.items||[]).forEach(it=>(by[it.status]||by.quarterly).push(it));
 
-  // top objectives strip
-  const tops=m.items.filter(it=>it.top);
+  const tops=(m.items||[]).filter(it=>it.top);
   const strip=document.getElementById('topStrip'), tl=document.getElementById('topList');
   if(tops.length){strip.style.display='';tl.innerHTML=tops.map(it=>{
     const st=STATUS[it.status]||{label:'Quarterly',cls:''};
     return `<div class="top-item"><span class="pill ${it.status}">${st.label}</span><span>${esc(it.title)}</span></div>`;}).join('');}
   else strip.style.display='none';
 
-  // stats
   const total=by.notStarted.length+by.inProgress.length+by.done.length;
   const pct=total?Math.round(by.done.length/total*100):0;
   document.getElementById('stats').innerHTML=`
@@ -146,7 +153,6 @@ function render(){
       </div>
     </div>`;
 
-  // board
   const order=['notStarted','inProgress','done'];
   document.getElementById('board').innerHTML=order.map(k=>{
     const st=STATUS[k], items=by[k];
@@ -154,14 +160,13 @@ function render(){
     return `<div class="col ${st.cls}"><div class="col-head"><span><span class="dot"></span>${st.label}</span><span class="count">${items.length}</span></div><div class="col-body">${body}</div></div>`;
   }).join('');
 
-  // quarterly
   const q=document.getElementById('quarter');
   if(by.quarterly.length){q.style.display='';
     document.getElementById('qCount').textContent=by.quarterly.length;
     document.getElementById('quarterBody').innerHTML=by.quarterly.map(card).join('');}
   else q.style.display='none';
 
-  document.getElementById('foot').textContent='Mirrors the “'+ (DATA.title) +'” board in TickTick · refreshed automatically twice a week.';
+  document.getElementById('foot').textContent='Mirrors the “'+ DATA.title +'” board in TickTick · refreshed automatically twice a week.';
 }
 render();
 </script>
