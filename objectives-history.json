@@ -15,11 +15,6 @@
         },
         {
           "title": "Begin working on Colossians memorization.",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Set aside a week to do long-range planning for preaching through Acts.",
           "status": "inProgress",
           "top": false
         },
@@ -45,7 +40,7 @@
         },
         {
           "title": "Research sermon hosting options: Go, no go on SermonAudio.com",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
@@ -64,7 +59,7 @@
           "top": true
         },
         {
-          "title": "Go, no‑go on scripture memory day",
+          "title": "Go, no-go on scripture memory day",
           "status": "done",
           "top": false
         },
@@ -84,6 +79,11 @@
           "top": false
         },
         {
+          "title": "Set aside a week to do long-range planning for preaching through Acts.",
+          "status": "done",
+          "top": false
+        },
+        {
           "title": "Get Dwight trained in church center scheduling so that he can manage the guest connection volunteer schedule.",
           "status": "done",
           "top": true
@@ -94,8 +94,8 @@
           "top": false
         },
         {
-          "title": "Next steps for Tech Teacm defined and implemented with Ben Chambers",
-          "status": "inProgress",
+          "title": "Connect with Ben Chambers to get the next steps for Tech Team defined",
+          "status": "done",
           "top": false
         },
         {
@@ -109,7 +109,7 @@
           "top": false
         },
         {
-          "title": "Technology: go, no‑go on Sermon Audio.",
+          "title": "Technology: go, no-go on Sermon Audio.",
           "status": "quarterly",
           "top": false
         },
@@ -131,6 +131,31 @@
         {
           "title": "Talk With Paula Ralph to clear the way for Dwight to serve. Make sure she's ok.",
           "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "(Done) Call Dan Foster",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Call Dave Stowasser",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "I want to be transparent and help the elders understand what my life looks like by 1) Sharing monthly goals 2) Being more intentional in discussion",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Have the proposed tech team changes implemented with Ben Chambers",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Prepare an agenda for the deep work session to be ready help guide a discussion about guest connection.",
+          "status": "done",
           "top": false
         }
       ],
