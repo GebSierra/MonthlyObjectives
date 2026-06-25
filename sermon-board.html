@@ -571,36 +571,36 @@ function banner(text, px, py){
   setTimeout(function(){ b.style.opacity="0"; b.style.transform="translate(-50%,0) scale(.92)"; setTimeout(function(){ b.remove(); }, 320); }, 2200);
 }
 
-/* ---------- shared board (cloud) + subtle edit gate ---------- */
+/* ---------- shared board (GitHub-native) + subtle edit gate ---------- */
 (function(){
-  const API = "https://jsonblob.com/api/jsonBlob";
-
-  // ===== you set these two once =====
-  const BOARD_ID = "";        // paste the board id here after you create it, then commit
-  const EDIT_KEY = "sermon";  // change this to your own passphrase
-  // ==================================
+  // ===== config =====
+  const OWNER  = "GebSierra";
+  const REPO   = "MonthlyObjectives";
+  const BRANCH = "main";
+  const FILE   = "sermon-progress.json";
+  // ==================
+  const RAW_URL = FILE; // same folder on the Pages site: public, tokenless read
+  const API = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + FILE;
+  const TOKEN_KEY = STORE_KEY + ".ghtoken";
 
   const params = new URLSearchParams(location.search);
 
-  // small style for read-only mode
   const st = document.createElement("style");
   st.textContent =
     "body.readonly .col-actions{display:none}" +
     "body.readonly label.cb{cursor:default}" +
     ".col input:disabled{opacity:1}" +
     "#editbar{position:fixed;right:10px;bottom:8px;z-index:10001;font-size:11px;color:#9a948a;display:flex;gap:10px;align-items:center}" +
-    "#editbar a{color:#bdb6a8;text-decoration:none;border-bottom:1px dotted #cfc8ba}";
+    "#editbar a{color:#bdb6a8;text-decoration:none;border-bottom:1px dotted #cfc8ba;cursor:pointer}";
   document.head.appendChild(st);
 
-  // status + subtle edit link
   const bar = document.createElement("div");
   bar.id = "editbar";
   const statusEl = document.createElement("span");
   const editLink = document.createElement("a");
   editLink.textContent = "edit";
   editLink.href = "#";
-  bar.appendChild(statusEl);
-  bar.appendChild(editLink);
+  bar.appendChild(statusEl); bar.appendChild(editLink);
   document.body.appendChild(bar);
   function setStatus(t){ statusEl.textContent = t; }
 
@@ -621,11 +621,15 @@ function banner(text, px, py){
   }
   setReadOnly(true); // everyone starts read-only; elders never leave it
 
-  let blobId = BOARD_ID || localStorage.getItem(STORE_KEY + ".blob") || "";
+  let token = localStorage.getItem(TOKEN_KEY) || "";
+  let sha = null;
 
+  function b64encode(s){ return btoa(unescape(encodeURIComponent(s))); }
+  function b64decode(s){ return decodeURIComponent(escape(atob(String(s).replace(/\s/g,"")))); }
+
+  // public read (no token): read the committed file from the same site
   function pull(){
-    if(!blobId){ setStatus("not shared yet"); return; }
-    fetch(API + "/" + blobId, {headers:{"Accept":"application/json"}, cache:"no-store"})
+    fetch(RAW_URL + "?t=" + Date.now(), {cache:"no-store"})
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(remote){
         if(remote && typeof remote === "object"){ state = remote; refreshAll(); setStatus("up to date"); }
@@ -634,61 +638,73 @@ function banner(text, px, py){
       .catch(function(){ setStatus("offline"); });
   }
 
-  let pushing = false, again = false, timer = null;
-  function push(){
-    if(!blobId) return;
-    if(pushing){ again = true; return; }
-    pushing = true;
-    fetch(API + "/" + blobId, {method:"PUT", headers:{"Content-Type":"application/json","Accept":"application/json"}, body:JSON.stringify(state)})
-      .then(function(r){ pushing = false; setStatus(r.ok ? "saved" : "save error"); if(again){ again = false; schedule(); } })
-      .catch(function(){ pushing = false; setStatus("offline"); });
+  // authenticated read to get the current sha (and latest content) before editing
+  function loadForEdit(){
+    setStatus("loading");
+    fetch(API + "?ref=" + BRANCH, {headers:{Authorization:"Bearer "+token, Accept:"application/vnd.github+json"}, cache:"no-store"})
+      .then(function(r){
+        if(r.status === 404){ sha = null; setStatus("editing (new file)"); return null; }
+        if(r.status === 401){ throw new Error("bad token"); }
+        if(!r.ok){ throw new Error("load failed"); }
+        return r.json();
+      })
+      .then(function(j){
+        if(j){ sha = j.sha; try{ const remote = JSON.parse(b64decode(j.content)); if(remote && typeof remote === "object"){ state = remote; refreshAll(); } }catch(e){} setStatus("editing"); }
+      })
+      .catch(function(err){
+        if(err && err.message === "bad token"){
+          localStorage.removeItem(TOKEN_KEY); token=""; editing=false; setReadOnly(true); editLink.textContent="edit";
+          alert("That token was rejected. Click edit to try again."); setStatus("read only");
+        } else setStatus("load error");
+      });
   }
-  function schedule(){ clearTimeout(timer); timer = setTimeout(push, 700); }
 
-  // make ticking also push, but only while editing
+  let pushing=false, again=false, timer=null;
+  function push(){
+    if(!token) return;
+    if(pushing){ again = true; return; }
+    pushing = true; setStatus("saving");
+    const body = { message:"Update sermon progress", content: b64encode(JSON.stringify(state)), branch: BRANCH };
+    if(sha) body.sha = sha;
+    fetch(API, {method:"PUT", headers:{Authorization:"Bearer "+token, Accept:"application/vnd.github+json","Content-Type":"application/json"}, body: JSON.stringify(body)})
+      .then(function(r){ return r.json().then(function(j){ return {status:r.status, j:j}; }); })
+      .then(function(res){
+        pushing = false;
+        if(res.status < 300 && res.j && res.j.content){ sha = res.j.content.sha; setStatus("saved"); if(again){ again=false; schedule(); } }
+        else if(res.status === 409){ setStatus("syncing"); refetchShaThenPush(); }
+        else { setStatus("save error"); }
+      })
+      .catch(function(){ pushing=false; setStatus("offline"); });
+  }
+  function refetchShaThenPush(){
+    fetch(API + "?ref=" + BRANCH, {headers:{Authorization:"Bearer "+token, Accept:"application/vnd.github+json"}, cache:"no-store"})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ if(j){ sha = j.sha; } schedule(); });
+  }
+  function schedule(){ clearTimeout(timer); timer = setTimeout(push, 800); }
+
+  // ticking (and meta edits) save locally, and push while editing
   const _save = save;
   save = function(){ _save(); if(editing) schedule(); };
 
-  function createBoard(){
-    setStatus("creating");
-    fetch(API, {method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"}, body:JSON.stringify(state)})
-      .then(function(r){
-        const loc = r.headers.get("Location") || "";
-        const m = loc.match(/jsonBlob\/(.+)$/);
-        if(m){
-          blobId = m[1];
-          localStorage.setItem(STORE_KEY + ".blob", blobId);
-          setStatus("saved");
-          window.prompt("Your board id. Paste this between the quotes on the BOARD_ID line in the file, then commit and push:", blobId);
-        } else {
-          alert("Could not create the shared board. The storage service may need to be swapped.");
-          setStatus("create failed");
-        }
-      })
-      .catch(function(){ alert("Could not reach the storage service."); setStatus("offline"); });
-  }
-
   function enableEdit(){
-    editing = true;
-    setReadOnly(false);
-    editLink.textContent = "editing";
-    if(!blobId){ if(confirm("No shared board exists yet. Create one now?")) createBoard(); }
+    if(!token){
+      const t = window.prompt("Paste your GitHub edit token. It is stored only in this browser and never published.");
+      if(!t) return;
+      token = t.trim(); localStorage.setItem(TOKEN_KEY, token);
+    }
+    editing = true; setReadOnly(false); editLink.textContent = "editing";
+    loadForEdit();
   }
 
-  editLink.addEventListener("click", function(e){
-    e.preventDefault();
-    if(editing) return;
-    const k = window.prompt("Passphrase to edit:");
-    if(k === EDIT_KEY) enableEdit();
-    else if(k !== null) alert("Wrong passphrase.");
-  });
+  editLink.addEventListener("click", function(e){ e.preventDefault(); if(!editing) enableEdit(); });
 
-  // convenience: open with ?edit=1 to go straight into editing
+  // open with ?edit=1 to go straight into editing
   if(params.get("edit") === "1") enableEdit();
 
   // first load + gentle polling so viewers stay current
   pull();
-  setInterval(function(){ if(!editing) pull(); }, 10000);
+  setInterval(function(){ if(!editing) pull(); }, 30000);
 })();
 </script>
 </body>
