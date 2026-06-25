@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Sermon Prep Board</title>
+<style>
+  :root{
+    --bg:#f4efe4;
+    --ink:#2c2a26;
+    --muted:#6f6a60;
+    --card:#fffdf8;
+    --line:#e4ddcc;
+    --gold:#b08948;
+    --research:#3f7d57;
+    --writing:#4a5da8;
+    --rehearse:#9a4a4a;
+    --shadow:0 2px 10px rgba(60,50,30,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.45;
+  }
+  .page{max-width:100%;padding:22px 22px 60px}
+  h1.sitehead{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:26px;margin:0 0 2px;letter-spacing:.2px;
+  }
+  .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+  .toolbar{
+    display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    margin:0 0 18px;
+  }
+  .toolbar label{font-size:13px;color:var(--muted)}
+  select,button{font:inherit}
+  button{
+    border:1px solid var(--line);background:var(--card);color:var(--ink);
+    border-radius:8px;padding:6px 11px;cursor:pointer;font-size:13px;
+  }
+  button:hover{border-color:var(--gold)}
+  select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 8px}
+
+  .board{display:flex;gap:18px;align-items:flex-start;overflow-x:auto;padding-bottom:14px}
+  .col{
+    flex:1 1 0;min-width:360px;max-width:520px;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .col.hidden{display:none}
+  .col-head{padding:14px 16px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fffdf8,#faf5ea)}
+  .col-head .title{
+    width:100%;border:none;background:transparent;color:var(--ink);
+    font-family:Georgia,serif;font-size:19px;font-weight:600;padding:2px 0;
+  }
+  .col-head .title:focus{outline:none;border-bottom:1px dashed var(--gold)}
+  .metarow{display:flex;gap:8px;margin-top:6px}
+  .metarow input{
+    flex:1 1 auto;border:1px solid var(--line);border-radius:7px;background:#fff;
+    padding:5px 8px;font-size:12.5px;color:var(--ink);
+  }
+  .metarow input.date{flex:0 0 130px}
+  .metarow input:focus{outline:none;border-color:var(--gold)}
+  .progwrap{margin-top:11px}
+  .progbar{height:9px;background:#ece6d7;border-radius:6px;overflow:hidden}
+  .progfill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),#caa463);transition:width .25s}
+  .progtext{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:5px}
+  .col-actions{display:flex;gap:8px;margin-top:10px}
+  .col-actions button{font-size:12px;padding:4px 9px}
+
+  .col-body{padding:6px 14px 16px}
+  details.stage{border-bottom:1px solid var(--line);padding:4px 0}
+  details.stage:last-child{border-bottom:none}
+  details.stage>summary{
+    list-style:none;cursor:pointer;padding:11px 6px;display:flex;align-items:center;gap:9px;
+    font-family:Georgia,serif;font-size:16px;font-weight:600;border-radius:8px;
+  }
+  details.stage>summary::-webkit-details-marker{display:none}
+  details.stage>summary .chev{transition:transform .2s;color:var(--muted);font-size:12px}
+  details.stage[open]>summary .chev{transform:rotate(90deg)}
+  .stage.research>summary{color:var(--research)}
+  .stage.writing>summary{color:var(--writing)}
+  .stage.rehearse>summary{color:var(--rehearse)}
+  .stage.stuck>summary{color:var(--gold)}
+  .stage-inner{padding:2px 4px 12px}
+
+  .phase{font-weight:700;font-size:13.5px;margin:14px 0 3px;letter-spacing:.3px}
+  .phase .desc{font-weight:400;color:var(--muted);font-size:12.5px;display:block;margin-top:1px}
+  .secthead{font-weight:600;font-size:13px;margin:11px 0 4px;color:#48433a}
+  .note{
+    font-size:12.5px;color:var(--muted);font-style:italic;
+    border-left:2px solid var(--line);padding:2px 0 2px 10px;margin:6px 0 6px 2px;
+  }
+  blockquote.q{
+    margin:9px 2px;padding:9px 12px;background:#faf4e6;border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;font-family:Georgia,serif;font-style:italic;font-size:13px;color:#4a443a;
+  }
+  blockquote.q .cite{display:block;font-style:normal;font-size:11.5px;color:var(--muted);margin-top:5px}
+
+  ul.tasks{list-style:none;margin:4px 0;padding:0}
+  ul.tasks ul.tasks{margin:2px 0 6px 22px}
+  li.task{margin:3px 0}
+  label.cb{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:13.5px}
+  label.cb input{margin:2px 0 0;flex:0 0 auto;width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+  label.cb .txt{flex:1 1 auto}
+  li.task.done>label.cb .txt{text-decoration:line-through;color:#a59e8e}
+  .subnote{font-size:12px;color:var(--muted);margin:1px 0 3px 23px;font-style:italic}
+  a{color:var(--writing);text-decoration:none;border-bottom:1px solid #c9d0ea}
+  a:hover{border-bottom-color:var(--writing)}
+
+  .hint{font-size:12px;color:var(--muted);margin-top:24px;max-width:760px}
+  .hint code{background:#ece6d7;padding:1px 5px;border-radius:4px}
+  @media print{
+    .toolbar,.col-actions{display:none}
+    body{background:#fff}
+    .board{display:block}
+    .col{box-shadow:none;page-break-inside:avoid;margin-bottom:18px;max-width:none}
+    details.stage{}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 class="sitehead">Sermon Prep Board</h1>
+  <p class="sub">Three messages, side by side. Tick a box and it remembers, even after you close the file.</p>
+
+  <div class="toolbar">
+    <label>Columns in view:</label>
+    <select id="viewCount">
+      <option value="2">2 sermons</option>
+      <option value="3" selected>3 sermons</option>
+    </select>
+    <button id="expandAll">Expand all stages</button>
+    <button id="collapseAll">Collapse all stages</button>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <p class="hint">
+    Opening this in Obsidian: the HTML Reader community plugin opens <code>.html</code> files inside Obsidian.
+    Otherwise right click the file and open it in your browser. Your ticks are saved on this device.
+    Use the Reset button on a column when a sermon is preached and you want to reuse that slot.
+  </p>
+</div>
+
+<script>
+/* ---------- the checklist data ---------- */
+const STAGES = [
+  {
+    key:"research", cls:"research", emoji:"🔍", title:"Stage One: Research",
+    blocks:[
+      {k:"task", t:"Pray, pray, pray."},
+      {k:"task", t:"Then follow the checklist below."},
+      {k:"task", t:"Pray, pray, pray again."},
+      {k:"note", html:"Just as important as preparing the message is preparing yourself."},
+      {k:"task", t:"Narrow down the passage you plan to preach on."},
+      {k:"task", t:"Get a blank page or file to serve as a thought collector.",
+        note:"Paper or the notes app on your phone. A place to jot quick thoughts and to brainstorm during focused study. Thoughts are like fireflies: they appear for a few seconds and then vanish, so have a container to catch them. Write the verse reference at the top (e.g. Mark 12:28-34)."},
+      {k:"head", title:"Read and Digest the Thought of the Text",
+        desc:"Read it slowly a few times, read it quickly 50x, write it by hand, memorize it, pray it, draw it, interrogate it with questions. Whatever you do, get the text into you. It must first transform you before it can transform others."},
+      {k:"quote", html:"Preaching from the head reaches the head. Preaching from the heart reaches the heart."},
+
+      {k:"phase", title:"Phase 1: ⛏️ Mining", desc:"Initial reading and a general direction for the sermon."},
+      {k:"task", t:"Initial reading of the text.", subs:[
+        "Read the text several times.",
+        "Write down any initial questions or thoughts.",
+        "Read the broader context.",
+        "Sketch a rough draft of the text's flow of thought (exegetical outline)."
+      ]},
+      {k:"note", html:"Go back to the text constantly. Read and re-read. As you meditate, connections will come. Write these thoughts down."},
+      {k:"head", title:"The heart of your message",
+        desc:"Know your main point without notes. If you are unclear about the heart of your message, your communication will be unclear. By the time you step into the pulpit your thesis should pass Bryan Chapell's 3 a.m. test: woken at 3 a.m., could you say it, simply?"},
+      {k:"task", t:"Answer: what did the original author want the original audience to know, to feel, to do?"},
+      {k:"task", t:"Write your FCF (fallen condition focus)."},
+      {k:"task", t:"Write your initial thesis."},
+      {k:"task", t:"Do your initial check with a trusted commentary.", subs:[
+        "Does your main idea line up with the commentary's main idea of the passage?",
+        "Examine the cultural context.",
+        "Examine the historical context."
+      ]},
+      {k:"task", t:"Revise your KFD and thesis in light of the commentaries."},
+      {k:"task", t:"Take 10 minutes or less to write a bridge outline. A rough draft of how you may communicate the text, to get your mind working on it."},
+
+      {k:"phase", title:"Phase 2: 💎 Refining", desc:"Dig deeper and do the hard work of thinking, studying, and praying through the text. Be willing to change direction if research shows your first thoughts were off."},
+      {k:"note", html:"Avoid listening to sermons, reading commentaries, or hearing others until you have first done your own work on the text."},
+      {k:"task", t:"Do your own original research into the text.", subs:[
+        "Read the text again, and again, and again.",
+        "Write out the text by hand.",
+        "Say the text out loud.",
+        "Memorize the text.",
+        "Look at the text from different perspectives: a woman, an Ethiopian, an atheist, a child, a Jew, a young man, a college student, a retiree.",
+        "Go over each word and ask, what would change if this word were not here?",
+        "Look for S.P.E.C.K.S.: Sins to avoid, Promises to claim, Examples to follow, Commands to obey, something to Know about God, something to Share.",
+        "Read other faithful versions (NASB, ESV, CSB, KJV, NIV).",
+        "Look through the cross references."
+      ]},
+      {k:"task", t:"Talk through key thoughts and illustrations with a friend for critical feedback."},
+      {k:"task", t:"Revise your outline, Know/Feel/Do, and thesis in light of your research."},
+      {k:"quote", html:"The temptation is to shortcut this process, to try to figure out how to say it before we know what it says. We are not preaching sermons, we are preaching texts. We are re-presenting what God said. The secret of great preaching is often little more than staying at it until the meaning of the text is clear.", cite:"Steven Smith, Recapturing the Voice of God"},
+      {k:"note", html:"The goal of preaching: use the original meaning of the text as the foundation for application today. Understand what the author meant to the first audience. Only then can you apply it accurately now."},
+      {k:"task", t:"Dig deeper.", subs:[
+        {t:"Study the Greek / Hebrew.", note:"A custom passage guide in Logos. Free options: <a href='https://www.blueletterbible.org' target='_blank' rel='noopener'>Blue Letter Bible</a> or <a href='http://www.greekbible.com' target='_blank' rel='noopener'>GreekBible.com</a>."},
+        {t:"Read good commentaries.", note:"<a href='https://www.preceptaustin.org/verse_by_verse' target='_blank' rel='noopener'>Precept Austin</a> is a great free start. <a href='https://bestcommentaries.com/' target='_blank' rel='noopener'>BestCommentaries.com</a> helps you buy wisely. See also Logos, your Kindle library, and the Puritans. Listening to others' sermons on the verse can help too."},
+        "Check past sermons on a similar topic for scrapped hook/conclusion ideas, quotes, and cross references.",
+        {t:"Search your personal resources.", note:"Tags, notes, Readwise, Reader articles."},
+        "Read a book that overviews the topic (e.g. anxiety for Matthew 6:25, prayer for Matthew 7:7).",
+        {t:"Arc or bracket the text.", note:"<a href='https://biblearc.com' target='_blank' rel='noopener'>biblearc.com</a>"},
+        "Reread the passage slowly with structure and flow in mind.",
+        "Identify key interpretive decisions: genre, ambiguous phrases, difficult grammar, surprising turns.",
+        "Identify logical movements: contrast, cause and effect, progression, climax."
+      ]}
+    ]
+  },
+  {
+    key:"writing", cls:"writing", emoji:"✍️", title:"Stage Two: Writing",
+    blocks:[
+      {k:"phase", title:"Phase 1: Dumping Draft"},
+      {k:"task", t:"Revise your sermon outline in light of your research."},
+      {k:"task", t:"Preach the outline aloud to your virtual audience. Then pull a cleaner outline from what you said and get AI feedback on it."},
+      {k:"task", t:"Have a touchpoint with a friend. Walk them through your outline in progress and invite feedback before you are deep into writing."},
+      {k:"task", t:"Write the heading name for each section.", note:"Ensure each heading builds on the prior one, stays focused on your main point, and is rooted in the text."},
+      {k:"task", t:"Draft the intro."},
+      {k:"task", t:"Draft the conclusion."},
+      {k:"task", t:"Write the worst version on purpose: pick a section, set a 10 minute timer, and draft it badly. You can fix a bad page, not a blank one."},
+      {k:"quote", html:"Feeling stuck? Start on the section that seems most exciting to you."},
+      {k:"task", t:"Decide on a manuscript, a simple outline, or a detailed outline. (A detailed outline is recommended, but suit yourself.)"},
+      {k:"task", t:"Lava lamp lump.", note:"As ideas come, lump like blobs with like blobs, then organize them under the right headings."},
+      {k:"task", t:"Plan a basic outline of section one."},
+      {k:"task", t:"Plan a basic outline of section two."},
+      {k:"task", t:"Plan a basic outline of section three."},
+      {k:"secthead", title:"Filling in the body"},
+      {k:"task", t:"Section one: gather and group.", subs:[
+        "Gather relevant thoughts and quotes under this heading.",
+        "Group like ideas with like ideas."
+      ]},
+      {k:"task", t:"Section two: gather and group.", subs:[
+        "Gather relevant key insights and quotes for this section's point.",
+        "Group like ideas with like ideas."
+      ]},
+      {k:"task", t:"Section three: gather and group.", subs:[
+        "Gather relevant key insights and quotes for this section's point.",
+        "Group like ideas with like ideas."
+      ]},
+
+      {k:"phase", title:"Phase 2: Refining"},
+      {k:"note", html:"One thesis takes a main idea of the text and applies it to people's lives. Each section builds on that idea, pressing it home further toward the conclusion."},
+      {k:"secthead", title:"Refine the body"},
+      {k:"task", t:"Section one: organize and refine.", subs:[
+        "Arrange the materials in a logical order.",
+        "Keep what serves the section's point and cut what does not."
+      ]},
+      {k:"task", t:"Section two: organize and refine.", subs:[
+        "Arrange the materials in a logical order.",
+        "Keep what serves the theme and cut what contributes least. (Expertise is in simplicity.)"
+      ]},
+      {k:"task", t:"Section three: organize and refine.", subs:[
+        "Arrange the materials in a logical order.",
+        "Keep what serves the theme and cut what contributes least."
+      ]},
+      {k:"task", t:"Add transition statements and fill in the cracks."},
+      {k:"task", t:"Add illustrations, ideally one key illustration or story per heading."},
+      {k:"head", title:"Know, Feel, Do",
+        desc:"These move from mind to heart to hands, the order each section can follow. Know = explanation. Feel = illustration. Do = application."},
+      {k:"task", t:"About one story per heading?"},
+      {k:"task", t:"Application throughout?"},
+      {k:"task", t:"Fill the outline with Scripture using cross references (TSK, Topical Bible). This is the secret of Piper's and MacArthur's timeless preaching: it is full of the word of God."},
+      {k:"task", t:"Refine the intro and conclusion."},
+      {k:"task", t:"Total length about 1,600 to 3,000 words, or 8 pages."},
+      {k:"task", t:"PowerPoint.", note:"Create your slides. Stephanie sends the main deck; add your sermon slides and send to Corey at <a href='mailto:tbc.edwardsburg@gmail.com'>tbc.edwardsburg@gmail.com</a>."}
+    ]
+  },
+  {
+    key:"rehearse", cls:"rehearse", emoji:"🎤", title:"Stage Three: Rehearsing",
+    blocks:[
+      {k:"note", html:"Let the message marinate and soak in. Pray it would bless specific people across life stages and situations: lost and saved, weak and mature, mothers and fathers, single, sick, divorced, retired, proud and humble, foreigners and locals."},
+      {k:"task", t:"Practice.", subs:[
+        "Practice your intro twice.",
+        "Practice your conclusion twice.",
+        "Conversate it with a friend. Do not read a manuscript; talk through your outline and ask for feedback.",
+        "Turn your outline into pictures, recall it without notes, or record 3 to 5 minutes of a key section and listen back."
+      ]},
+      {k:"task", t:"Make revisions in light of feedback."},
+      {k:"task", t:"Memorize the outline, not the manuscript."},
+      {k:"task", t:"Print it.", subs:[
+        "Print Saturday, not Sunday, so you have buffer for problems.",
+        "Look over the printed copy once more in case anything went odd in printing.",
+        "Keep a backup on your phone. Email it to yourself."
+      ]},
+      {k:"task", t:"Pray over it."},
+      {k:"task", t:"Preach it to yourself."},
+      {k:"task", t:"Preach it to the church."}
+    ]
+  },
+  {
+    key:"stuck", cls:"stuck", emoji:"🌱", title:"Feeling Stuck?",
+    blocks:[
+      {k:"note", html:"When the words will not come, do not push harder. Switch tactics and pick one of these."},
+      {k:"head", title:"1. Preach it to your virtual audience",
+        desc:"Speak your outline out loud to the virtual audience on your computer. It is a fake crowd, but it feels like real people. Then pull an outline out of what you just said, and hand it to AI for feedback."},
+      {k:"head", title:"2. Write the worst version on purpose",
+        desc:"Set a 10 minute timer and write a deliberately bad draft of one section. You cannot edit a blank page, but you can always fix a bad one. The timer kills the urge to perfect every sentence."},
+      {k:"head", title:"3. Change the input to change the output",
+        desc:"When stuck, stop pushing words out and put fresh words in. Read the passage in a very different translation, or read it aloud while walking. A new angle usually dislodges the stuck frame faster than willpower."}
+    ]
+  }
+];
+
+/* ---------- state ---------- */
+const STORE_KEY = "sermonPrepBoard.v1";
+const SLOTS = 3;
+let state = load();
+function load(){
+  try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+function slotState(s){
+  if(!state[s]) state[s] = {meta:{title:"",passage:"",date:""}, checks:{}};
+  if(!state[s].meta) state[s].meta = {title:"",passage:"",date:""};
+  if(!state[s].checks) state[s].checks = {};
+  return state[s];
+}
+
+/* ---------- render ---------- */
+function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function renderTask(item, ctr, slot){
+  const isObj = typeof item === "object";
+  const text = isObj ? item.t : item;
+  const note = isObj ? item.note : null;
+  const subs = isObj ? item.subs : null;
+  const id = "cb" + (ctr.n++);
+  let html = '<li class="task" data-row="'+id+'">';
+  html += '<label class="cb"><input type="checkbox" data-cb="'+id+'"><span class="txt">'+esc(text)+'</span></label>';
+  if(note){ html += '<div class="subnote">'+note+'</div>'; }
+  if(subs && subs.length){
+    html += '<ul class="tasks">';
+    subs.forEach(function(sub){ html += renderTask(sub, ctr, slot); });
+    html += '</ul>';
+  }
+  html += '</li>';
+  return html;
+}
+
+function renderStage(stage, ctr, slot){
+  let body = "";
+  let openList = false;
+  function closeList(){ if(openList){ body += '</ul>'; openList = false; } }
+  stage.blocks.forEach(function(b){
+    if(b.k === "task"){
+      if(!openList){ body += '<ul class="tasks">'; openList = true; }
+      body += renderTask(b, ctr, slot);
+    } else {
+      closeList();
+      if(b.k === "note"){ body += '<div class="note">'+b.html+'</div>'; }
+      else if(b.k === "quote"){ body += '<blockquote class="q">'+b.html + (b.cite ? '<span class="cite">'+esc(b.cite)+'</span>' : '') + '</blockquote>'; }
+      else if(b.k === "phase"){ body += '<div class="phase">'+b.title + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; }
+      else if(b.k === "head"){ body += '<div class="phase">'+esc(b.title) + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; }
+      else if(b.k === "secthead"){ body += '<div class="secthead">'+esc(b.title)+'</div>'; }
+    }
+  });
+  closeList();
+  return '<details class="stage '+stage.cls+'" open><summary><span class="chev">▶</span><span>'+stage.emoji+' '+esc(stage.title)+'</span></summary><div class="stage-inner">'+body+'</div></details>';
+}
+
+function renderColumn(slot){
+  const ctr = {n:0};
+  let stagesHtml = "";
+  STAGES.forEach(function(st){ stagesHtml += renderStage(st, ctr, slot); });
+  const total = ctr.n;
+  const ss = slotState(slot);
+  const col = document.createElement("div");
+  col.className = "col";
+  col.dataset.slot = slot;
+  col.dataset.total = total;
+  col.innerHTML =
+    '<div class="col-head">'+
+      '<input class="title" data-field="title" placeholder="Sermon title" value="'+esc(ss.meta.title)+'">'+
+      '<div class="metarow">'+
+        '<input data-field="passage" placeholder="Passage (e.g. Acts 3:1-16)" value="'+esc(ss.meta.passage)+'">'+
+        '<input class="date" type="date" data-field="date" value="'+esc(ss.meta.date)+'">'+
+      '</div>'+
+      '<div class="progwrap"><div class="progbar"><div class="progfill"></div></div>'+
+      '<div class="progtext"><span class="ptlabel">Progress</span><span class="ptcount">0 / '+total+'</span></div></div>'+
+      '<div class="col-actions"><button data-act="toggle">Collapse stages</button><button data-act="reset">Reset column</button></div>'+
+    '</div>'+
+    '<div class="col-body">'+stagesHtml+'</div>';
+  return col;
+}
+
+function applyChecks(col){
+  const slot = col.dataset.slot;
+  const ss = slotState(slot);
+  col.querySelectorAll('input[data-cb]').forEach(function(cb){
+    const on = !!ss.checks[cb.dataset.cb];
+    cb.checked = on;
+    const row = cb.closest('li.task');
+    if(row) row.classList.toggle('done', on);
+  });
+  updateProgress(col);
+}
+
+function updateProgress(col){
+  const total = parseInt(col.dataset.total,10) || 0;
+  const done = col.querySelectorAll('input[data-cb]:checked').length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  col.querySelector('.progfill').style.width = pct + "%";
+  col.querySelector('.ptcount').textContent = done + " / " + total;
+  col.querySelector('.ptlabel').textContent = pct + "% done";
+}
+
+/* ---------- build board ---------- */
+const board = document.getElementById("board");
+for(let s=0; s<SLOTS; s++){
+  const col = renderColumn(s);
+  board.appendChild(col);
+  applyChecks(col);
+}
+
+/* ---------- events ---------- */
+board.addEventListener("change", function(e){
+  const cb = e.target.closest('input[data-cb]');
+  if(!cb) return;
+  const col = e.target.closest('.col');
+  const ss = slotState(col.dataset.slot);
+  if(cb.checked) ss.checks[cb.dataset.cb] = 1; else delete ss.checks[cb.dataset.cb];
+  const row = cb.closest('li.task');
+  if(row) row.classList.toggle('done', cb.checked);
+  updateProgress(col);
+  save();
+  if(cb.checked){
+    const p = cfPagePos(cb);
+    confettiBurst(p.x, p.y, {count:18, spread:70, power:7, size:6});
+    const total = parseInt(col.dataset.total,10) || 0;
+    const done = col.querySelectorAll('input[data-cb]:checked').length;
+    if(total && done === total){ celebrate(p.x, p.y); }
+  }
+});
+
+board.addEventListener("input", function(e){
+  const f = e.target.closest('[data-field]');
+  if(!f) return;
+  const col = e.target.closest('.col');
+  const ss = slotState(col.dataset.slot);
+  ss.meta[f.dataset.field] = f.value;
+  save();
+});
+
+board.addEventListener("click", function(e){
+  const btn = e.target.closest('button[data-act]');
+  if(!btn) return;
+  const col = e.target.closest('.col');
+  if(btn.dataset.act === "reset"){
+    if(confirm("Clear all checkmarks for this sermon? The title and passage stay.")){
+      slotState(col.dataset.slot).checks = {};
+      save();
+      applyChecks(col);
+    }
+  } else if(btn.dataset.act === "toggle"){
+    const details = col.querySelectorAll('details.stage');
+    const anyOpen = Array.prototype.some.call(details, d=>d.open);
+    details.forEach(d=> d.open = !anyOpen);
+    btn.textContent = anyOpen ? "Expand stages" : "Collapse stages";
+  }
+});
+
+/* ---------- toolbar ---------- */
+const viewCount = document.getElementById("viewCount");
+function applyView(){
+  const n = parseInt(viewCount.value,10);
+  document.querySelectorAll('.col').forEach(function(col,i){
+    col.classList.toggle('hidden', i >= n);
+  });
+  localStorage.setItem(STORE_KEY + ".view", String(n));
+}
+const savedView = localStorage.getItem(STORE_KEY + ".view");
+if(savedView){ viewCount.value = savedView; }
+viewCount.addEventListener("change", applyView);
+applyView();
+
+document.getElementById("expandAll").addEventListener("click", function(){
+  document.querySelectorAll('details.stage').forEach(d=> d.open = true);
+});
+document.getElementById("collapseAll").addEventListener("click", function(){
+  document.querySelectorAll('details.stage').forEach(d=> d.open = false);
+});
+
+/* ---------- confetti (self contained, no libraries) ---------- */
+const cfCanvas = document.createElement("canvas");
+cfCanvas.style.cssText = "position:absolute;left:0;top:0;pointer-events:none;z-index:9999";
+document.body.appendChild(cfCanvas);
+const cfCtx = cfCanvas.getContext("2d");
+let cfParticles = [], cfRAF = null;
+const CF_COLORS = ["#b08948","#caa463","#3f7d57","#4a5da8","#9a4a4a","#e9dcbf"];
+function cfSize(){
+  cfCanvas.style.width = "0px"; cfCanvas.style.height = "0px";
+  const d = document.documentElement, b = document.body;
+  const w = Math.max(d.scrollWidth, d.clientWidth, b ? b.scrollWidth : 0);
+  const h = Math.max(d.scrollHeight, d.clientHeight, b ? b.scrollHeight : 0);
+  cfCanvas.width = w; cfCanvas.height = h;
+  cfCanvas.style.width = w + "px"; cfCanvas.style.height = h + "px";
+}
+function cfPagePos(el){
+  const r = el.getBoundingClientRect();
+  const sx = window.scrollX || window.pageXOffset || 0;
+  const sy = window.scrollY || window.pageYOffset || 0;
+  return { x: r.left + r.width/2 + sx, y: r.top + r.height/2 + sy };
+}
+window.addEventListener("resize", cfSize);
+
+function confettiBurst(x, y, opt){
+  opt = opt || {};
+  cfSize();
+  const count = opt.count || 16;
+  const power = opt.power || 7;
+  const spread = (opt.spread || 60) * Math.PI/180;
+  const baseAngle = (opt.angle != null) ? opt.angle : -Math.PI/2;
+  const size = opt.size || 6;
+  for(let i=0;i<count;i++){
+    const a = baseAngle + (Math.random()-0.5)*spread;
+    const v = power*(0.6 + Math.random()*0.8);
+    cfParticles.push({
+      x:x, y:y,
+      vx:Math.cos(a)*v, vy:Math.sin(a)*v,
+      g:0.18 + Math.random()*0.08, drag:0.985,
+      size:size*(0.7 + Math.random()*0.7),
+      color:CF_COLORS[(Math.random()*CF_COLORS.length)|0],
+      rot:Math.random()*Math.PI, vr:(Math.random()-0.5)*0.3,
+      life:0, max:70 + Math.random()*40
+    });
+  }
+  if(!cfRAF) cfRAF = requestAnimationFrame(cfTick);
+}
+
+function celebrate(px, py){
+  confettiBurst(px - 60, py, {count:75, power:12, spread:80, size:8});
+  confettiBurst(px + 60, py, {count:75, power:12, spread:80, size:8});
+  confettiBurst(px,      py - 20, {count:95, power:13, spread:175, size:8});
+  banner("Sermon ready. Well done.", px, py);
+}
+
+function cfTick(){
+  cfCtx.clearRect(0,0,cfCanvas.width,cfCanvas.height);
+  for(let i=cfParticles.length-1;i>=0;i--){
+    const p = cfParticles[i];
+    p.vx *= p.drag; p.vy = p.vy*p.drag + p.g;
+    p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life++;
+    const alpha = p.life > p.max ? Math.max(0, 1-(p.life-p.max)/20) : 1;
+    cfCtx.save();
+    cfCtx.globalAlpha = alpha;
+    cfCtx.translate(p.x, p.y); cfCtx.rotate(p.rot);
+    cfCtx.fillStyle = p.color;
+    cfCtx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+    cfCtx.restore();
+    if(p.y > cfCanvas.height + 30 || alpha <= 0) cfParticles.splice(i,1);
+  }
+  if(cfParticles.length){ cfRAF = requestAnimationFrame(cfTick); }
+  else { cfCtx.clearRect(0,0,cfCanvas.width,cfCanvas.height); cfRAF = null; }
+}
+
+function banner(text, px, py){
+  const b = document.createElement("div");
+  b.textContent = text;
+  b.style.cssText = "position:absolute;z-index:10000;left:"+px+"px;top:"+(py-64)+"px;transform:translate(-50%,0) scale(.85);white-space:nowrap;"+
+    "background:rgba(255,253,248,.97);border:1px solid #e4ddcc;border-radius:12px;padding:10px 18px;"+
+    "font-family:Georgia,serif;font-size:17px;color:#b08948;box-shadow:0 8px 26px rgba(60,50,30,.2);"+
+    "opacity:0;transition:opacity .25s, transform .25s;pointer-events:none";
+  document.body.appendChild(b);
+  requestAnimationFrame(function(){ b.style.opacity="1"; b.style.transform="translate(-50%,0) scale(1)"; });
+  setTimeout(function(){ b.style.opacity="0"; b.style.transform="translate(-50%,0) scale(.92)"; setTimeout(function(){ b.remove(); }, 320); }, 2200);
+}
+
+/* ---------- shared board (cloud) + subtle edit gate ---------- */
+(function(){
+  const API = "https://jsonblob.com/api/jsonBlob";
+
+  // ===== you set these two once =====
+  const BOARD_ID = "";        // paste the board id here after you create it, then commit
+  const EDIT_KEY = "sermon";  // change this to your own passphrase
+  // ==================================
+
+  const params = new URLSearchParams(location.search);
+
+  // small style for read-only mode
+  const st = document.createElement("style");
+  st.textContent =
+    "body.readonly .col-actions{display:none}" +
+    "body.readonly label.cb{cursor:default}" +
+    ".col input:disabled{opacity:1}" +
+    "#editbar{position:fixed;right:10px;bottom:8px;z-index:10001;font-size:11px;color:#9a948a;display:flex;gap:10px;align-items:center}" +
+    "#editbar a{color:#bdb6a8;text-decoration:none;border-bottom:1px dotted #cfc8ba}";
+  document.head.appendChild(st);
+
+  // status + subtle edit link
+  const bar = document.createElement("div");
+  bar.id = "editbar";
+  const statusEl = document.createElement("span");
+  const editLink = document.createElement("a");
+  editLink.textContent = "edit";
+  editLink.href = "#";
+  bar.appendChild(statusEl);
+  bar.appendChild(editLink);
+  document.body.appendChild(bar);
+  function setStatus(t){ statusEl.textContent = t; }
+
+  function refreshAll(){
+    document.querySelectorAll(".col").forEach(function(col){
+      const ss = slotState(col.dataset.slot);
+      const ti = col.querySelector('[data-field="title"]'); if(ti) ti.value = ss.meta.title || "";
+      const p = col.querySelector('[data-field="passage"]'); if(p) p.value = ss.meta.passage || "";
+      const d = col.querySelector('[data-field="date"]'); if(d) d.value = ss.meta.date || "";
+      applyChecks(col);
+    });
+  }
+
+  let editing = false;
+  function setReadOnly(on){
+    document.body.classList.toggle("readonly", on);
+    document.querySelectorAll(".col input").forEach(function(i){ i.disabled = on; });
+  }
+  setReadOnly(true); // everyone starts read-only; elders never leave it
+
+  let blobId = BOARD_ID || localStorage.getItem(STORE_KEY + ".blob") || "";
+
+  function pull(){
+    if(!blobId){ setStatus("not shared yet"); return; }
+    fetch(API + "/" + blobId, {headers:{"Accept":"application/json"}, cache:"no-store"})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(remote){
+        if(remote && typeof remote === "object"){ state = remote; refreshAll(); setStatus("up to date"); }
+        else setStatus("no data yet");
+      })
+      .catch(function(){ setStatus("offline"); });
+  }
+
+  let pushing = false, again = false, timer = null;
+  function push(){
+    if(!blobId) return;
+    if(pushing){ again = true; return; }
+    pushing = true;
+    fetch(API + "/" + blobId, {method:"PUT", headers:{"Content-Type":"application/json","Accept":"application/json"}, body:JSON.stringify(state)})
+      .then(function(r){ pushing = false; setStatus(r.ok ? "saved" : "save error"); if(again){ again = false; schedule(); } })
+      .catch(function(){ pushing = false; setStatus("offline"); });
+  }
+  function schedule(){ clearTimeout(timer); timer = setTimeout(push, 700); }
+
+  // make ticking also push, but only while editing
+  const _save = save;
+  save = function(){ _save(); if(editing) schedule(); };
+
+  function createBoard(){
+    setStatus("creating");
+    fetch(API, {method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"}, body:JSON.stringify(state)})
+      .then(function(r){
+        const loc = r.headers.get("Location") || "";
+        const m = loc.match(/jsonBlob\/(.+)$/);
+        if(m){
+          blobId = m[1];
+          localStorage.setItem(STORE_KEY + ".blob", blobId);
+          setStatus("saved");
+          window.prompt("Your board id. Paste this between the quotes on the BOARD_ID line in the file, then commit and push:", blobId);
+        } else {
+          alert("Could not create the shared board. The storage service may need to be swapped.");
+          setStatus("create failed");
+        }
+      })
+      .catch(function(){ alert("Could not reach the storage service."); setStatus("offline"); });
+  }
+
+  function enableEdit(){
+    editing = true;
+    setReadOnly(false);
+    editLink.textContent = "editing";
+    if(!blobId){ if(confirm("No shared board exists yet. Create one now?")) createBoard(); }
+  }
+
+  editLink.addEventListener("click", function(e){
+    e.preventDefault();
+    if(editing) return;
+    const k = window.prompt("Passphrase to edit:");
+    if(k === EDIT_KEY) enableEdit();
+    else if(k !== null) alert("Wrong passphrase.");
+  });
+
+  // convenience: open with ?edit=1 to go straight into editing
+  if(params.get("edit") === "1") enableEdit();
+
+  // first load + gentle polling so viewers stay current
+  pull();
+  setInterval(function(){ if(!editing) pull(); }, 10000);
+})();
+</script>
+</body>
+</html>

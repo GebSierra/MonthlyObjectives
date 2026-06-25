@@ -76,6 +76,11 @@
   .people-body .pname{font-weight:700}
   .people-body .pnote{color:var(--muted);font-size:13px;margin-top:2px}
   .people-disclaimer{padding:0 16px 16px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:4px;padding-top:12px}
+  .section-divider{height:1px;background:var(--line);margin:48px 0 0}
+  .sermon-section{margin-top:8px}
+  .sermon-h{font-size:20px;margin:28px 0 4px;letter-spacing:-.01em}
+  .sermon-sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+  .sermon-frame{width:100%;height:820px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow)}
   footer{margin-top:34px;color:var(--muted);font-size:12.5px;text-align:center}
 </style>
 </head>
@@ -107,6 +112,12 @@
     <div class="people-caption">Experimental section generated from personal notes; not comprehensive.</div>
     <div class="people-body" id="peopleBody"></div>
     <div class="people-disclaimer">AI notice: the names and descriptions in this section are automatically gathered and summarized by AI from personal notes. They may be incomplete or not fully accurate.</div>
+  </div>
+  <div class="sermon-section">
+    <div class="section-divider"></div>
+    <h2 class="sermon-h">Sermon progress</h2>
+    <p class="sermon-sub">Where this week's sermon preparation stands, updated as I work through it.</p>
+    <iframe class="sermon-frame" src="sermon-board.html" title="This week's sermon progress" loading="lazy"></iframe>
   </div>
   <footer id="foot"></footer>
 </div>
