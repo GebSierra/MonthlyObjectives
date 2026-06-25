@@ -123,7 +123,6 @@
 <body>
 <div class="page">
   <h1 class="sitehead">Sermon Prep Board</h1>
-  <p class="sub">Three messages, side by side. Tick a box and it remembers, even after you close the file.</p>
 
   <div class="toolbar">
     <label>Columns in view:</label>
@@ -136,12 +135,6 @@
   </div>
 
   <div class="board" id="board"></div>
-
-  <p class="hint">
-    Opening this in Obsidian: the HTML Reader community plugin opens <code>.html</code> files inside Obsidian.
-    Otherwise right click the file and open it in your browser. Your ticks are saved on this device.
-    Use the Reset button on a column when a sermon is preached and you want to reuse that slot.
-  </p>
 </div>
 
 <script>
@@ -290,18 +283,6 @@ const STAGES = [
       {k:"task", t:"Pray over it."},
       {k:"task", t:"Preach it to yourself."},
       {k:"task", t:"Preach it to the church."}
-    ]
-  },
-  {
-    key:"stuck", cls:"stuck", emoji:"🌱", title:"Feeling Stuck?",
-    blocks:[
-      {k:"note", html:"When the words will not come, do not push harder. Switch tactics and pick one of these."},
-      {k:"head", title:"1. Preach it to your virtual audience",
-        desc:"Speak your outline out loud to the virtual audience on your computer. It is a fake crowd, but it feels like real people. Then pull an outline out of what you just said, and hand it to AI for feedback."},
-      {k:"head", title:"2. Write the worst version on purpose",
-        desc:"Set a 10 minute timer and write a deliberately bad draft of one section. You cannot edit a blank page, but you can always fix a bad one. The timer kills the urge to perfect every sentence."},
-      {k:"head", title:"3. Change the input to change the output",
-        desc:"When stuck, stop pushing words out and put fresh words in. Read the passage in a very different translation, or read it aloud while walking. A new angle usually dislodges the stuck frame faster than willpower."}
     ]
   }
 ];
@@ -590,7 +571,7 @@ function banner(text, px, py){
     "body.readonly .col-actions{display:none}" +
     "body.readonly label.cb{cursor:default}" +
     ".col input:disabled{opacity:1}" +
-    "#editbar{position:fixed;right:10px;bottom:8px;z-index:10001;font-size:11px;color:#9a948a;display:flex;gap:10px;align-items:center}" +
+    "#editbar{position:fixed;right:10px;top:8px;z-index:10001;font-size:11px;color:#9a948a;display:flex;gap:10px;align-items:center}" +
     "#editbar a{color:#bdb6a8;text-decoration:none;border-bottom:1px dotted #cfc8ba;cursor:pointer}";
   document.head.appendChild(st);
 
