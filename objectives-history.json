@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-06-23",
+  "lastUpdated": "2026-06-25T11:13:56.397947",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -204,31 +204,6 @@
           "top": false
         },
         {
-          "title": "Hosting and Website credentials unified into a corporate account",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Talk With Paula Ralph to clear the way for Dwight to serve. Make sure she's ok.",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "I want to be transparent and help the elders understand what my life looks like by 1) Sharing monthly goals 2) Being more intentional in discussion",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Have the proposed tech team changes implemented with Ben Chambers",
-          "status": "inProgress",
-          "top": false
-        },
-        {
           "title": "Draft a Discipleship model and present that to the elders",
           "status": "notStarted",
           "top": true
@@ -254,63 +229,18 @@
           "top": false
         },
         {
-          "title": "Draft a guest connection Sunday morning SOP for volunteers to follow (delegate to Unruhs?)",
+          "title": "Draft a guest connection Sunday morning SOP for volunteers to folllow [Delegate to Unruhs?]",
           "status": "notStarted",
           "top": true
         },
         {
-          "title": "Schedule guest preachers for the year",
-          "status": "notStarted",
+          "title": "Hosting and Website credentials unified into a corporate account",
+          "status": "inProgress",
           "top": false
         },
         {
-          "title": "Prepare for the September baby: plan ministry events ahead and prepare early",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Set aside strategic time to prepare for the Quarterly Pulse: reflect on the quarter and review the VTO",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Reach out to young adults to invite them to the summer party",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Get together with Stephanie",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Get together with Lori (for RTBC)",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Call Dan Foster",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Have one of the other elders over (the Korhorns or the Jones)",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Track my hours to share with the elders",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Continue building and implementing the monthly objectives system",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Call Dave Stowasser",
-          "status": "done",
+          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "status": "inProgress",
           "top": false
         },
         {
@@ -319,7 +249,7 @@
           "top": false
         },
         {
-          "title": "Technology: go, no-go on Sermon Audio.",
+          "title": "Technology: go, no‑go on Sermon Audio.",
           "status": "quarterly",
           "top": false
         },
@@ -337,8 +267,89 @@
           "title": "Three-year theme rock",
           "status": "quarterly",
           "top": false
+        },
+        {
+          "title": "Talk With Paula Ralph to clear the way for Dwight to serve. Make sure she's ok.",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "I want to be transparent and help the elders understand what my life looks like by 1) Sharing monthly goals 2) Being more intentional in discussion",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Have the proposed tech team changes implemented with Ben Chambers",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Schedule out my preaching calendar for the rest of the year",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Prepare for the September baby: plan ministry events ahead and prepare schedule for that time",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Set aside strategic time to prepare for the Quarterly Pulse: reflect on the quarter and review the VTO",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Reach out to some individual young adults to invite them to the summer party (Delgauntos, Kalamazoo crew, Jeremy)",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Get together with Stephanie",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Get together with Lori (for RTBC)",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Call Dan Foster again",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Have one of the other elders family over (the Korhorns or the Jones this month)",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Begin tracking my hours again to share with the elders",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Continue implementing the monthly objectives system",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "This year is going to be over soon, and I am set aside especially to do Administrative work, this year. What do we need today, that can set us up for tomorrow?",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "plan out the teaching theme for release time Bible class and teaching schedule",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "ask Lori If she wants to launch Oasis this year? If so, then I can help her with redesigning and stuff",
+          "status": "notStarted",
+          "top": false
         }
-      ]
+      ],
+      "people": []
     }
   ],
   "activeMonth": "2026-07",
