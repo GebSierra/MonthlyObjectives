@@ -102,9 +102,15 @@
   ul.tasks ul.tasks{margin:2px 0 6px 22px}
   li.task{margin:3px 0}
   label.cb{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:13.5px}
-  label.cb input{margin:2px 0 0;flex:0 0 auto;width:15px;height:15px;accent-color:var(--gold);cursor:pointer}
+  label.cb .box{margin:1px 0 0;flex:0 0 auto;width:16px;height:16px;border:1.5px solid #c7bfa9;border-radius:4px;background:#fff;position:relative;cursor:pointer;transition:background .12s,border-color .12s}
+  label.cb .box::after{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);line-height:1}
+  li.task.done>label.cb .box{background:var(--gold);border-color:var(--gold)}
+  li.task.done>label.cb .box::after{content:"✓";color:#fff;font-size:11px;font-weight:700}
+  li.task.skip>label.cb .box{background:#f1ead9}
+  li.task.skip>label.cb .box::after{content:"–";color:#a59e8e;font-size:13px;font-weight:700}
   label.cb .txt{flex:1 1 auto}
-  li.task.done>label.cb .txt{text-decoration:line-through;color:#a59e8e}
+  li.task.skip>label.cb .txt{text-decoration:line-through;color:#a59e8e}
+  body.readonly label.cb,body.readonly label.cb .box{cursor:default}
   .subnote{font-size:12px;color:var(--muted);margin:1px 0 3px 23px;font-style:italic}
   a{color:var(--writing);text-decoration:none;border-bottom:1px solid #c9d0ea}
   a:hover{border-bottom-color:var(--writing)}
@@ -313,7 +319,7 @@ function renderTask(item, ctr, slot){
   const subs = isObj ? item.subs : null;
   const id = "cb" + (ctr.n++);
   let html = '<li class="task" data-row="'+id+'">';
-  html += '<label class="cb"><input type="checkbox" data-cb="'+id+'"><span class="txt">'+esc(text)+'</span></label>';
+  html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span></label>';
   if(note){ html += '<div class="subnote">'+note+'</div>'; }
   if(subs && subs.length){
     html += '<ul class="tasks">';
@@ -373,18 +379,17 @@ function renderColumn(slot){
 function applyChecks(col){
   const slot = col.dataset.slot;
   const ss = slotState(slot);
-  col.querySelectorAll('input[data-cb]').forEach(function(cb){
-    const on = !!ss.checks[cb.dataset.cb];
-    cb.checked = on;
-    const row = cb.closest('li.task');
-    if(row) row.classList.toggle('done', on);
+  col.querySelectorAll('.box[data-cb]').forEach(function(box){
+    const v = ss.checks[box.dataset.cb] || 0;   // 0 none, 1 done, 2 skipped
+    const row = box.closest('li.task');
+    if(row){ row.classList.toggle('done', v===1); row.classList.toggle('skip', v===2); }
   });
   updateProgress(col);
 }
 
 function updateProgress(col){
   const total = parseInt(col.dataset.total,10) || 0;
-  const done = col.querySelectorAll('input[data-cb]:checked').length;
+  const done = col.querySelectorAll('li.task.done, li.task.skip').length;
   const pct = total ? Math.round(done/total*100) : 0;
   col.querySelector('.progfill').style.width = pct + "%";
   col.querySelector('.ptcount').textContent = done + " / " + total;
@@ -400,21 +405,28 @@ for(let s=0; s<SLOTS; s++){
 }
 
 /* ---------- events ---------- */
-board.addEventListener("change", function(e){
-  const cb = e.target.closest('input[data-cb]');
-  if(!cb) return;
-  const col = e.target.closest('.col');
+board.addEventListener("click", function(e){
+  if(e.target.closest('a')) return;
+  const label = e.target.closest('label.cb');
+  if(!label) return;
+  if(document.body.classList.contains('readonly')) return;
+  const box = label.querySelector('.box[data-cb]');
+  if(!box) return;
+  const col = label.closest('.col');
   const ss = slotState(col.dataset.slot);
-  if(cb.checked) ss.checks[cb.dataset.cb] = 1; else delete ss.checks[cb.dataset.cb];
-  const row = cb.closest('li.task');
-  if(row) row.classList.toggle('done', cb.checked);
+  const id = box.dataset.cb;
+  const cur = ss.checks[id] || 0;                       // none -> done -> skipped -> none
+  const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
+  if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
+  const row = box.closest('li.task');
+  if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); }
   updateProgress(col);
   save();
-  if(cb.checked){
-    const p = cfPagePos(cb);
+  if(next === 1){
+    const p = cfPagePos(box);
     confettiBurst(p.x, p.y, {count:18, spread:70, power:7, size:6});
     const total = parseInt(col.dataset.total,10) || 0;
-    const done = col.querySelectorAll('input[data-cb]:checked').length;
+    const done = col.querySelectorAll('li.task.done, li.task.skip').length;
     if(total && done === total){ celebrate(p.x, p.y); }
   }
 });
