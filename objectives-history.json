@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-06-25T11:53:04.133018",
+  "lastUpdated": "2026-06-29",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -174,7 +174,7 @@
         },
         {
           "name": "Ben Peak",
-          "note": "Talked with and encouraged him; also connected while serving at Camp Raybird."
+          "note": "Connected while serving at Camp Raybird."
         },
         {
           "name": "The Tiptons (Elizabeth and family)",
@@ -211,6 +211,22 @@
         {
           "name": "Mitch (and Kate)",
           "note": "Camp director at Camp Raybird."
+        },
+        {
+          "name": "Garrett Lerner",
+          "note": "Meeting weekly for breakfast to study the gospel."
+        },
+        {
+          "name": "Kevin Korhorn",
+          "note": ""
+        },
+        {
+          "name": "Josh and Reagan",
+          "note": "Met at the young adults gathering."
+        },
+        {
+          "name": "Elena",
+          "note": "Met at the young adults gathering; training as a financial advisor."
         }
       ]
     },
@@ -254,12 +270,12 @@
           "top": true
         },
         {
-          "title": "Hosting and Website credentials unified into a corporate account",
+          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
           "status": "inProgress",
           "top": false
         },
         {
-          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "title": "Hosting and Website credentials unified into a corporate account",
           "status": "inProgress",
           "top": false
         },
@@ -366,6 +382,31 @@
         {
           "title": "ask Lori If she wants to launch Oasis this year? If so, then I can help her with redesigning and stuff",
           "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "create a template within planning center to host a digital bulletin",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Switch to utilizing a digital bulletin weekly",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "promote the digital bulletin and add links to the church app, QR codes etc",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "continue to encourage the rooted vision",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Get Binders ordered",
+          "status": "inProgress",
           "top": false
         }
       ],
