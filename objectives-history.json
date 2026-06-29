@@ -410,7 +410,20 @@
           "top": false
         }
       ],
-      "people": []
+      "people": [
+        {
+          "name": "Matt Enis",
+          "note": "Church member; reached out by phone."
+        },
+        {
+          "name": "John McColley",
+          "note": "Church member; reached out by phone."
+        },
+        {
+          "name": "Paula Ralph",
+          "note": "Church member; reached out by phone."
+        }
+      ]
     }
   ],
   "activeMonth": "2026-07",
