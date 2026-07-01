@@ -320,6 +320,28 @@ function slotState(s){
   return state[s];
 }
 
+/* ---------- stage collapse memory (remembers expanded/collapsed per column+stage) ---------- */
+const STAGE_OPEN_KEY = STORE_KEY + ".stageopen";
+let stageOpen = {};
+try{ stageOpen = JSON.parse(localStorage.getItem(STAGE_OPEN_KEY)) || {}; }
+catch(e){ stageOpen = {}; }
+function stageOpenId(slot, stageKey){ return slot + ":" + stageKey; }
+function isStageOpen(slot, stageKey){
+  const id = stageOpenId(slot, stageKey);
+  return Object.prototype.hasOwnProperty.call(stageOpen, id) ? stageOpen[id] : true; // default: open
+}
+function setStageOpen(slot, stageKey, isOpen){
+  stageOpen[stageOpenId(slot, stageKey)] = isOpen;
+  localStorage.setItem(STAGE_OPEN_KEY, JSON.stringify(stageOpen));
+}
+function persistStageOpenState(){
+  document.querySelectorAll('.col').forEach(function(col){
+    col.querySelectorAll('details.stage[data-stage]').forEach(function(d){
+      setStageOpen(col.dataset.slot, d.dataset.stage, d.open);
+    });
+  });
+}
+
 /* ---------- render ---------- */
 function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
@@ -359,7 +381,8 @@ function renderStage(stage, ctr, slot){
     }
   });
   closeList();
-  return '<details class="stage '+stage.cls+'" open><summary><span class="chev">▶</span><span>'+stage.emoji+' '+esc(stage.title)+'</span></summary><div class="stage-inner">'+body+'</div></details>';
+  const openAttr = isStageOpen(slot, stage.key) ? ' open' : '';
+  return '<details class="stage '+stage.cls+'" data-stage="'+stage.key+'"'+openAttr+'><summary><span class="chev">▶</span><span>'+stage.emoji+' '+esc(stage.title)+'</span></summary><div class="stage-inner">'+body+'</div></details>';
 }
 
 function renderColumn(slot){
@@ -413,6 +436,9 @@ for(let s=0; s<SLOTS; s++){
   const col = renderColumn(s);
   board.appendChild(col);
   applyChecks(col);
+  col.querySelectorAll('details.stage[data-stage]').forEach(function(d){
+    d.addEventListener('toggle', function(){ setStageOpen(col.dataset.slot, d.dataset.stage, d.open); });
+  });
 }
 
 /* ---------- events ---------- */
@@ -547,6 +573,7 @@ board.addEventListener("click", function(e){
     const anyOpen = Array.prototype.some.call(details, d=>d.open);
     details.forEach(d=> d.open = !anyOpen);
     btn.textContent = anyOpen ? "Expand stages" : "Collapse stages";
+    persistStageOpenState();
   }
 });
 
@@ -566,9 +593,11 @@ applyView();
 
 document.getElementById("expandAll").addEventListener("click", function(){
   document.querySelectorAll('details.stage').forEach(d=> d.open = true);
+  persistStageOpenState();
 });
 document.getElementById("collapseAll").addEventListener("click", function(){
   document.querySelectorAll('details.stage').forEach(d=> d.open = false);
+  persistStageOpenState();
 });
 
 /* ---------- confetti (self contained, no libraries) ---------- */
