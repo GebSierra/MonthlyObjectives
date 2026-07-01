@@ -41,7 +41,7 @@
   .bar>span{display:block;height:100%}
   .bar .b-green{background:var(--green)} .bar .b-yellow{background:var(--yellow)} .bar .b-red{background:var(--red)}
   .top-strip{background:linear-gradient(180deg,#fffdf6,#fff);border:1px solid #f0e2b8;
-    border-radius:16px;padding:16px 18px;margin-bottom:24px;box-shadow:var(--shadow)}
+    border-radius:16px;padding:16px 18px;margin-top:26px;box-shadow:var(--shadow)}
   .top-strip h2{margin:0 0 12px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px}
   .top-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
   .top-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
@@ -106,12 +106,12 @@
 
   <div class="months" id="months"></div>
   <div class="note" id="note" style="display:none"></div>
+  <div class="stats" id="stats"></div>
+  <div class="board" id="board"></div>
   <div class="top-strip" id="topStrip" style="display:none">
     <h2>&#9733; Top Objectives This Month</h2>
     <div class="top-list" id="topList"></div>
   </div>
-  <div class="stats" id="stats"></div>
-  <div class="board" id="board"></div>
   <details class="quarter" id="quarter" style="display:none">
     <summary class="col-head"><span><span class="dot"></span>Quarterly Goals</span><span class="qhead-right"><span class="count" id="qCount"></span><span class="chev">&#9656;</span></span></summary>
     <div class="quarter-body" id="quarterBody"></div>
