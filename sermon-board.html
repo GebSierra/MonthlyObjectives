@@ -109,9 +109,11 @@
   li.task.done>label.cb .box::after{content:"✓";color:#fff;font-size:11px;font-weight:700}
   li.task.skip>label.cb .box{background:#f1ead9}
   li.task.skip>label.cb .box::after{content:"–";color:#a59e8e;font-size:13px;font-weight:700}
-  label.cb .txt{flex:1 1 auto}
+  label.cb .txt{flex:1 1 auto;cursor:pointer;-webkit-user-select:none;user-select:none}
   li.task.skip>label.cb .txt{text-decoration:line-through;color:#a59e8e}
+  li.task.selected{background:#fdf6e0;border-radius:6px;box-shadow:0 0 0 1px #e9dcbf inset}
   body.readonly label.cb,body.readonly label.cb .box{cursor:default}
+  body.readonly label.cb .txt{cursor:default}
   .subnote{font-size:12px;color:var(--muted);margin:1px 0 3px 23px;font-style:italic}
   a{color:var(--writing);text-decoration:none;border-bottom:1px solid #c9d0ea}
   a:hover{border-bottom-color:var(--writing)}
@@ -148,6 +150,7 @@
     <button id="expandAll">Expand all stages</button>
     <button id="collapseAll">Collapse all stages</button>
   </div>
+  <div class="hint" style="margin:-8px 0 14px">Tip: click a task's text (not the box) to highlight it, shift-click to select a range, then press <code>Enter</code> to advance the highlighted items through their states. <code>Esc</code> clears the highlight.</div>
 
   <div class="board" id="board"></div>
 </div>
@@ -414,17 +417,16 @@ for(let s=0; s<SLOTS; s++){
 }
 
 /* ---------- events ---------- */
+// clicking the checkbox square itself still toggles that one item immediately: none -> done -> skipped -> none
 board.addEventListener("click", function(e){
   if(e.target.closest('a')) return;
-  const label = e.target.closest('label.cb');
-  if(!label) return;
   if(document.body.classList.contains('readonly')) return;
-  const box = label.querySelector('.box[data-cb]');
+  const box = e.target.closest('.box[data-cb]');
   if(!box) return;
-  const col = label.closest('.col');
+  const col = box.closest('.col');
   const ss = slotState(col.dataset.slot);
   const id = box.dataset.cb;
-  const cur = ss.checks[id] || 0;                       // none -> done -> skipped -> none
+  const cur = ss.checks[id] || 0;
   const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
   if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
   const row = box.closest('li.task');
@@ -438,6 +440,81 @@ board.addEventListener("click", function(e){
     const done = col.querySelectorAll('li.task.done, li.task.skip').length;
     if(total && done === total){ celebrate(p.x, p.y); }
   }
+});
+
+/* ---------- multi-select (click the label text) + Enter to cycle them all ---------- */
+// Plain click on a task's text selects just that row. Shift+click selects the range from
+// the last-clicked row. Ctrl/Cmd+click adds or removes just that row. Press Enter to advance
+// every selected row one step (none -> done -> skipped -> none), Escape to clear selection.
+const selection = {};              // slot -> Set of row ids currently highlighted
+const selAnchor = {};              // slot -> id of the last plain/shift click, for range selection
+function getSelection(slot){ if(!selection[slot]) selection[slot] = new Set(); return selection[slot]; }
+function rowOrder(col){ return Array.prototype.map.call(col.querySelectorAll('.box[data-cb]'), function(b){ return b.dataset.cb; }); }
+function setRowSelected(col, id, on){
+  const sel = getSelection(col.dataset.slot);
+  if(on) sel.add(id); else sel.delete(id);
+  const row = col.querySelector('li.task[data-row="'+id+'"]');
+  if(row) row.classList.toggle('selected', on);
+}
+function clearSelection(col){
+  getSelection(col.dataset.slot).clear();
+  col.querySelectorAll('li.task.selected').forEach(function(row){ row.classList.remove('selected'); });
+}
+
+board.addEventListener("click", function(e){
+  if(document.body.classList.contains('readonly')) return;
+  const txt = e.target.closest('.txt');
+  if(!txt) return;
+  const row = txt.closest('li.task');
+  const col = row.closest('.col');
+  const slot = col.dataset.slot;
+  const id = row.dataset.row;
+  const order = rowOrder(col);
+  if(e.shiftKey && selAnchor[slot]){
+    const a = order.indexOf(selAnchor[slot]);
+    const b = order.indexOf(id);
+    if(a > -1 && b > -1){
+      clearSelection(col);
+      const lo = Math.min(a,b), hi = Math.max(a,b);
+      for(let i=lo; i<=hi; i++) setRowSelected(col, order[i], true);
+    }
+  } else if(e.metaKey || e.ctrlKey){
+    setRowSelected(col, id, !getSelection(slot).has(id));
+    selAnchor[slot] = id;
+  } else {
+    clearSelection(col);
+    setRowSelected(col, id, true);
+    selAnchor[slot] = id;
+  }
+  e.preventDefault();
+});
+
+document.addEventListener("keydown", function(e){
+  if(document.body.classList.contains('readonly')) return;
+  if(e.key === "Escape"){
+    document.querySelectorAll('.col').forEach(clearSelection);
+    return;
+  }
+  if(e.key !== "Enter") return;
+  const active = document.activeElement;
+  if(active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) return; // typing in title/passage/date
+  let touched = false;
+  document.querySelectorAll('.col').forEach(function(col){
+    const slot = col.dataset.slot;
+    const sel = getSelection(slot);
+    if(!sel.size) return;
+    touched = true;
+    const ss = slotState(slot);
+    sel.forEach(function(id){
+      const cur = ss.checks[id] || 0;
+      const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
+      if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
+      const row = col.querySelector('li.task[data-row="'+id+'"]');
+      if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); }
+    });
+    updateProgress(col);
+  });
+  if(touched){ save(); e.preventDefault(); }
 });
 
 board.addEventListener("input", function(e){
