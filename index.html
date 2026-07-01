@@ -68,6 +68,12 @@
   .empty{color:var(--muted);font-size:13px;font-style:italic;padding:6px 4px}
   .quarter{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
   .quarter .col-head{background:var(--blue-soft)} .quarter .dot{background:var(--blue)}
+  .quarter>summary{list-style:none;cursor:pointer}
+  .quarter>summary::-webkit-details-marker{display:none}
+  .quarter>summary:hover{background:#dfeafd}
+  .qhead-right{display:flex;align-items:center;gap:8px}
+  .qhead-right .chev{color:var(--muted);font-size:12px;transition:transform .15s;display:inline-block}
+  .quarter[open]>summary .qhead-right .chev{transform:rotate(90deg)}
   .quarter-body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
   .quarter-body .card{border-left-color:var(--blue)}
   .people{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
@@ -105,10 +111,10 @@
   </div>
   <div class="stats" id="stats"></div>
   <div class="board" id="board"></div>
-  <div class="quarter" id="quarter" style="display:none">
-    <div class="col-head"><span><span class="dot"></span>Quarterly Goals</span><span class="count" id="qCount"></span></div>
+  <details class="quarter" id="quarter" style="display:none">
+    <summary class="col-head"><span><span class="dot"></span>Quarterly Goals</span><span class="qhead-right"><span class="count" id="qCount"></span><span class="chev">&#9656;</span></span></summary>
     <div class="quarter-body" id="quarterBody"></div>
-  </div>
+  </details>
   <div class="people" id="people" style="display:none">
     <div class="col-head"><span><span class="dot"></span>People - Some people I was able to connect with this month</span><span class="count" id="pCount"></span></div>
     <div class="people-caption">AI notice: the names and descriptions in this section are automatically gathered and summarized by AI from personal notes. They may be incomplete or not fully accurate.</div>
@@ -199,13 +205,4 @@ function render(){
   const pe=document.getElementById('people');
   const ppl=(m.people||[]);
   if(ppl.length){pe.style.display='';
-    document.getElementById('pCount').textContent=ppl.length;
-    document.getElementById('peopleBody').innerHTML=ppl.map(p=>`<div class="card"><div class="pname">${esc(p.name)}</div>${p.note?`<div class="pnote">${esc(p.note)}</div>`:''}</div>`).join('');}
-  else {pe.style.display='none';}
-
-  document.getElementById('foot').textContent='Mirrors the “'+ DATA.title +'” board in TickTick · refreshed automatically twice a week.';
-}
-render();
-</script>
-</body>
-</html>
+    docume
