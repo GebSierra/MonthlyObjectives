@@ -48,9 +48,12 @@
   .pill.notStarted{background:var(--red-soft);color:var(--red)}
   .pill.inProgress{background:var(--yellow-soft);color:var(--yellow)}
   .pill.done{background:var(--green-soft);color:var(--green)}
-  .board{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  @media(max-width:860px){.board{grid-template-columns:1fr}}
-  .col{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+  .board{display:flex;gap:18px;align-items:flex-start}
+  @media(max-width:860px){
+    .board{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:10px;margin:0 -22px;padding-left:22px;padding-right:22px}
+    .board .col{flex:0 0 82vw}
+  }
+  .col{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;flex:1 1 0;min-width:0}
   .col-head{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:15px;border-bottom:1px solid var(--line)}
   .col-head .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:9px}
   .col-head .count{font-size:13px;color:var(--muted);font-weight:600}
