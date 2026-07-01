@@ -205,4 +205,13 @@ function render(){
   const pe=document.getElementById('people');
   const ppl=(m.people||[]);
   if(ppl.length){pe.style.display='';
-    docume
+    document.getElementById('pCount').textContent=ppl.length;
+    document.getElementById('peopleBody').innerHTML=ppl.map(p=>`<div class="card"><div class="pname">${esc(p.name)}</div>${p.note?`<div class="pnote">${esc(p.note)}</div>`:''}</div>`).join('');}
+  else {pe.style.display='none';}
+
+  document.getElementById('foot').textContent='Mirrors the “'+ DATA.title +'” board in TickTick · refreshed automatically twice a week.';
+}
+render();
+</script>
+</body>
+</html>
