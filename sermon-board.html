@@ -150,7 +150,6 @@
     <button id="expandAll">Expand all stages</button>
     <button id="collapseAll">Collapse all stages</button>
   </div>
-  <div class="hint" style="margin:-8px 0 14px">Tip: click a task's text (not the box) to highlight it, shift-click to select a range, then press <code>Enter</code> to advance the highlighted items through their states. <code>Esc</code> clears the highlight.</div>
 
   <div class="board" id="board"></div>
 </div>
@@ -417,35 +416,40 @@ for(let s=0; s<SLOTS; s++){
 }
 
 /* ---------- events ---------- */
-// clicking the checkbox square itself still toggles that one item immediately: none -> done -> skipped -> none
+// shared toggle: none -> done -> skipped -> none
+function toggleOne(col, id, originEl){
+  const ss = slotState(col.dataset.slot);
+  const cur = ss.checks[id] || 0;
+  const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
+  if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
+  const row = col.querySelector('li.task[data-row="'+id+'"]');
+  if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); }
+  updateProgress(col);
+  save();
+  if(next === 1 && originEl){
+    const p = cfPagePos(originEl);
+    confettiBurst(p.x, p.y, {count:18, spread:70, power:7, size:6});
+    const total = parseInt(col.dataset.total,10) || 0;
+    const done = col.querySelectorAll('li.task.done, li.task.skip').length;
+    if(total && done === total){ celebrate(p.x, p.y); }
+  }
+}
+
+// clicking the checkbox square itself toggles that one item, no effect on the highlight
 board.addEventListener("click", function(e){
   if(e.target.closest('a')) return;
   if(document.body.classList.contains('readonly')) return;
   const box = e.target.closest('.box[data-cb]');
   if(!box) return;
   const col = box.closest('.col');
-  const ss = slotState(col.dataset.slot);
-  const id = box.dataset.cb;
-  const cur = ss.checks[id] || 0;
-  const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
-  if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
-  const row = box.closest('li.task');
-  if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); }
-  updateProgress(col);
-  save();
-  if(next === 1){
-    const p = cfPagePos(box);
-    confettiBurst(p.x, p.y, {count:18, spread:70, power:7, size:6});
-    const total = parseInt(col.dataset.total,10) || 0;
-    const done = col.querySelectorAll('li.task.done, li.task.skip').length;
-    if(total && done === total){ celebrate(p.x, p.y); }
-  }
+  toggleOne(col, box.dataset.cb, box);
 });
 
 /* ---------- multi-select (click the label text) + Enter to cycle them all ---------- */
-// Plain click on a task's text selects just that row. Shift+click selects the range from
-// the last-clicked row. Ctrl/Cmd+click adds or removes just that row. Press Enter to advance
-// every selected row one step (none -> done -> skipped -> none), Escape to clear selection.
+// Plain click on a task's text toggles it (same as clicking the box) and highlights just that
+// row. Shift+click highlights the range from the last-clicked row without toggling anything.
+// Ctrl/Cmd+click adds or removes just that row from the highlight, also without toggling.
+// Press Enter to advance every highlighted row one step, Escape to clear the highlight.
 const selection = {};              // slot -> Set of row ids currently highlighted
 const selAnchor = {};              // slot -> id of the last plain/shift click, for range selection
 function getSelection(slot){ if(!selection[slot]) selection[slot] = new Set(); return selection[slot]; }
@@ -485,6 +489,8 @@ board.addEventListener("click", function(e){
     clearSelection(col);
     setRowSelected(col, id, true);
     selAnchor[slot] = id;
+    const box = row.querySelector('.box[data-cb]');
+    toggleOne(col, id, box);
   }
   e.preventDefault();
 });
