@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-07-06",
+  "lastUpdated": "2026-07-09",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -278,12 +278,12 @@
           "top": true
         },
         {
-          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "title": "Hosting and Website credentials unified into a corporate account",
           "status": "inProgress",
           "top": false
         },
         {
-          "title": "Hosting and Website credentials unified into a corporate account",
+          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
           "status": "inProgress",
           "top": false
         },
@@ -462,6 +462,10 @@
         {
           "name": "Jana and Nicole Marshall",
           "note": "Connected on Sunday morning."
+        },
+        {
+          "name": "Stephanie Jones",
+          "note": "Met to move administrative church business forward."
         }
       ]
     }
