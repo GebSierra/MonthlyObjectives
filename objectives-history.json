@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-07-28",
+  "lastUpdated": "2026-08-03",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -162,78 +162,90 @@
       "people": [
         {
           "name": "Dwight and Demi Unruh",
-          "note": "Connecting with them and helping them get plugged in at church."
+          "note": "connecting with the guest-connection and volunteer scheduling ministry"
         },
         {
           "name": "Nathan Delguanto",
-          "note": "Talked about his ministry direction and work at GSM."
+          "note": "young adult; involved with YWAM/GSM"
         },
         {
-          "name": "Tina",
-          "note": "A neighbor; connected through a shared dentistry background."
-        },
-        {
-          "name": "The Tiptons (Elizabeth and family)",
-          "note": "Got to know their family."
+          "name": "Elizabeth Tipton",
+          "note": "has an 8-year-old daughter"
         },
         {
           "name": "Jason D.",
-          "note": "Neighbor; helped him clear brush and connected with him and his sons."
+          "note": "neighbor; helped him after storm damage to his property"
         },
         {
           "name": "Dan Jones",
           "note": ""
         },
         {
+          "name": "Jan",
+          "note": "Stephanie's mom, resides at Storypoint in Granger"
+        },
+        {
           "name": "Becky Ridgewood",
-          "note": "Edwardsburg neighbor and a local schoolteacher."
+          "note": "Edwardsburg neighbor; teacher at Cassopolis middle school"
         },
         {
           "name": "Pat and Ashley",
-          "note": "Premarital counseling sessions."
+          "note": "premarital counseling"
         },
         {
           "name": "Dan Foster",
-          "note": "Caught up over a long conversation."
+          "note": ""
         },
         {
           "name": "Ben Peak",
-          "note": "Connected while serving at Camp Raybird."
+          "note": ""
         },
         {
-          "name": "Holden and Josiah",
-          "note": "Met at Camp Raybird; interns from KFG (Josiah is from New Jersey)."
+          "name": "Holden",
+          "note": "KFG intern met at Camp Raybird"
+        },
+        {
+          "name": "Josiah",
+          "note": "KFG intern met at Camp Raybird"
         },
         {
           "name": "Jordan",
-          "note": "Met at Camp Raybird."
+          "note": "KFG intern met at Camp Raybird"
         },
         {
-          "name": "Mitch (and Kate)",
-          "note": "Camp director at Camp Raybird."
+          "name": "Mitch and Kate",
+          "note": "camp director at Camp Raybird"
         },
         {
           "name": "Garrett Lerner",
-          "note": "Meeting weekly for breakfast to study the gospel."
+          "note": "meeting for breakfast on Fridays to talk through the gospel"
         },
         {
           "name": "Kevin Korhorn",
           "note": ""
         },
         {
-          "name": "Josh and Reagan",
-          "note": "Met at the young adults gathering."
+          "name": "Josh",
+          "note": "young adult, met at a young adults gathering"
+        },
+        {
+          "name": "Reagan",
+          "note": "young adult, met at a young adults gathering"
         },
         {
           "name": "Elena",
-          "note": "Met at the young adults gathering; training as a financial advisor."
+          "note": "young adult; training to be a financial advisor"
         },
         {
-          "name": "Jim Ralph",
-          "note": "Reached out by phone."
+          "name": "Janna",
+          "note": ""
         },
         {
           "name": "Tae Bae",
+          "note": ""
+        },
+        {
+          "name": "Jim Ralph",
           "note": ""
         }
       ]
@@ -285,31 +297,6 @@
         {
           "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
           "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Discipleship - Implement elders' monthly discipleship",
-          "status": "quarterly",
-          "top": false
-        },
-        {
-          "title": "Technology: go, no‑go on Sermon Audio.",
-          "status": "quarterly",
-          "top": false
-        },
-        {
-          "title": "EFCA credentialing.",
-          "status": "quarterly",
-          "top": false
-        },
-        {
-          "title": "Guest connections rock.",
-          "status": "quarterly",
-          "top": false
-        },
-        {
-          "title": "Three-year theme rock",
-          "status": "quarterly",
           "top": false
         },
         {
@@ -375,11 +362,6 @@
         {
           "title": "Continue implementing the monthly objectives system",
           "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "This year is going to be over soon, and I am set aside especially to do Administrative work, this year. What do we need today, that can set us up for tomorrow?",
-          "status": "quarterly",
           "top": false
         },
         {
@@ -451,56 +433,165 @@
           "title": "updated visual looks of church center app",
           "status": "done",
           "top": false
+        },
+        {
+          "title": "take some young men out for lunch. Josh korhorn Peter s",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Tech: Improve livestream",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Tech: Continue to integrate Jay",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Tech: Implement Sermon Audio",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Tech: Post the livestream (or link) once a week to Facebook, X, and YouTube",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Tech: Evaluate posting on Instagram",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Admin: Church website migration approved and launched",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Admin: Fix domain issue",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Admin: Unify disparate personal accounts into a corporate account(s)",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Admin: Fully migrate from and shut down (if appropriate) Microsoft",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Improve small group participation to 50% of attendees (40 adults) — FBF, Friday Morning Men's, Women's Group, Agape Group",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Schedule the fall Men's and Women's retreats",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Equip the church to use the SPECKS Bible study method",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Continue implementing the 3-year vision (Rooted, Established, Abounding)",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Develop and test a strategy for shepherding the flock",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Define the discipleship development track",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Each elder actively meeting with a potential leader",
+          "status": "quarterly",
+          "top": false
         }
       ],
       "people": [
         {
-          "name": "Matt Enis",
-          "note": "Church member; reached out by phone."
-        },
-        {
-          "name": "John McColley",
-          "note": "Connected by phone; caught up on his son's ranger training."
-        },
-        {
-          "name": "Paula Ralph",
-          "note": "Church member; reached out by phone."
-        },
-        {
           "name": "Dane",
-          "note": "New neighbor; a Cass County sheriff's deputy."
+          "note": "new neighbor; deputy with Cass County"
         },
         {
-          "name": "Jana and Nicole Marshall",
-          "note": "Connected on Sunday morning; Nicole is in medical residency."
+          "name": "Jana Marshall",
+          "note": ""
+        },
+        {
+          "name": "Nicole Marshall",
+          "note": "medical resident"
         },
         {
           "name": "Stephanie Jones",
-          "note": "Met to move administrative church business forward."
+          "note": "working through church administrative items together"
+        },
+        {
+          "name": "John McColley",
+          "note": "phone call to check in"
         },
         {
           "name": "Lyn",
-          "note": "Talked with her after the service."
+          "note": ""
         },
         {
           "name": "Luke",
-          "note": "Met at church; a KFG summer intern and Spring Arbor student."
+          "note": "KFG intern, met at church"
         },
         {
           "name": "Dan Foster",
-          "note": "Called to check in."
+          "note": ""
         },
         {
-          "name": "Jay and Elizabeth",
-          "note": "Connected at church; he works as an RN in surgery."
+          "name": "Jay",
+          "note": "RN; interested in serving on the tech team"
         },
         {
           "name": "David K",
-          "note": "Had spiritual conversations about faith; a friend of Parker's."
+          "note": "evangelistic conversation"
+        },
+        {
+          "name": "Garrett Lerner",
+          "note": "ongoing gospel conversations over breakfast"
         },
         {
           "name": "Mike Alby",
-          "note": "Talked about which church to settle in at."
+          "note": "discerning where to settle in church"
+        },
+        {
+          "name": "Dylan McColley",
+          "note": "phone call to check in"
+        },
+        {
+          "name": "Laura Szl",
+          "note": "planning young adults curriculum"
+        },
+        {
+          "name": "Chris and Justin",
+          "note": "from Maurer Well Service; invited to the church picnic"
+        },
+        {
+          "name": "Stephanie M. and Casey",
+          "note": "had over for dessert at the bonfire"
+        },
+        {
+          "name": "Matt Enis",
+          "note": ""
+        },
+        {
+          "name": "Paula Ralph",
+          "note": ""
         }
       ]
     }
