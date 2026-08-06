@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-08-03",
+  "lastUpdated": "2026-08-06",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -594,7 +594,199 @@
           "note": ""
         }
       ]
+    },
+    {
+      "key": "2026-08",
+      "label": "August 2026",
+      "items": [
+        {
+          "title": "Begin a routine for working on Colossians memorization.",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Draft a Discipleship model and present that to the elders",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Have a deep-work session on caring well for the flock",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Follow up with elders on how discipleship is going",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Fix the www domain issue with our website",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Draft a guest connection Sunday morning SOP for volunteers to folllow [Delegate to Unruhs?]",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Hosting and Website credentials unified into a corporate account",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Schedule out my preaching calendar for the rest of the year",
+          "status": "inProgress",
+          "top": true
+        },
+        {
+          "title": "Get together with Stephanie to move church things forward",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Continue implementing the monthly objectives system",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "continue to encourage the rooted vision",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Migrate the church's website to churchco so that anyone can edit the website",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Take some young men out for lunch (Josh Korhorn, Peter Sz, Parker Sz)",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Tech: Improve livestream",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Tech: Implement Sermon Audio",
+          "status": "inProgress",
+          "top": true
+        },
+        {
+          "title": "Tech: Post the livestream (or link) once a week to Facebook, X, and YouTube",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Focus on winning Souls - \"Do The Work of an Evangelist\"",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Create and Send out the State of the Church Address",
+          "status": "inProgress",
+          "top": true
+        },
+        {
+          "title": "Wayne Geiger recommended i schedule a week, once a quarter where you clear out your meetings and plan out your sermons.",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "Family - Have a strong and healthy family through Ruthies birth and focus on ways to support them during the baby Transition",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Family - Complete some house projects before September",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Discipleship Rock",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Admin Rock",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Tech Rock",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Focus on winning Souls - \"Do The Work of an Evangelist\" (2 Tim. 4:5)",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Mature my preaching by reading reflecting, and implementing what I'm learning.",
+          "status": "inProgress",
+          "top": true
+        },
+        {
+          "title": "Strengthen my daily and weekly routines this fall (AM/PM/Office)",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Mature my preaching by reading reflecting, and implementing what I'm learning.",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "Connect with Laura Sz about young adults and pick a study for the fall",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "Have a meal with Josh Galvin and confirm we're good to use Community for RTBC",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "Help administratively prepare for Gunn Park outdoor service (connect with Stephanie M., Send out church text, print bulletins, prepare children's sermon, prep sermon)",
+          "status": "done",
+          "top": false
+        }
+      ],
+      "people": [
+        {
+          "name": "Stephanie, Casey, Amelia, and Marshal",
+          "note": ""
+        },
+        {
+          "name": "Elaina",
+          "note": "KFG intern; good conversation at church, her father is a Christian therapist"
+        },
+        {
+          "name": "Jay and Elizabeth",
+          "note": "good connection at church; he's redoing their kitchen himself after a stressful week at his nursing job"
+        },
+        {
+          "name": "Meghan Hogarth",
+          "note": "good connection at church; likely taking an internship two hours north at a Christian camp, asked for a referral"
+        },
+        {
+          "name": "Lauren, Myra, and Yelka",
+          "note": "had ice cream together at Vanilla Bean"
+        },
+        {
+          "name": "Josh Galvin",
+          "note": "Assistant Pastor at Community Church of Edwardsburg; had a meal and planned out RTBC things for the year"
+        }
+      ]
     }
   ],
-  "activeMonth": "2026-07"
+  "activeMonth": "2026-08"
 }
