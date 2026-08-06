@@ -610,12 +610,12 @@
           "top": false
         },
         {
-          "title": "Have a deep-work session on caring well for the flock",
+          "title": "Schedule a deep-work session on caring well for the flock",
           "status": "inProgress",
           "top": false
         },
         {
-          "title": "Follow up with elders on how discipleship is going",
+          "title": "Check in with elders on how discipleship is going and meet with my guys as well",
           "status": "notStarted",
           "top": false
         },
@@ -625,8 +625,8 @@
           "top": false
         },
         {
-          "title": "Draft a guest connection Sunday morning SOP for volunteers to folllow [Delegate to Unruhs?]",
-          "status": "inProgress",
+          "title": "Draft a guest connection Sunday morning SOP for volunteers to folllow",
+          "status": "done",
           "top": false
         },
         {
@@ -638,11 +638,6 @@
           "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
           "status": "inProgress",
           "top": false
-        },
-        {
-          "title": "Schedule out my preaching calendar for the rest of the year",
-          "status": "inProgress",
-          "top": true
         },
         {
           "title": "Get together with Stephanie to move church things forward",
@@ -665,7 +660,7 @@
           "top": false
         },
         {
-          "title": "Take some young men out for lunch (Josh Korhorn, Peter Sz, Parker Sz)",
+          "title": "Take some young men out for lunch (Josh Korhorn, Peter Szlanfucht, Parker Szlanfucht)",
           "status": "notStarted",
           "top": false
         },
@@ -685,6 +680,21 @@
           "top": false
         },
         {
+          "title": "Admin: Church website migration approved and launched",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Admin: Unify disparate personal accounts into a corporate account(s)",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Discipleship: Continue implementing the 3-year vision (Rooted, Established, Abounding)",
+          "status": "inProgress",
+          "top": false
+        },
+        {
           "title": "Focus on winning Souls - \"Do The Work of an Evangelist\"",
           "status": "inProgress",
           "top": false
@@ -695,7 +705,7 @@
           "top": true
         },
         {
-          "title": "Wayne Geiger recommended i schedule a week, once a quarter where you clear out your meetings and plan out your sermons.",
+          "title": "Sermon planning week - Wayne Geiger recommended I schedule a week, once a quarter to clear out my meetings and plan out my sermons.",
           "status": "notStarted",
           "top": false
         },
@@ -757,6 +767,11 @@
         {
           "title": "Help administratively prepare for Gunn Park outdoor service (connect with Stephanie M., Send out church text, print bulletins, prepare children's sermon, prep sermon)",
           "status": "done",
+          "top": false
+        },
+        {
+          "title": "Guest Connection SOP - Get Feedback and begin implementing",
+          "status": "inProgress",
           "top": false
         }
       ],
