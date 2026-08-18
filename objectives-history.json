@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-08-06",
+  "lastUpdated": "2026-08-18",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -635,7 +635,7 @@
           "top": false
         },
         {
-          "title": "All personal accounts consolidated to corporate accounts (email, logins, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "title": "All personal accounts consolidated to corporate accounts (email, Migrate Google Business over to our admin account, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
           "status": "inProgress",
           "top": false
         },
@@ -772,6 +772,11 @@
         {
           "title": "Guest Connection SOP - Get Feedback and begin implementing",
           "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "changed billing credit card on file for microsoft and ChurchCenter",
+          "status": "done",
           "top": false
         }
       ],
