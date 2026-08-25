@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-08-18",
+  "lastUpdated": "2026-08-25",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -601,7 +601,7 @@
       "items": [
         {
           "title": "Begin a routine for working on Colossians memorization.",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
@@ -620,7 +620,7 @@
           "top": false
         },
         {
-          "title": "Fix the www domain issue with our website",
+          "title": "Fix the www domain issue with our website (progress made, called John Marshall, but this is still stuck)",
           "status": "inProgress",
           "top": false
         },
@@ -630,33 +630,18 @@
           "top": false
         },
         {
-          "title": "Hosting and Website credentials unified into a corporate account",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "All personal accounts consolidated to corporate accounts (email, Migrate Google Business over to our admin account, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
+          "title": "All personal accounts consolidated to corporate accounts (Website Hosting, email, Migrate Google Business over to our admin account, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
           "status": "inProgress",
           "top": false
         },
         {
           "title": "Get together with Stephanie to move church things forward",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
           "title": "Continue implementing the monthly objectives system",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "continue to encourage the rooted vision",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Migrate the church's website to churchco so that anyone can edit the website",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
@@ -691,7 +676,7 @@
         },
         {
           "title": "Discipleship: Continue implementing the 3-year vision (Rooted, Established, Abounding)",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
@@ -701,21 +686,16 @@
         },
         {
           "title": "Create and Send out the State of the Church Address",
-          "status": "inProgress",
+          "status": "done",
           "top": true
         },
         {
           "title": "Sermon planning week - Wayne Geiger recommended I schedule a week, once a quarter to clear out my meetings and plan out my sermons.",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "Family - Have a strong and healthy family through Ruthies birth and focus on ways to support them during the baby Transition",
           "status": "inProgress",
           "top": false
         },
         {
-          "title": "Family - Complete some house projects before September",
+          "title": "Family - Have a strong and healthy family through Ruthies birth and focus on ways to support them during the baby Transition",
           "status": "inProgress",
           "top": false
         },
@@ -778,6 +758,16 @@
           "title": "changed billing credit card on file for microsoft and ChurchCenter",
           "status": "done",
           "top": false
+        },
+        {
+          "title": "Family - Complete some house projects before Baby is Due in September: Vent bathroom Fan to outside and replace fan + Rotate Tires",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "Unexpected: Fix the Gap left by James Solarek for Released Time Bible Class. James Solarek was a key volunteer who just dropped out. I need reconfigure the teaching schedule, prepare a lesson for the first event, and reconfigure who is in charge of the games.",
+          "status": "done",
+          "top": false
         }
       ],
       "people": [
@@ -804,6 +794,18 @@
         {
           "name": "Josh Galvin",
           "note": "Assistant Pastor at Community Church of Edwardsburg; had a meal and planned out RTBC things for the year"
+        },
+        {
+          "name": "Ben Balos",
+          "note": "visited the outdoor service; looking for a church home"
+        },
+        {
+          "name": "Doug",
+          "note": "phone call connection"
+        },
+        {
+          "name": "Samuel Snodgrass",
+          "note": "RTBC"
         }
       ]
     }
