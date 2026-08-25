@@ -161,43 +161,39 @@
       ],
       "people": [
         {
-          "name": "Dwight and Demi Unruh",
-          "note": "connecting with the guest-connection and volunteer scheduling ministry"
+          "name": "Dwight & Demi Unruh",
+          "note": "Guest connections volunteers"
         },
         {
           "name": "Nathan Delguanto",
-          "note": "young adult; involved with YWAM/GSM"
-        },
-        {
-          "name": "Elizabeth Tipton",
-          "note": "has an 8-year-old daughter"
-        },
-        {
-          "name": "Jason D.",
-          "note": "neighbor; helped him after storm damage to his property"
-        },
-        {
-          "name": "Dan Jones",
-          "note": ""
-        },
-        {
-          "name": "Jan",
-          "note": "Stephanie's mom, resides at Storypoint in Granger"
-        },
-        {
-          "name": "Becky Ridgewood",
-          "note": "Edwardsburg neighbor; teacher at Cassopolis middle school"
-        },
-        {
-          "name": "Pat and Ashley",
-          "note": "premarital counseling"
-        },
-        {
-          "name": "Dan Foster",
-          "note": ""
+          "note": "Young adult, discipleship conversation"
         },
         {
           "name": "Ben Peak",
+          "note": ""
+        },
+        {
+          "name": "Elizabeth Tipton",
+          "note": ""
+        },
+        {
+          "name": "Jason D.",
+          "note": "Neighbor; helped clear storm debris"
+        },
+        {
+          "name": "Dan Jones",
+          "note": "Connected via StoryPoint in Granger"
+        },
+        {
+          "name": "Becky Ridgewood",
+          "note": "Edwardsburg neighbor, teacher"
+        },
+        {
+          "name": "Pat & Ashley",
+          "note": "Premarital counseling"
+        },
+        {
+          "name": "Dan Foster",
           "note": ""
         },
         {
@@ -210,15 +206,19 @@
         },
         {
           "name": "Jordan",
-          "note": "KFG intern met at Camp Raybird"
+          "note": "Met at Camp Raybird"
         },
         {
-          "name": "Mitch and Kate",
-          "note": "camp director at Camp Raybird"
+          "name": "Ben Chambers",
+          "note": "Camp connection"
+        },
+        {
+          "name": "Mitch & Kate",
+          "note": "Camp Raybird director and wife"
         },
         {
           "name": "Garrett Lerner",
-          "note": "meeting for breakfast on Fridays to talk through the gospel"
+          "note": ""
         },
         {
           "name": "Kevin Korhorn",
@@ -226,19 +226,15 @@
         },
         {
           "name": "Josh",
-          "note": "young adult, met at a young adults gathering"
+          "note": "Young adults ministry"
         },
         {
           "name": "Reagan",
-          "note": "young adult, met at a young adults gathering"
+          "note": "Young adults ministry"
         },
         {
           "name": "Elena",
-          "note": "young adult; training to be a financial advisor"
-        },
-        {
-          "name": "Janna",
-          "note": ""
+          "note": "Young adults ministry"
         },
         {
           "name": "Tae Bae",
@@ -523,7 +519,7 @@
       "people": [
         {
           "name": "Dane",
-          "note": "new neighbor; deputy with Cass County"
+          "note": "New neighbor; Cass County deputy"
         },
         {
           "name": "Jana Marshall",
@@ -531,15 +527,23 @@
         },
         {
           "name": "Nicole Marshall",
-          "note": "medical resident"
+          "note": ""
         },
         {
           "name": "Stephanie Jones",
-          "note": "working through church administrative items together"
+          "note": "Ongoing admin work"
+        },
+        {
+          "name": "Dylan McColley",
+          "note": "Phone catch-up"
         },
         {
           "name": "John McColley",
-          "note": "phone call to check in"
+          "note": "Phone catch-up"
+        },
+        {
+          "name": "Doug Nienmeyer",
+          "note": "Coordinating guest preaching dates"
         },
         {
           "name": "Lyn",
@@ -547,51 +551,51 @@
         },
         {
           "name": "Luke",
-          "note": "KFG intern, met at church"
+          "note": "Met at church"
         },
         {
           "name": "Dan Foster",
           "note": ""
         },
         {
-          "name": "Jay",
-          "note": "RN; interested in serving on the tech team"
+          "name": "Jay & Elizabeth",
+          "note": "Family interested in helping with tech"
         },
         {
           "name": "David K",
-          "note": "evangelistic conversation"
+          "note": "Conversation about faith"
         },
         {
           "name": "Garrett Lerner",
-          "note": "ongoing gospel conversations over breakfast"
+          "note": ""
         },
         {
           "name": "Mike Alby",
-          "note": "discerning where to settle in church"
+          "note": "Deciding between churches"
         },
         {
-          "name": "Dylan McColley",
-          "note": "phone call to check in"
+          "name": "Laura Sz",
+          "note": "Planning young adults curriculum"
         },
         {
-          "name": "Laura Szl",
-          "note": "planning young adults curriculum"
+          "name": "Chris",
+          "note": "Invited to church picnic"
         },
         {
-          "name": "Chris and Justin",
-          "note": "from Maurer Well Service; invited to the church picnic"
+          "name": "Justin",
+          "note": "Invited to church picnic"
         },
         {
-          "name": "Stephanie M. and Casey",
-          "note": "had over for dessert at the bonfire"
+          "name": "Stephanie M. & Casey",
+          "note": "Dessert at the bonfire"
         },
         {
           "name": "Matt Enis",
-          "note": ""
+          "note": "Reached out by phone"
         },
         {
           "name": "Paula Ralph",
-          "note": ""
+          "note": "Reached out by phone"
         }
       ]
     },
@@ -615,8 +619,8 @@
           "top": false
         },
         {
-          "title": "Check in with elders on how discipleship is going and meet with my guys as well",
-          "status": "notStarted",
+          "title": "Check in with elders on how discipleship is going.",
+          "status": "inProgress",
           "top": false
         },
         {
@@ -772,36 +776,72 @@
       ],
       "people": [
         {
-          "name": "Stephanie, Casey, Amelia, and Marshal",
+          "name": "Casey family (Stephanie, Amelia & Marshall)",
           "note": ""
         },
         {
           "name": "Elaina",
-          "note": "KFG intern; good conversation at church, her father is a Christian therapist"
+          "note": "KFG intern"
         },
         {
-          "name": "Jay and Elizabeth",
-          "note": "good connection at church; he's redoing their kitchen himself after a stressful week at his nursing job"
+          "name": "Jay & Elizabeth",
+          "note": ""
         },
         {
           "name": "Meghan Hogarth",
-          "note": "good connection at church; likely taking an internship two hours north at a Christian camp, asked for a referral"
+          "note": "Considering a camp internship"
         },
         {
-          "name": "Lauren, Myra, and Yelka",
-          "note": "had ice cream together at Vanilla Bean"
+          "name": "Lauren",
+          "note": "Ice cream get-together"
+        },
+        {
+          "name": "Myra",
+          "note": "Ice cream get-together"
+        },
+        {
+          "name": "Yelka",
+          "note": "Ice cream get-together"
         },
         {
           "name": "Josh Galvin",
-          "note": "Assistant Pastor at Community Church of Edwardsburg; had a meal and planned out RTBC things for the year"
+          "note": "Assistant Pastor, Community Church of Edwardsburg; RTBC planning"
+        },
+        {
+          "name": "Caleb & Anna",
+          "note": "Welcomed twins"
+        },
+        {
+          "name": "Garrett Lerner",
+          "note": ""
+        },
+        {
+          "name": "Ben Peak",
+          "note": ""
+        },
+        {
+          "name": "David K",
+          "note": ""
         },
         {
           "name": "Ben Balos",
-          "note": "visited the outdoor service; looking for a church home"
+          "note": "Visiting; currently attends a different church"
         },
         {
-          "name": "Doug",
-          "note": "phone call connection"
+          "name": "Lyn",
+          "note": ""
+        },
+        {
+          "name": "Stephanie Jones",
+          "note": "Quarterly check-in on church admin"
+        },
+        {
+          "name": "Pat & Ashley",
+          "note": "Premarital counseling"
+        },
+        {
+          "name": "Doug Nienmeyer",
+          "note": ""
         },
         {
           "name": "Samuel Snodgrass",

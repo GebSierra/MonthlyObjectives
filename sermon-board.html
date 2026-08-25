@@ -128,6 +128,10 @@
     .metarow input.date{flex:0 0 112px}
     #editbar{top:6px;right:8px}
   }
+  @media (orientation:portrait){
+    .board{flex-direction:column;overflow-x:visible}
+    .col{max-width:none;width:100%;min-width:0;flex:0 0 auto}
+  }
   @media print{
     .toolbar,.col-actions{display:none}
     body{background:#fff}
