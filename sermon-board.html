@@ -129,8 +129,13 @@
     #editbar{top:6px;right:8px}
   }
   @media (orientation:portrait){
-    .board{flex-direction:column;overflow-x:visible}
-    .col{max-width:none;width:100%;min-width:0;flex:0 0 auto}
+    .board{flex-direction:column;overflow-x:visible;align-items:stretch}
+    .col{
+      max-width:none;width:100%;min-width:0;flex:0 0 auto;
+      max-height:90vh;display:flex;flex-direction:column;overflow:hidden;
+    }
+    .col-head{flex:0 0 auto}
+    .col-body{flex:1 1 auto;overflow-y:auto}
   }
   @media print{
     .toolbar,.col-actions{display:none}
