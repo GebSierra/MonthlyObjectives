@@ -671,7 +671,8 @@
         {
           "title": "Admin: Church website migration approved and launched",
           "status": "inProgress",
-          "top": false
+          "top": false,
+          "qg": "QG1"
         },
         {
           "title": "Admin: Unify disparate personal accounts into a corporate account(s)",
@@ -696,7 +697,8 @@
         {
           "title": "Sermon planning week - Wayne Geiger recommended I schedule a week, once a quarter to clear out my meetings and plan out my sermons.",
           "status": "inProgress",
-          "top": false
+          "top": false,
+          "qg": "QG5"
         },
         {
           "title": "Family - Have a strong and healthy family through Ruthies birth and focus on ways to support them during the baby Transition",
@@ -706,22 +708,26 @@
         {
           "title": "Discipleship Rock",
           "status": "quarterly",
-          "top": false
+          "top": false,
+          "qg": "QG2"
         },
         {
           "title": "Admin Rock",
           "status": "quarterly",
-          "top": false
+          "top": false,
+          "qg": "QG1"
         },
         {
           "title": "Tech Rock",
           "status": "quarterly",
-          "top": false
+          "top": false,
+          "qg": "QG3"
         },
         {
-          "title": "Focus on winning Souls - \"Do The Work of an Evangelist\" (2 Tim. 4:5)",
+          "title": "Focus on winning Souls by having more meals with people who are seeking \"Do The Work of an Evangelist\" (2 Tim. 4:5)",
           "status": "quarterly",
-          "top": false
+          "top": false,
+          "qg": "QG4"
         },
         {
           "title": "Mature my preaching by reading reflecting, and implementing what I'm learning.",
@@ -729,14 +735,16 @@
           "top": true
         },
         {
-          "title": "Strengthen my daily and weekly routines this fall (AM/PM/Office)",
+          "title": "Strengthen my daily and weekly routines this fall by doing my AM/PM/and office routine 5/7 days a week.",
           "status": "quarterly",
-          "top": false
+          "top": false,
+          "qg": "QG6"
         },
         {
-          "title": "Mature my preaching by reading reflecting, and implementing what I'm learning.",
+          "title": "Mature my preaching by reading 4 books, and intentionally logging post-sermon comments in my sermon log",
           "status": "quarterly",
-          "top": false
+          "top": false,
+          "qg": "QG5"
         },
         {
           "title": "Connect with Laura Sz about young adults and pick a study for the fall",
@@ -771,6 +779,11 @@
         {
           "title": "Unexpected: Fix the Gap left by James Solarek for Released Time Bible Class. James Solarek was a key volunteer who just dropped out. I need reconfigure the teaching schedule, prepare a lesson for the first event, and reconfigure who is in charge of the games.",
           "status": "done",
+          "top": false
+        },
+        {
+          "title": "Improvements:",
+          "status": "quarterly",
           "top": false
         }
       ],
@@ -848,9 +861,11 @@
           "note": "RTBC"
         }
       ],
-      "quarterEndDate": "2026-10-23"
+      "quarterEndDate": "2026-10-17",
+      "quarterStartDate": "2026-10-15"
     }
   ],
   "activeMonth": "2026-08",
-  "quarterEndDate": "2026-10-23"
+  "quarterEndDate": "2026-10-17",
+  "quarterStartDate": "2026-10-15"
 }

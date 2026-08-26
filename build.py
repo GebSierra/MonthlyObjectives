@@ -69,6 +69,7 @@ prev=months.get(active,{})
 entry={"key":active,"label":label,"items":items}
 if prev.get("people"): entry["people"]=prev["people"]  # preserve curated People list across objective refreshes
 if data.get("quarterEndDate"): entry["quarterEndDate"]=data["quarterEndDate"]  # stamp current quarter end date onto this month's snapshot
+if data.get("quarterStartDate"): entry["quarterStartDate"]=data["quarterStartDate"]
 months[active]=entry
 data["months"]=[months[k] for k in sorted(months)]
 json.dump(data,open(p("objectives-history.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)

@@ -150,6 +150,17 @@ function fmtDate(iso){
   if(isNaN(d)) return iso;
   return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 }
+function fmtQuarterRange(startIso,endIso){
+  if(!endIso) return '';
+  if(!startIso) return fmtDate(endIso);
+  const s=new Date(startIso+'T00:00:00'), e=new Date(endIso+'T00:00:00');
+  if(isNaN(s)||isNaN(e)) return fmtDate(endIso);
+  if(s.getFullYear()===e.getFullYear() && s.getMonth()===e.getMonth()){
+    const mon=s.toLocaleDateString('en-US',{month:'short'});
+    return `${mon} ${s.getDate()}–${e.getDate()}, ${e.getFullYear()}`;
+  }
+  return `${fmtDate(startIso)} – ${fmtDate(endIso)}`;
+}
 
 function renderMonths(){
   const box=document.getElementById('months'); box.innerHTML='';
@@ -211,7 +222,8 @@ function render(){
     document.getElementById('qCount').textContent=by.quarterly.length;
     document.getElementById('quarterBody').innerHTML=by.quarterly.map(card).join('');
     const qEnd=m.quarterEndDate||DATA.quarterEndDate;
-    document.getElementById('qLabel').textContent='Quarterly Goals'+(qEnd?' — '+fmtDate(qEnd):'');}
+    const qStart=m.quarterStartDate||DATA.quarterStartDate;
+    document.getElementById('qLabel').textContent='Quarterly Goals'+(qEnd?' — '+fmtQuarterRange(qStart,qEnd):'');}
   else q.style.display='none';
 
   const pe=document.getElementById('people');
