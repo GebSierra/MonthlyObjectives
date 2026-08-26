@@ -43,6 +43,7 @@ raw=json.load(open(p("current_board.json"),encoding="utf-8"))
 board=find_board(raw)
 if not board: print("ERROR: no tasks/columns in current_board.json"); sys.exit(1)
 col={c["id"]:status_of(c["name"]) for c in board["columns"]}
+proj_id=(board.get("project") or {}).get("id","")
 items,seen=[],set()
 for t in board["tasks"]:
     st=col.get(t.get("columnId"))
@@ -56,6 +57,8 @@ for t in board["tasks"]:
     seen.add(k)
     item={"title":title,"status":st,"top":bool(top)}
     if qg: item["qg"]=qg
+    if st=="quarterly" and proj_id and t.get("id"):
+        item["url"]=f"https://ticktick.com/webapp/#p/{proj_id}/kanban/{t['id']}"
     items.append(item)
 
 data=json.load(open(p("objectives-history.json"),encoding="utf-8")) if os.path.exists(p("objectives-history.json")) else {"title":"Monthly Objectives","subtitle":"","months":[]}

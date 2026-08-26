@@ -709,25 +709,29 @@
           "title": "Discipleship Rock",
           "status": "quarterly",
           "top": false,
-          "qg": "QG2"
+          "qg": "QG2",
+          "url": "https://ticktick.com/webapp/#p/6a2c3f2eebcf3900000001fe/kanban/6a748012ebcf39000000068a"
         },
         {
           "title": "Admin Rock",
           "status": "quarterly",
           "top": false,
-          "qg": "QG1"
+          "qg": "QG1",
+          "url": "https://ticktick.com/webapp/#p/6a2c3f2eebcf3900000001fe/kanban/6a748016ebcf390000000695"
         },
         {
           "title": "Tech Rock",
           "status": "quarterly",
           "top": false,
-          "qg": "QG3"
+          "qg": "QG3",
+          "url": "https://ticktick.com/webapp/#p/6a2c3f2eebcf3900000001fe/kanban/6a748019ebcf390000000698"
         },
         {
           "title": "Focus on winning Souls by having more meals with people who are seeking \"Do The Work of an Evangelist\" (2 Tim. 4:5)",
           "status": "quarterly",
           "top": false,
-          "qg": "QG4"
+          "qg": "QG4",
+          "url": "https://ticktick.com/webapp/#p/6a2c3f2eebcf3900000001fe/kanban/6a748027ebcf3900000006b3"
         },
         {
           "title": "Mature my preaching by reading reflecting, and implementing what I'm learning.",
@@ -738,13 +742,15 @@
           "title": "Strengthen my daily and weekly routines this fall by doing my AM/PM/and office routine 5/7 days a week.",
           "status": "quarterly",
           "top": false,
-          "qg": "QG6"
+          "qg": "QG6",
+          "url": "https://ticktick.com/webapp/#p/6a2c3f2eebcf3900000001fe/kanban/6a7480ebebcf390000000711"
         },
         {
           "title": "Mature my preaching by reading 4 books, and intentionally logging post-sermon comments in my sermon log",
           "status": "quarterly",
           "top": false,
-          "qg": "QG5"
+          "qg": "QG5",
+          "url": "https://ticktick.com/webapp/#p/6a2c3f2eebcf3900000001fe/kanban/6a748135ebcf390000000729"
         },
         {
           "title": "Connect with Laura Sz about young adults and pick a study for the fall",
@@ -779,11 +785,6 @@
         {
           "title": "Unexpected: Fix the Gap left by James Solarek for Released Time Bible Class. James Solarek was a key volunteer who just dropped out. I need reconfigure the teaching schedule, prepare a lesson for the first event, and reconfigure who is in charge of the games.",
           "status": "done",
-          "top": false
-        },
-        {
-          "title": "Improvements:",
-          "status": "quarterly",
           "top": false
         }
       ],
