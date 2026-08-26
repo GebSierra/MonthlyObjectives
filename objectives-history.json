@@ -847,8 +847,10 @@
           "name": "Samuel Snodgrass",
           "note": "RTBC"
         }
-      ]
+      ],
+      "quarterEndDate": "2026-10-23"
     }
   ],
-  "activeMonth": "2026-08"
+  "activeMonth": "2026-08",
+  "quarterEndDate": "2026-10-23"
 }

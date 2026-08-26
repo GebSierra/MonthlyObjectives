@@ -64,8 +64,10 @@
   .col-body{padding:12px;display:flex;flex-direction:column;gap:10px;flex:1}
   .card{border:1px solid var(--line);border-left-width:4px;border-radius:10px;padding:11px 13px;font-size:14px;background:#fff}
   .col.red .card{border-left-color:var(--red)} .col.yellow .card{border-left-color:var(--yellow)} .col.green .card{border-left-color:var(--green)}
-  .card.top{background:linear-gradient(180deg,#fffdf4,#fff);border-left-color:var(--gold)!important;box-shadow:0 0 0 1px #f0e2b8 inset}
+  .card.top{font-weight:700}
   .card .star{color:var(--gold);font-weight:700;margin-right:4px}
+  .qg-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;color:var(--blue);
+    background:var(--blue-soft);border-radius:6px;padding:2px 7px;margin-right:6px;vertical-align:middle}
   .empty{color:var(--muted);font-size:13px;font-style:italic;padding:6px 4px}
   .quarter{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
   .quarter .col-head{background:var(--blue-soft)} .quarter .dot{background:var(--blue)}
@@ -113,7 +115,7 @@
     <div class="top-list" id="topList"></div>
   </div>
   <details class="quarter" id="quarter" style="display:none">
-    <summary class="col-head"><span><span class="dot"></span>Quarterly Goals</span><span class="qhead-right"><span class="count" id="qCount"></span><span class="chev">&#9656;</span></span></summary>
+    <summary class="col-head"><span><span class="dot"></span><span id="qLabel">Quarterly Goals</span></span><span class="qhead-right"><span class="count" id="qCount"></span><span class="chev">&#9656;</span></span></summary>
     <div class="quarter-body" id="quarterBody"></div>
   </details>
   <div class="people" id="people" style="display:none">
@@ -142,6 +144,12 @@ let current = (function(){
 })();
 
 function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function fmtDate(iso){
+  if(!iso) return '';
+  const d=new Date(iso+'T00:00:00');
+  if(isNaN(d)) return iso;
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
 
 function renderMonths(){
   const box=document.getElementById('months'); box.innerHTML='';
@@ -155,7 +163,8 @@ function renderMonths(){
 }
 function card(it){
   const star = it.top ? '<span class="star">&#9733;</span>' : '';
-  return `<div class="card${it.top?' top':''}">${star}${esc(it.title)}</div>`;
+  const qg = it.qg ? `<span class="qg-badge">${esc(it.qg)}</span>` : '';
+  return `<div class="card${it.top?' top':''}">${qg}${star}${esc(it.title)}</div>`;
 }
 function render(){
   document.getElementById('hTitle').textContent=DATA.title;
@@ -200,7 +209,9 @@ function render(){
   const q=document.getElementById('quarter');
   if(by.quarterly.length){q.style.display='';
     document.getElementById('qCount').textContent=by.quarterly.length;
-    document.getElementById('quarterBody').innerHTML=by.quarterly.map(card).join('');}
+    document.getElementById('quarterBody').innerHTML=by.quarterly.map(card).join('');
+    const qEnd=m.quarterEndDate||DATA.quarterEndDate;
+    document.getElementById('qLabel').textContent='Quarterly Goals'+(qEnd?' — '+fmtDate(qEnd):'');}
   else q.style.display='none';
 
   const pe=document.getElementById('people');

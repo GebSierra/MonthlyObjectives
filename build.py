@@ -33,6 +33,11 @@ def status_of(name):
     return None
 def clean(t):
     return re.sub(r"\s+"," ", re.sub(r"[⭐★]","", t or "")).strip()
+QG_RE = re.compile(r"^\s*\[?QG\s*0*([0-9]+)\]?\s*[:\-–—]?\s*", re.IGNORECASE)
+def extract_qg(title):
+    m = QG_RE.match(title)
+    if not m: return None, title
+    return "QG"+m.group(1), QG_RE.sub("", title, count=1).strip()
 
 raw=json.load(open(p("current_board.json"),encoding="utf-8"))
 board=find_board(raw)
@@ -45,9 +50,13 @@ for t in board["tasks"]:
     title=clean(t.get("title",""))
     if not title: continue
     top=("⭐" in (t.get("title") or "")) or ("★" in (t.get("title") or "")) or (t.get("priority")==5)
+    qg,title=extract_qg(title)
     k=(title.lower(),st)
     if k in seen: continue
-    seen.add(k); items.append({"title":title,"status":st,"top":bool(top)})
+    seen.add(k)
+    item={"title":title,"status":st,"top":bool(top)}
+    if qg: item["qg"]=qg
+    items.append(item)
 
 data=json.load(open(p("objectives-history.json"),encoding="utf-8")) if os.path.exists(p("objectives-history.json")) else {"title":"Monthly Objectives","subtitle":"","months":[]}
 today=datetime.date.today()
@@ -59,6 +68,7 @@ months={m["key"]:m for m in data.get("months",[])}
 prev=months.get(active,{})
 entry={"key":active,"label":label,"items":items}
 if prev.get("people"): entry["people"]=prev["people"]  # preserve curated People list across objective refreshes
+if data.get("quarterEndDate"): entry["quarterEndDate"]=data["quarterEndDate"]  # stamp current quarter end date onto this month's snapshot
 months[active]=entry
 data["months"]=[months[k] for k in sorted(months)]
 json.dump(data,open(p("objectives-history.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
