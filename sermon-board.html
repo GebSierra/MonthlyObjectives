@@ -47,15 +47,32 @@
   #torchToggle.active{background:#2c2a26;color:#fffdf8;border-color:#2c2a26}
   #torchOverlay{
     position:fixed;inset:0;z-index:9997;pointer-events:none;
-    opacity:0;transition:opacity .3s ease;
+    opacity:0;transition:opacity .35s ease;
     background:
-      radial-gradient(circle var(--torch-r,240px) at var(--torch-x,50%) var(--torch-y,50%),
-        rgba(255,214,140,.10) 0%,
-        rgba(255,214,140,.05) 30%,
-        rgba(20,16,8,0) 40%,
-        rgba(18,14,8,.90) 76%);
+      radial-gradient(circle 380px at var(--torch-x,50%) var(--torch-y,50%),
+        rgba(255,250,240,.14) 0%,
+        rgba(255,250,240,.06) 28%,
+        rgba(11,9,6,.55) 56%,
+        rgba(8,6,4,.94) 82%,
+        rgba(6,5,4,.97) 100%);
   }
   body.torch-on #torchOverlay{opacity:1}
+  #torchOverlay .torch-core{
+    position:absolute;left:var(--torch-x,50%);top:var(--torch-y,50%);
+    width:220px;height:220px;margin:-110px 0 0 -110px;border-radius:50%;
+    background:radial-gradient(circle,
+      rgba(255,196,120,.5) 0%,
+      rgba(255,182,110,.2) 45%,
+      rgba(255,182,110,0) 72%);
+    animation:torchFlicker 4.5s ease-in-out infinite;
+  }
+  @keyframes torchFlicker{
+    0%,100%{opacity:.88}
+    23%{opacity:.78}
+    47%{opacity:1}
+    68%{opacity:.82}
+    85%{opacity:.94}
+  }
   @media print{ #torchOverlay{display:none} }
 
   .board{display:flex;gap:18px;align-items:flex-start;overflow-x:auto;padding-bottom:14px}
@@ -717,22 +734,18 @@ function banner(text, px, py){
 
   const overlay = document.createElement("div");
   overlay.id = "torchOverlay";
+  const core = document.createElement("div");
+  core.className = "torch-core";
+  overlay.appendChild(core);
   document.body.appendChild(overlay);
 
   let on = localStorage.getItem(TORCH_KEY) === "1";
-  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-  const baseRadius = 240;
-  let raf = null;
-  let phase = Math.random() * Math.PI * 2;
 
-  function tick(){
-    phase += 0.045 + Math.random() * 0.02;
-    const jitter = Math.sin(phase) * 8 + (Math.random() - 0.5) * 7;
-    overlay.style.setProperty("--torch-x", mx + "px");
-    overlay.style.setProperty("--torch-y", my + "px");
-    overlay.style.setProperty("--torch-r", Math.max(170, baseRadius + jitter) + "px");
-    raf = requestAnimationFrame(tick);
+  function place(x, y){
+    overlay.style.setProperty("--torch-x", x + "px");
+    overlay.style.setProperty("--torch-y", y + "px");
   }
+  place(window.innerWidth / 2, window.innerHeight / 2);
 
   function setOn(v){
     on = v;
@@ -742,13 +755,12 @@ function banner(text, px, py){
       torchBtn.textContent = v ? "Torch: on" : "Torch mode";
       torchBtn.classList.toggle("active", v);
     }
-    if(v && !raf){ tick(); }
-    else if(!v && raf){ cancelAnimationFrame(raf); raf = null; }
   }
 
-  window.addEventListener("mousemove", function(e){ mx = e.clientX; my = e.clientY; }, {passive:true});
+  // the halo just follows the pointer directly; only the small warm core flickers, via CSS
+  window.addEventListener("mousemove", function(e){ place(e.clientX, e.clientY); }, {passive:true});
   window.addEventListener("touchmove", function(e){
-    if(e.touches && e.touches[0]){ mx = e.touches[0].clientX; my = e.touches[0].clientY; }
+    if(e.touches && e.touches[0]){ place(e.touches[0].clientX, e.touches[0].clientY); }
   }, {passive:true});
 
   if(torchBtn){ torchBtn.addEventListener("click", function(){ setOn(!on); }); }
