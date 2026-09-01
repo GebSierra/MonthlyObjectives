@@ -577,8 +577,6 @@ for(let s=0; s<SLOTS; s++){
 }
 
 /* ---------- events ---------- */
-// set by the torch module once it initializes; call it with an element to park the torch there
-let torchMoveTo = null;
 
 // shared toggle: none -> done -> skipped -> none
 function toggleOne(col, id, originEl){
@@ -591,7 +589,6 @@ function toggleOne(col, id, originEl){
   updateProgress(col);
   updateMarkers(col);
   save();
-  if(torchMoveTo && row){ torchMoveTo(row); }
   if(next === 1 && originEl){
     const p = cfPagePos(originEl);
     confettiBurst(p.x, p.y, {count:18, spread:70, power:7, size:6});
@@ -655,9 +652,7 @@ board.addEventListener("click", function(e){
     clearSelection(col);
     setRowSelected(col, id, true);
     selAnchor[slot] = id;
-    if(row.classList.contains('ref')){
-      if(torchMoveTo) torchMoveTo(row);
-    } else {
+    if(!row.classList.contains('ref')){
       const box = row.querySelector('.box[data-cb]');
       toggleOne(col, id, box);
     }
@@ -675,7 +670,6 @@ document.addEventListener("keydown", function(e){
   const active = document.activeElement;
   if(active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) return; // typing in title/passage/date
   let touched = false;
-  let lastRow = null;
   document.querySelectorAll('.col').forEach(function(col){
     const slot = col.dataset.slot;
     const sel = getSelection(slot);
@@ -685,16 +679,16 @@ document.addEventListener("keydown", function(e){
     sel.forEach(function(id){
       const row = col.querySelector('li.task[data-row="'+id+'"]');
       if(!row) return;
-      if(row.classList.contains('ref')){ lastRow = row; return; } // ref bullets aren't checkable; selecting still moves the torch
+      if(row.classList.contains('ref')) return; // ref bullets aren't checkable
       const cur = ss.checks[id] || 0;
       const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
       if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
-      row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); lastRow = row;
+      row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2);
     });
     updateProgress(col);
     updateMarkers(col);
   });
-  if(touched){ save(); if(torchMoveTo && lastRow){ torchMoveTo(lastRow); } e.preventDefault(); }
+  if(touched){ save(); e.preventDefault(); }
 });
 
 board.addEventListener("input", function(e){
@@ -834,8 +828,8 @@ function banner(text, px, py){
   setTimeout(function(){ b.style.opacity="0"; b.style.transform="translate(-50%,0) scale(.92)"; setTimeout(function(){ b.remove(); }, 320); }, 2200);
 }
 
-/* ---------- torch cursor (focus mode: dims the page, lights a warm glow that follows your
-   cursor so you can navigate, and snaps to rest on whatever task you just checked or clicked) ---------- */
+/* ---------- torch cursor (focus mode: dims the page, lights a warm glow that follows
+   your cursor wherever it moves) ---------- */
 (function(){
   const TORCH_KEY = STORE_KEY + ".torch";
   const torchBtn = document.getElementById("torchToggle");
@@ -867,14 +861,6 @@ function banner(text, px, py){
   }
   document.addEventListener("mousemove", onMove, {passive:true});
   document.addEventListener("touchmove", onMove, {passive:true});
-
-  // exposed for toggleOne / the Enter-key bulk toggle: snap the torch onto a given element
-  // (the next mouse move will naturally carry it onward from there)
-  torchMoveTo = function(el){
-    if(!el) return;
-    const r = el.getBoundingClientRect();
-    place(r.left + r.width / 2, r.top + r.height / 2);
-  };
 
   function setOn(v){
     on = v;
