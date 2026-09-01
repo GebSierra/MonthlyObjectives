@@ -199,6 +199,9 @@
     .col-head{flex:0 0 auto}
     .col-body{flex:1 1 auto;overflow-y:auto}
   }
+  @media (orientation:portrait) and (max-width:640px){
+    .col{max-height:95vh}
+  }
   @media print{
     .toolbar,.col-actions{display:none}
     body{background:#fff}
@@ -525,7 +528,9 @@ function updateProgress(col){
   col.querySelector('.ptlabel').textContent = pct + "% done";
 }
 
-/* ---------- overdue sermon date: dim the column (stays dim even on hover) once the date passes ---------- */
+/* ---------- overdue sermon date: dim the column (stays dim even on hover) once the date passes,
+   and push it to the bottom of the board so the current sermon always sits on top. A sermon
+   stays in place through its own Sunday and only drops down starting the next day. ---------- */
 function updateOverdueState(col){
   const ss = slotState(col.dataset.slot);
   const badge = col.querySelector('.overdueBadge');
@@ -540,6 +545,21 @@ function updateOverdueState(col){
   }
   col.classList.toggle('overdue', overdue);
   if(badge) badge.style.display = overdue ? "" : "none";
+  reorderColumns();
+}
+
+// keep non-overdue (current/upcoming) sermons first, overdue ones last; within each group,
+// order by original slot number so a sermon returns to its normal spot if its date changes again
+function reorderColumns(){
+  const cols = Array.prototype.slice.call(board.querySelectorAll('.col'));
+  cols.sort(function(a, b){
+    const ao = a.classList.contains('overdue') ? 1 : 0;
+    const bo = b.classList.contains('overdue') ? 1 : 0;
+    if(ao !== bo) return ao - bo;
+    return parseInt(a.dataset.slot, 10) - parseInt(b.dataset.slot, 10);
+  });
+  cols.forEach(function(col){ board.appendChild(col); });
+  applyView();
 }
 
 /* ---------- 20-mile markers: a compact row of checkpoints derived from specific tagged tasks ---------- */
@@ -593,6 +613,9 @@ function updateMarkers(col){
 
 /* ---------- build board ---------- */
 const board = document.getElementById("board");
+// declared here (ahead of the loop below) because updateOverdueState -> reorderColumns
+// -> applyView needs it as each column is built
+const viewCount = document.getElementById("viewCount");
 for(let s=0; s<SLOTS; s++){
   const col = renderColumn(s);
   board.appendChild(col);
@@ -766,7 +789,6 @@ board.addEventListener("click", function(e){
 });
 
 /* ---------- toolbar ---------- */
-const viewCount = document.getElementById("viewCount");
 function applyView(){
   const n = parseInt(viewCount.value,10);
   document.querySelectorAll('.col').forEach(function(col,i){
