@@ -103,15 +103,32 @@
   .progbar{height:9px;background:var(--line);border-radius:4px;overflow:hidden}
   .progfill{height:100%;width:0;background:var(--accent);transition:width .25s}
   .progtext{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:5px}
-  .markers{display:flex;gap:5px;align-items:center;margin-top:9px;flex-wrap:wrap}
+  .markers{display:flex;gap:6px;align-items:center;margin-top:9px;flex-wrap:wrap}
   .markers .mklabel{font-size:10px;color:var(--muted);margin-right:2px;letter-spacing:.4px;text-transform:uppercase}
   .markers .mk{
     width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;
     display:flex;align-items:center;justify-content:center;
-    border:1.5px solid var(--line);color:var(--muted);
+    border:1.5px solid var(--line);color:var(--muted);cursor:pointer;
+    transition:transform .12s ease, border-color .12s ease, color .12s ease, box-shadow .12s ease;
   }
+  .markers .mk:hover{transform:scale(1.22)}
+  .markers .mk:not(.mk-done):not(.mk-late):hover{border-color:var(--accent);color:var(--accent)}
   .markers .mk.mk-done{background:var(--accent);border-color:var(--accent);color:#fff}
+  .markers .mk.mk-done:hover{box-shadow:0 0 0 3px rgba(63,102,144,.2)}
   .markers .mk.mk-late{border-color:#a94442;color:#a94442}
+  .markers .mk.mk-late:hover{box-shadow:0 0 0 3px rgba(169,68,66,.2)}
+
+  /* inline flag on the checklist row a progress marker is tied to */
+  .markerflag{
+    display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+    width:14px;height:14px;border-radius:50%;margin-left:6px;
+    border:1.5px solid #a94442;color:#a94442;background:transparent;
+    font-size:8.5px;font-weight:700;line-height:1;
+  }
+  .markerflag.markerflag-done{background:var(--accent);border-color:var(--accent);color:#fff}
+  .markerflag.markerflag-late{background:#a94442;border-color:#a94442;color:#fff}
+  @keyframes markerFlash{ 0%,100%{background:transparent} 25%{background:rgba(169,68,66,.2)} }
+  li.task.marker-flash{animation:markerFlash 1.6s ease}
   .col-actions{display:flex;gap:8px;margin-top:10px}
   .col-actions button{font-size:12px;padding:4px 9px}
 
@@ -409,10 +426,11 @@ function renderTask(item, ctr, slot){
   const subs = isObj ? item.subs : null;
   const marker = isObj ? item.marker : null;
   const markerAttr = marker ? ' data-marker="'+marker+'"' : '';
+  const markerFlag = marker ? '<span class="markerflag" title="Progress marker '+marker+'">'+marker+'</span>' : '';
   if(isRef){
     const id = "rb" + (ctr.r++);
     let html = '<li class="task ref" data-row="'+id+'"'+markerAttr+'>';
-    html += '<div class="refline"><span class="bullet">&bull;</span><span class="txt">'+esc(text)+'</span></div>';
+    html += '<div class="refline"><span class="bullet">&bull;</span><span class="txt">'+esc(text)+'</span>'+markerFlag+'</div>';
     if(note){ html += '<div class="subnote">'+note+'</div>'; }
     if(subs && subs.length){
       html += '<ul class="tasks">';
@@ -424,7 +442,7 @@ function renderTask(item, ctr, slot){
   }
   const id = "cb" + (ctr.n++);
   let html = '<li class="task" data-row="'+id+'"'+markerAttr+'>';
-  html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span></label>';
+  html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span>'+markerFlag+'</label>';
   if(note){ html += '<div class="subnote">'+note+'</div>'; }
   if(subs && subs.length){
     html += '<ul class="tasks">';
@@ -478,7 +496,7 @@ function renderColumn(slot){
       '</div>'+
       '<div class="progwrap"><div class="progbar"><div class="progfill"></div></div>'+
       '<div class="progtext"><span class="ptlabel">Progress</span><span class="ptcount">0 / '+total+'</span></div></div>'+
-      '<div class="markers"><span class="mklabel">Markers</span>'+markersHtml+'</div>'+
+      '<div class="markers"><span class="mklabel">Progress markers</span>'+markersHtml+'</div>'+
       '<div class="col-actions"><button data-act="toggle">Collapse stages</button><button data-act="reset">Reset column</button></div>'+
     '</div>'+
     '<div class="col-body">'+stagesHtml+'</div>';
@@ -543,25 +561,33 @@ function markerDueDate(dateStr, m){
 }
 function updateMarkers(col){
   const wrap = col.querySelector('.markers');
-  if(!wrap) return;
   const ss = slotState(col.dataset.slot);
   const hasDate = !!ss.meta.date;
-  wrap.style.display = hasDate ? "" : "none";
-  if(!hasDate) return;
+  if(wrap) wrap.style.display = hasDate ? "" : "none";
   const now = new Date();
   MARKERS.forEach(function(m){
-    const chip = wrap.querySelector('.mk[data-mk="'+m.n+'"]');
-    if(!chip) return;
     const rowEl = col.querySelector('[data-marker="'+m.n+'"]');
     const done = rowEl ? (ss.checks[rowEl.dataset.row] === 1) : false;
-    const due = markerDueDate(ss.meta.date, m);
+    const due = hasDate ? markerDueDate(ss.meta.date, m) : null;
     let status = "upcoming";
     if(done) status = "done";
     else if(due && now.getTime() > due.getTime()) status = "late";
-    chip.classList.remove("mk-done", "mk-late");
-    if(status === "done") chip.classList.add("mk-done");
-    else if(status === "late") chip.classList.add("mk-late");
-    chip.title = m.label + " — due " + m.due + (status === "done" ? " (done)" : status === "late" ? " (past due)" : "");
+    const doneTxt = status === "done" ? " (done)" : status === "late" ? " (past due)" : "";
+
+    const chip = wrap ? wrap.querySelector('.mk[data-mk="'+m.n+'"]') : null;
+    if(chip){
+      chip.classList.remove("mk-done", "mk-late");
+      if(status === "done") chip.classList.add("mk-done");
+      else if(status === "late") chip.classList.add("mk-late");
+      chip.title = m.label + " — due " + m.due + doneTxt + " — click to jump to it";
+    }
+
+    const flag = rowEl ? rowEl.querySelector('.markerflag') : null;
+    if(flag){
+      flag.classList.toggle("markerflag-done", status === "done");
+      flag.classList.toggle("markerflag-late", status === "late");
+      flag.title = "Progress marker " + m.n + ": " + m.label + " — due " + m.due + doneTxt;
+    }
   });
 }
 
@@ -718,6 +744,25 @@ board.addEventListener("click", function(e){
     btn.textContent = anyOpen ? "Expand stages" : "Collapse stages";
     persistStageOpenState();
   }
+});
+
+// clicking a progress-marker dot jumps the checklist to the task it's tied to
+board.addEventListener("click", function(e){
+  const chip = e.target.closest('.mk[data-mk]');
+  if(!chip) return;
+  const col = chip.closest('.col');
+  const rowEl = col.querySelector('[data-marker="'+chip.dataset.mk+'"]');
+  if(!rowEl) return;
+  const details = rowEl.closest('details.stage');
+  if(details && !details.open){
+    details.open = true;
+    setStageOpen(col.dataset.slot, details.dataset.stage, true);
+  }
+  rowEl.scrollIntoView({behavior:"smooth", block:"center"});
+  rowEl.classList.remove('marker-flash');
+  void rowEl.offsetWidth; // restart the animation if it's already mid-flash
+  rowEl.classList.add('marker-flash');
+  setTimeout(function(){ rowEl.classList.remove('marker-flash'); }, 1600);
 });
 
 /* ---------- toolbar ---------- */
