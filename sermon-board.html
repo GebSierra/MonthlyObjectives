@@ -97,9 +97,7 @@
   }
   .metarow input.date{flex:0 0 130px}
   .metarow input:focus{outline:none;border-color:var(--accent)}
-  .overdueBadge{font-size:11px;color:#a94442;font-weight:600;white-space:nowrap}
   .col.overdue{opacity:.55;transition:opacity .2s}
-  .col.overdue:hover{opacity:1}
   .progwrap{margin-top:11px}
   .progbar{height:9px;background:var(--line);border-radius:4px;overflow:hidden}
   .progfill{height:100%;width:0;background:var(--accent);transition:width .25s}
@@ -475,7 +473,6 @@ function renderColumn(slot){
       '<div class="metarow">'+
         '<input data-field="passage" placeholder="Passage (e.g. Acts 3:1-16)" value="'+esc(ss.meta.passage)+'">'+
         '<input class="date" type="date" data-field="date" value="'+esc(ss.meta.date)+'">'+
-        '<span class="overdueBadge" style="display:none">Past due</span>'+
       '</div>'+
       '<div class="progwrap"><div class="progbar"><div class="progfill"></div></div>'+
       '<div class="progtext"><span class="ptlabel">Progress</span><span class="ptcount">0 / '+total+'</span></div></div>'+
@@ -508,10 +505,9 @@ function updateProgress(col){
   col.querySelector('.ptlabel').textContent = pct + "% done";
 }
 
-/* ---------- overdue sermon date: dim the column and show a small badge once the date passes ---------- */
+/* ---------- overdue sermon date: dim the column (stays dim even on hover) once the date passes ---------- */
 function updateOverdueState(col){
   const ss = slotState(col.dataset.slot);
-  const badge = col.querySelector('.overdueBadge');
   let overdue = false;
   if(ss.meta.date){
     const d = new Date(ss.meta.date + "T00:00:00");
@@ -522,7 +518,6 @@ function updateOverdueState(col){
     }
   }
   col.classList.toggle('overdue', overdue);
-  if(badge) badge.style.display = overdue ? "" : "none";
 }
 
 /* ---------- 20-mile markers: a compact row of checkpoints derived from specific tagged tasks ---------- */
