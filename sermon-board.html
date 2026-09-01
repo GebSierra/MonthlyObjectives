@@ -835,9 +835,8 @@ function banner(text, px, py){
   setTimeout(function(){ b.style.opacity="0"; b.style.transform="translate(-50%,0) scale(.92)"; setTimeout(function(){ b.remove(); }, 320); }, 2200);
 }
 
-/* ---------- torch cursor (focus mode: dims the page, lights a warm glow that rests on the
-   last task you checked, like a candle sitting beside your work rather than a flashlight
-   chasing your mouse) ---------- */
+/* ---------- torch cursor (focus mode: dims the page, lights a warm glow that follows your
+   cursor so you can navigate, and snaps to rest on whatever task you just checked or clicked) ---------- */
 (function(){
   const TORCH_KEY = STORE_KEY + ".torch";
   const torchBtn = document.getElementById("torchToggle");
@@ -857,7 +856,21 @@ function banner(text, px, py){
   }
   place(window.innerWidth / 2, window.innerHeight / 2);
 
-  // exposed for toggleOne / the Enter-key bulk toggle: park the torch on a given element
+  // follow the cursor while it moves, so you can still read/navigate with the torch on
+  let moveScheduled = false, lastX = 0, lastY = 0;
+  function onMove(e){
+    if(!on) return;
+    const t = e.touches ? e.touches[0] : e;
+    lastX = t.clientX; lastY = t.clientY;
+    if(moveScheduled) return;
+    moveScheduled = true;
+    requestAnimationFrame(function(){ moveScheduled = false; place(lastX, lastY); });
+  }
+  document.addEventListener("mousemove", onMove, {passive:true});
+  document.addEventListener("touchmove", onMove, {passive:true});
+
+  // exposed for toggleOne / the Enter-key bulk toggle: snap the torch onto a given element
+  // (the next mouse move will naturally carry it onward from there)
   torchMoveTo = function(el){
     if(!el) return;
     const r = el.getBoundingClientRect();
