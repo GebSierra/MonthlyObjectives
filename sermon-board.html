@@ -200,7 +200,7 @@
 /* ---------- the checklist data ---------- */
 const STAGES = [
   {
-    key:"research", cls:"research", emoji:"🔍", title:"Stage One: Research",
+    key:"research", cls:"research", title:"Research",
     blocks:[
       {k:"task", t:"Pray, pray, pray."},
       {k:"task", t:"Then follow the checklist below."},
@@ -213,7 +213,7 @@ const STAGES = [
         desc:"Read it slowly a few times, read it quickly 50x, write it by hand, memorize it, pray it, draw it, interrogate it with questions. Whatever you do, get the text into you. It must first transform you before it can transform others."},
       {k:"quote", html:"Preaching from the head reaches the head. Preaching from the heart reaches the heart."},
 
-      {k:"phase", title:"Phase 1: ⛏️ Mining", desc:"Initial reading and a general direction for the sermon."},
+      {k:"phase", title:"Phase 1: Mining", desc:"Initial reading and a general direction for the sermon."},
       {k:"task", t:"Initial reading of the text.", subs:[
         "Read the text several times.",
         "Write down any initial questions or thoughts.",
@@ -234,7 +234,7 @@ const STAGES = [
       {k:"task", t:"Revise your KFD and thesis in light of the commentaries."},
       {k:"task", t:"Take 10 minutes or less to write a bridge outline. A rough draft of how you may communicate the text, to get your mind working on it."},
 
-      {k:"phase", title:"Phase 2: 💎 Refining", desc:"Dig deeper and do the hard work of thinking, studying, and praying through the text. Be willing to change direction if research shows your first thoughts were off."},
+      {k:"phase", title:"Phase 2: Refining", desc:"Dig deeper and do the hard work of thinking, studying, and praying through the text. Be willing to change direction if research shows your first thoughts were off."},
       {k:"note", html:"Avoid listening to sermons, reading commentaries, or hearing others until you have first done your own work on the text."},
       {k:"task", t:"Do your own original research into the text.", subs:[
         "Read the text again, and again, and again.",
@@ -265,7 +265,7 @@ const STAGES = [
     ]
   },
   {
-    key:"writing", cls:"writing", emoji:"✍️", title:"Stage Two: Writing",
+    key:"writing", cls:"writing", title:"Writing",
     blocks:[
       {k:"phase", title:"Phase 1: Dumping Draft"},
       {k:"task", t:"Revise your sermon outline in light of your research."},
@@ -323,7 +323,7 @@ const STAGES = [
     ]
   },
   {
-    key:"rehearse", cls:"rehearse", emoji:"🎤", title:"Stage Three: Rehearsing",
+    key:"rehearse", cls:"rehearse", title:"Rehearsing",
     blocks:[
       {k:"note", html:"Let the message marinate and soak in. Pray it would bless specific people across life stages and situations: lost and saved, weak and mature, mothers and fathers, single, sick, divorced, retired, proud and humble, foreigners and locals."},
       {k:"task", t:"Practice.", subs:[
@@ -424,7 +424,7 @@ function renderStage(stage, ctr, slot){
   });
   closeList();
   const openAttr = isStageOpen(slot, stage.key) ? ' open' : '';
-  return '<details class="stage '+stage.cls+'" data-stage="'+stage.key+'"'+openAttr+'><summary><span class="chev">▶</span><span>'+stage.emoji+' '+esc(stage.title)+'</span></summary><div class="stage-inner">'+body+'</div></details>';
+  return '<details class="stage '+stage.cls+'" data-stage="'+stage.key+'"'+openAttr+'><summary><span class="chev">▶</span><span>'+esc(stage.title)+'</span></summary><div class="stage-inner">'+body+'</div></details>';
 }
 
 function renderColumn(slot){
