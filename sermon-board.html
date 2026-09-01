@@ -90,17 +90,29 @@
     font-family:Georgia,serif;font-size:19px;font-weight:600;padding:2px 0;
   }
   .col-head .title:focus{outline:none;border-bottom:1px dashed var(--accent)}
-  .metarow{display:flex;gap:8px;margin-top:6px}
+  .metarow{display:flex;gap:8px;margin-top:6px;align-items:center}
   .metarow input{
     flex:1 1 auto;border:1px solid var(--line);border-radius:6px;background:var(--card);
     padding:5px 8px;font-size:12.5px;color:var(--ink);
   }
   .metarow input.date{flex:0 0 130px}
   .metarow input:focus{outline:none;border-color:var(--accent)}
+  .overdueBadge{font-size:11px;color:#a94442;font-weight:600;white-space:nowrap}
+  .col.overdue{opacity:.55;transition:opacity .2s}
+  .col.overdue:hover{opacity:1}
   .progwrap{margin-top:11px}
   .progbar{height:9px;background:var(--line);border-radius:4px;overflow:hidden}
   .progfill{height:100%;width:0;background:var(--accent);transition:width .25s}
   .progtext{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:5px}
+  .markers{display:flex;gap:5px;align-items:center;margin-top:9px;flex-wrap:wrap}
+  .markers .mklabel{font-size:10px;color:var(--muted);margin-right:2px;letter-spacing:.4px;text-transform:uppercase}
+  .markers .mk{
+    width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    border:1.5px solid var(--line);color:var(--muted);
+  }
+  .markers .mk.mk-done{background:var(--accent);border-color:var(--accent);color:#fff}
+  .markers .mk.mk-late{border-color:#a94442;color:#a94442}
   .col-actions{display:flex;gap:8px;margin-top:10px}
   .col-actions button{font-size:12px;padding:4px 9px}
 
@@ -144,6 +156,10 @@
   li.task.selected{background:rgba(63,102,144,.08);border-radius:4px;box-shadow:0 0 0 1px rgba(63,102,144,.18) inset}
   body.readonly label.cb,body.readonly label.cb .box{cursor:default}
   body.readonly label.cb .txt{cursor:default}
+  li.task.ref .refline{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:13.5px}
+  li.task.ref .bullet{margin:1px 0 0;flex:0 0 auto;width:16px;text-align:center;color:var(--muted);font-size:13px;line-height:1.1}
+  li.task.ref .txt{flex:1 1 auto;cursor:pointer;-webkit-user-select:none;user-select:none}
+  body.readonly li.task.ref .refline{cursor:default}
   .subnote{font-size:12px;color:var(--muted);margin:1px 0 3px 23px;font-style:italic}
   a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--line)}
   a:hover{border-bottom-color:var(--accent)}
@@ -204,19 +220,19 @@ const STAGES = [
       {k:"task", t:"Then follow the checklist below."},
       {k:"task", t:"Pray, pray, pray again."},
       {k:"note", html:"Just as important as preparing the message is preparing yourself."},
-      {k:"task", t:"Narrow down the passage you plan to preach on."},
-      {k:"task", t:"Get a blank page or file to serve as a thought collector.",
+      {k:"ref", t:"Narrow down the passage you plan to preach on."},
+      {k:"ref", t:"Get a blank page or file to serve as a thought collector.",
         note:"Paper or the notes app on your phone. A place to jot quick thoughts and to brainstorm during focused study. Thoughts are like fireflies: they appear for a few seconds and then vanish, so have a container to catch them. Write the verse reference at the top (e.g. Mark 12:28-34)."},
       {k:"head", title:"Read and Digest the Thought of the Text",
         desc:"Read it slowly a few times, read it quickly 50x, write it by hand, memorize it, pray it, draw it, interrogate it with questions. Whatever you do, get the text into you. It must first transform you before it can transform others."},
       {k:"quote", html:"Preaching from the head reaches the head. Preaching from the heart reaches the heart."},
 
-      {k:"phase", title:"Phase 1: Mining", desc:"Initial reading and a general direction for the sermon."},
+      {k:"phase", title:"R1: Scratching the Surface", desc:"Initial reading and a general direction for the sermon."},
       {k:"task", t:"Initial reading of the text.", subs:[
         "Read the text several times.",
         "Write down any initial questions or thoughts.",
         "Read the broader context.",
-        "Sketch a rough draft of the text's flow of thought (exegetical outline)."
+        {t:"Sketch a rough draft of the text's flow of thought (exegetical outline).", marker:1}
       ]},
       {k:"note", html:"Go back to the text constantly. Read and re-read. As you meditate, connections will come. Write these thoughts down."},
       {k:"head", title:"The heart of your message",
@@ -230,42 +246,43 @@ const STAGES = [
         "Examine the historical context."
       ]},
       {k:"task", t:"Revise your KFD and thesis in light of the commentaries."},
-      {k:"task", t:"Take 10 minutes or less to write a bridge outline. A rough draft of how you may communicate the text, to get your mind working on it."},
+      {k:"task", t:"Take 10 minutes or less to write a bridge outline. A rough draft of how you may communicate the text, to get your mind working on it.", marker:2},
 
-      {k:"phase", title:"Phase 2: Refining", desc:"Dig deeper and do the hard work of thinking, studying, and praying through the text. Be willing to change direction if research shows your first thoughts were off."},
+      {k:"phase", title:"R2: Mining", desc:"Dig deeper and do the hard work of thinking, studying, and praying through the text. Be willing to change direction if research shows your first thoughts were off."},
       {k:"note", html:"Avoid listening to sermons, reading commentaries, or hearing others until you have first done your own work on the text."},
+      {k:"task", t:"Practice the outline out loud, once.", marker:3},
       {k:"task", t:"Do your own original research into the text.", subs:[
-        "Read the text again, and again, and again.",
-        "Write out the text by hand.",
-        "Say the text out loud.",
-        "Memorize the text.",
-        "Look at the text from different perspectives: a woman, an Ethiopian, an atheist, a child, a Jew, a young man, a college student, a retiree.",
-        "Go over each word and ask, what would change if this word were not here?",
-        "Look for S.P.E.C.K.S.: Sins to avoid, Promises to claim, Examples to follow, Commands to obey, something to Know about God, something to Share.",
-        "Read other faithful versions (NASB, ESV, CSB, KJV, NIV).",
-        "Look through the cross references."
+        {t:"Read the text again, and again, and again.", ref:true},
+        {t:"Write out the text by hand.", ref:true},
+        {t:"Say the text out loud.", ref:true},
+        {t:"Memorize the text.", ref:true},
+        {t:"Look at the text from different perspectives: a woman, an Ethiopian, an atheist, a child, a Jew, a young man, a college student, a retiree.", ref:true},
+        {t:"Go over each word and ask, what would change if this word were not here?", ref:true},
+        {t:"Look for S.P.E.C.K.S.: Sins to avoid, Promises to claim, Examples to follow, Commands to obey, something to Know about God, something to Share.", ref:true},
+        {t:"Read other faithful versions (NASB, ESV, CSB, KJV, NIV).", ref:true},
+        {t:"Look through the cross references.", ref:true}
       ]},
       {k:"task", t:"Talk through key thoughts and illustrations with a friend for critical feedback."},
       {k:"task", t:"Revise your outline, Know/Feel/Do, and thesis in light of your research."},
       {k:"quote", html:"The temptation is to shortcut this process, to try to figure out how to say it before we know what it says. We are not preaching sermons, we are preaching texts. We are re-presenting what God said. The secret of great preaching is often little more than staying at it until the meaning of the text is clear.", cite:"Steven Smith, Recapturing the Voice of God"},
       {k:"note", html:"The goal of preaching: use the original meaning of the text as the foundation for application today. Understand what the author meant to the first audience. Only then can you apply it accurately now."},
-      {k:"task", t:"Dig deeper.", subs:[
-        {t:"Study the Greek / Hebrew.", note:"A custom passage guide in Logos. Free options: <a href='https://www.blueletterbible.org' target='_blank' rel='noopener'>Blue Letter Bible</a> or <a href='http://www.greekbible.com' target='_blank' rel='noopener'>GreekBible.com</a>."},
-        {t:"Read good commentaries.", note:"<a href='https://www.preceptaustin.org/verse_by_verse' target='_blank' rel='noopener'>Precept Austin</a> is a great free start. <a href='https://bestcommentaries.com/' target='_blank' rel='noopener'>BestCommentaries.com</a> helps you buy wisely. See also Logos, your Kindle library, and the Puritans. Listening to others' sermons on the verse can help too."},
-        "Check past sermons on a similar topic for scrapped hook/conclusion ideas, quotes, and cross references.",
-        {t:"Search your personal resources.", note:"Tags, notes, Readwise, Reader articles."},
-        "Read a book that overviews the topic (e.g. anxiety for Matthew 6:25, prayer for Matthew 7:7).",
-        {t:"Arc or bracket the text.", note:"<a href='https://biblearc.com' target='_blank' rel='noopener'>biblearc.com</a>"},
-        "Reread the passage slowly with structure and flow in mind.",
-        "Identify key interpretive decisions: genre, ambiguous phrases, difficult grammar, surprising turns.",
-        "Identify logical movements: contrast, cause and effect, progression, climax."
+      {k:"task", t:"Dig deeper.", marker:4, subs:[
+        {t:"Study the Greek / Hebrew.", ref:true, note:"A custom passage guide in Logos. Free options: <a href='https://www.blueletterbible.org' target='_blank' rel='noopener'>Blue Letter Bible</a> or <a href='http://www.greekbible.com' target='_blank' rel='noopener'>GreekBible.com</a>."},
+        {t:"Read good commentaries.", ref:true, note:"<a href='https://www.preceptaustin.org/verse_by_verse' target='_blank' rel='noopener'>Precept Austin</a> is a great free start. <a href='https://bestcommentaries.com/' target='_blank' rel='noopener'>BestCommentaries.com</a> helps you buy wisely. See also Logos, your Kindle library, and the Puritans. Listening to others' sermons on the verse can help too."},
+        {t:"Check past sermons on a similar topic for scrapped hook/conclusion ideas, quotes, and cross references.", ref:true},
+        {t:"Search your personal resources.", ref:true, note:"Tags, notes, Readwise, Reader articles."},
+        {t:"Read a book that overviews the topic (e.g. anxiety for Matthew 6:25, prayer for Matthew 7:7).", ref:true},
+        {t:"Arc or bracket the text.", ref:true, note:"<a href='https://biblearc.com' target='_blank' rel='noopener'>biblearc.com</a>"},
+        {t:"Reread the passage slowly with structure and flow in mind.", ref:true},
+        {t:"Identify key interpretive decisions: genre, ambiguous phrases, difficult grammar, surprising turns.", ref:true},
+        {t:"Identify logical movements: contrast, cause and effect, progression, climax.", ref:true}
       ]}
     ]
   },
   {
     key:"writing", cls:"writing", title:"Writing",
     blocks:[
-      {k:"phase", title:"Phase 1: Dumping Draft"},
+      {k:"phase", title:"W1: Dumping Draft"},
       {k:"task", t:"Revise your sermon outline in light of your research."},
       {k:"task", t:"Preach the outline aloud to your virtual audience. Then pull a cleaner outline from what you said and get AI feedback on it."},
       {k:"task", t:"Have a touchpoint with a friend. Walk them through your outline in progress and invite feedback before you are deep into writing."},
@@ -274,39 +291,39 @@ const STAGES = [
       {k:"task", t:"Draft the conclusion."},
       {k:"task", t:"Write the worst version on purpose: pick a section, set a 10 minute timer, and draft it badly. You can fix a bad page, not a blank one."},
       {k:"quote", html:"Feeling stuck? Start on the section that seems most exciting to you."},
-      {k:"task", t:"Decide on a manuscript, a simple outline, or a detailed outline. (A detailed outline is recommended, but suit yourself.)"},
-      {k:"task", t:"Lava lamp lump.", note:"As ideas come, lump like blobs with like blobs, then organize them under the right headings."},
+      {k:"ref", t:"Decide on a manuscript, a simple outline, or a detailed outline. (A detailed outline is recommended, but suit yourself.)"},
+      {k:"ref", t:"Lava lamp lump.", note:"As ideas come, lump like blobs with like blobs, then organize them under the right headings."},
       {k:"task", t:"Plan a basic outline of section one."},
       {k:"task", t:"Plan a basic outline of section two."},
       {k:"task", t:"Plan a basic outline of section three."},
       {k:"secthead", title:"Filling in the body"},
-      {k:"task", t:"Section one: gather and group.", subs:[
+      {k:"ref", t:"Section one: gather and group.", subs:[
         "Gather relevant thoughts and quotes under this heading.",
         "Group like ideas with like ideas."
       ]},
-      {k:"task", t:"Section two: gather and group.", subs:[
+      {k:"ref", t:"Section two: gather and group.", subs:[
         "Gather relevant key insights and quotes for this section's point.",
         "Group like ideas with like ideas."
       ]},
-      {k:"task", t:"Section three: gather and group.", subs:[
+      {k:"ref", t:"Section three: gather and group.", subs:[
         "Gather relevant key insights and quotes for this section's point.",
-        "Group like ideas with like ideas."
+        {t:"Group like ideas with like ideas.", marker:5}
       ]},
 
-      {k:"phase", title:"Phase 2: Refining"},
+      {k:"phase", title:"W2: Refining"},
       {k:"note", html:"One thesis takes a main idea of the text and applies it to people's lives. Each section builds on that idea, pressing it home further toward the conclusion."},
       {k:"secthead", title:"Refine the body"},
-      {k:"task", t:"Section one: organize and refine.", subs:[
+      {k:"ref", t:"Section one: organize and refine.", subs:[
         "Arrange the materials in a logical order.",
         "Keep what serves the section's point and cut what does not."
       ]},
-      {k:"task", t:"Section two: organize and refine.", subs:[
+      {k:"ref", t:"Section two: organize and refine.", subs:[
         "Arrange the materials in a logical order.",
         "Keep what serves the theme and cut what contributes least. (Expertise is in simplicity.)"
       ]},
-      {k:"task", t:"Section three: organize and refine.", subs:[
+      {k:"ref", t:"Section three: organize and refine.", subs:[
         "Arrange the materials in a logical order.",
-        "Keep what serves the theme and cut what contributes least."
+        {t:"Keep what serves the theme and cut what contributes least.", marker:6}
       ]},
       {k:"task", t:"Add transition statements and fill in the cracks."},
       {k:"task", t:"Add illustrations, ideally one key illustration or story per heading."},
@@ -387,11 +404,27 @@ function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").rep
 
 function renderTask(item, ctr, slot){
   const isObj = typeof item === "object";
+  const isRef = isObj && item.ref === true;
   const text = isObj ? item.t : item;
   const note = isObj ? item.note : null;
   const subs = isObj ? item.subs : null;
+  const marker = isObj ? item.marker : null;
+  const markerAttr = marker ? ' data-marker="'+marker+'"' : '';
+  if(isRef){
+    const id = "rb" + (ctr.r++);
+    let html = '<li class="task ref" data-row="'+id+'"'+markerAttr+'>';
+    html += '<div class="refline"><span class="bullet">&bull;</span><span class="txt">'+esc(text)+'</span></div>';
+    if(note){ html += '<div class="subnote">'+note+'</div>'; }
+    if(subs && subs.length){
+      html += '<ul class="tasks">';
+      subs.forEach(function(sub){ html += renderTask(sub, ctr, slot); });
+      html += '</ul>';
+    }
+    html += '</li>';
+    return html;
+  }
   const id = "cb" + (ctr.n++);
-  let html = '<li class="task" data-row="'+id+'">';
+  let html = '<li class="task" data-row="'+id+'"'+markerAttr+'>';
   html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span></label>';
   if(note){ html += '<div class="subnote">'+note+'</div>'; }
   if(subs && subs.length){
@@ -408,9 +441,9 @@ function renderStage(stage, ctr, slot){
   let openList = false;
   function closeList(){ if(openList){ body += '</ul>'; openList = false; } }
   stage.blocks.forEach(function(b){
-    if(b.k === "task"){
+    if(b.k === "task" || b.k === "ref"){
       if(!openList){ body += '<ul class="tasks">'; openList = true; }
-      body += renderTask(b, ctr, slot);
+      body += renderTask(b.k === "ref" ? Object.assign({}, b, {ref:true}) : b, ctr, slot);
     } else {
       closeList();
       if(b.k === "note"){ body += '<div class="note">'+b.html+'</div>'; }
@@ -426,7 +459,7 @@ function renderStage(stage, ctr, slot){
 }
 
 function renderColumn(slot){
-  const ctr = {n:0};
+  const ctr = {n:0, r:0};
   let stagesHtml = "";
   STAGES.forEach(function(st){ stagesHtml += renderStage(st, ctr, slot); });
   const total = ctr.n;
@@ -435,15 +468,18 @@ function renderColumn(slot){
   col.className = "col";
   col.dataset.slot = slot;
   col.dataset.total = total;
+  const markersHtml = MARKERS.map(function(m){ return '<span class="mk" data-mk="'+m.n+'">'+m.n+'</span>'; }).join('');
   col.innerHTML =
     '<div class="col-head">'+
       '<input class="title" data-field="title" placeholder="Sermon title" value="'+esc(ss.meta.title)+'">'+
       '<div class="metarow">'+
         '<input data-field="passage" placeholder="Passage (e.g. Acts 3:1-16)" value="'+esc(ss.meta.passage)+'">'+
         '<input class="date" type="date" data-field="date" value="'+esc(ss.meta.date)+'">'+
+        '<span class="overdueBadge" style="display:none">Past due</span>'+
       '</div>'+
       '<div class="progwrap"><div class="progbar"><div class="progfill"></div></div>'+
       '<div class="progtext"><span class="ptlabel">Progress</span><span class="ptcount">0 / '+total+'</span></div></div>'+
+      '<div class="markers"><span class="mklabel">Markers</span>'+markersHtml+'</div>'+
       '<div class="col-actions"><button data-act="toggle">Collapse stages</button><button data-act="reset">Reset column</button></div>'+
     '</div>'+
     '<div class="col-body">'+stagesHtml+'</div>';
@@ -459,6 +495,8 @@ function applyChecks(col){
     if(row){ row.classList.toggle('done', v===1); row.classList.toggle('skip', v===2); }
   });
   updateProgress(col);
+  updateOverdueState(col);
+  updateMarkers(col);
 }
 
 function updateProgress(col){
@@ -468,6 +506,64 @@ function updateProgress(col){
   col.querySelector('.progfill').style.width = pct + "%";
   col.querySelector('.ptcount').textContent = done + " / " + total;
   col.querySelector('.ptlabel').textContent = pct + "% done";
+}
+
+/* ---------- overdue sermon date: dim the column and show a small badge once the date passes ---------- */
+function updateOverdueState(col){
+  const ss = slotState(col.dataset.slot);
+  const badge = col.querySelector('.overdueBadge');
+  let overdue = false;
+  if(ss.meta.date){
+    const d = new Date(ss.meta.date + "T00:00:00");
+    if(!isNaN(d.getTime())){
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      overdue = d.getTime() < today.getTime();
+    }
+  }
+  col.classList.toggle('overdue', overdue);
+  if(badge) badge.style.display = overdue ? "" : "none";
+}
+
+/* ---------- 20-mile markers: a compact row of checkpoints derived from specific tagged tasks ---------- */
+const MARKERS = [
+  {n:1, label:"Exegetical outline drafted", due:"Tue morning", dayOffset:-5, hour:9},
+  {n:2, label:"Bridge outline written", due:"Tue 2:00 PM", dayOffset:-5, hour:14},
+  {n:3, label:"Outline practiced aloud", due:"Tue 4:00 PM", dayOffset:-5, hour:16},
+  {n:4, label:"Research complete", due:"Wed morning", dayOffset:-4, hour:9},
+  {n:5, label:"Section outlines drafted (W1)", due:"Thursday", dayOffset:-3, hour:17},
+  {n:6, label:"Sections organized and refined (W2)", due:"Thursday", dayOffset:-3, hour:17}
+];
+function markerDueDate(dateStr, m){
+  if(!dateStr) return null;
+  const base = new Date(dateStr + "T00:00:00");
+  if(isNaN(base.getTime())) return null;
+  base.setDate(base.getDate() + m.dayOffset);
+  base.setHours(m.hour, 0, 0, 0);
+  return base;
+}
+function updateMarkers(col){
+  const wrap = col.querySelector('.markers');
+  if(!wrap) return;
+  const ss = slotState(col.dataset.slot);
+  const hasDate = !!ss.meta.date;
+  wrap.style.display = hasDate ? "" : "none";
+  if(!hasDate) return;
+  const now = new Date();
+  MARKERS.forEach(function(m){
+    const chip = wrap.querySelector('.mk[data-mk="'+m.n+'"]');
+    if(!chip) return;
+    const rowEl = col.querySelector('[data-marker="'+m.n+'"]');
+    const done = rowEl ? (ss.checks[rowEl.dataset.row] === 1) : false;
+    const due = markerDueDate(ss.meta.date, m);
+    let status = "upcoming";
+    if(done) status = "done";
+    else if(due && now.getTime() > due.getTime()) status = "late";
+    chip.classList.remove("mk-done", "mk-late");
+    if(status === "done") chip.classList.add("mk-done");
+    else if(status === "late") chip.classList.add("mk-late");
+    chip.title = m.label + " — due " + m.due + (status === "done" ? " (done)" : status === "late" ? " (past due)" : "");
+  });
 }
 
 /* ---------- build board ---------- */
@@ -494,6 +590,7 @@ function toggleOne(col, id, originEl){
   const row = col.querySelector('li.task[data-row="'+id+'"]');
   if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); }
   updateProgress(col);
+  updateMarkers(col);
   save();
   if(torchMoveTo && row){ torchMoveTo(row); }
   if(next === 1 && originEl){
@@ -523,7 +620,7 @@ board.addEventListener("click", function(e){
 const selection = {};              // slot -> Set of row ids currently highlighted
 const selAnchor = {};              // slot -> id of the last plain/shift click, for range selection
 function getSelection(slot){ if(!selection[slot]) selection[slot] = new Set(); return selection[slot]; }
-function rowOrder(col){ return Array.prototype.map.call(col.querySelectorAll('.box[data-cb]'), function(b){ return b.dataset.cb; }); }
+function rowOrder(col){ return Array.prototype.map.call(col.querySelectorAll('[data-row]'), function(el){ return el.dataset.row; }); }
 function setRowSelected(col, id, on){
   const sel = getSelection(col.dataset.slot);
   if(on) sel.add(id); else sel.delete(id);
@@ -559,8 +656,12 @@ board.addEventListener("click", function(e){
     clearSelection(col);
     setRowSelected(col, id, true);
     selAnchor[slot] = id;
-    const box = row.querySelector('.box[data-cb]');
-    toggleOne(col, id, box);
+    if(row.classList.contains('ref')){
+      if(torchMoveTo) torchMoveTo(row);
+    } else {
+      const box = row.querySelector('.box[data-cb]');
+      toggleOne(col, id, box);
+    }
   }
   e.preventDefault();
 });
@@ -583,13 +684,16 @@ document.addEventListener("keydown", function(e){
     touched = true;
     const ss = slotState(slot);
     sel.forEach(function(id){
+      const row = col.querySelector('li.task[data-row="'+id+'"]');
+      if(!row) return;
+      if(row.classList.contains('ref')){ lastRow = row; return; } // ref bullets aren't checkable; selecting still moves the torch
       const cur = ss.checks[id] || 0;
       const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
       if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
-      const row = col.querySelector('li.task[data-row="'+id+'"]');
-      if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); lastRow = row; }
+      row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); lastRow = row;
     });
     updateProgress(col);
+    updateMarkers(col);
   });
   if(touched){ save(); if(torchMoveTo && lastRow){ torchMoveTo(lastRow); } e.preventDefault(); }
 });
@@ -601,6 +705,7 @@ board.addEventListener("input", function(e){
   const ss = slotState(col.dataset.slot);
   ss.meta[f.dataset.field] = f.value;
   save();
+  if(f.dataset.field === "date"){ updateOverdueState(col); updateMarkers(col); }
 });
 
 board.addEventListener("click", function(e){
