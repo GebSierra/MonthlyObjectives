@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-08-26",
+  "lastUpdated": "2026-09-01",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -710,7 +710,7 @@
           "status": "quarterly",
           "top": false,
           "qg": "QG2",
-          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman's Group, Agape Group)\r\n* Schedule the fall Men's and Women's retreats\r\n* \r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
+          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman’s Group, Agape Group)\r\n* Schedule the fall Men’s and Women’s retreats\r\n* \r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
         },
         {
           "title": "Admin Rock",
@@ -781,6 +781,11 @@
         },
         {
           "title": "Unexpected: Fix the Gap left by James Solarek for Released Time Bible Class. James Solarek was a key volunteer who just dropped out. I need reconfigure the teaching schedule, prepare a lesson for the first event, and reconfigure who is in charge of the games.",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "started Facebook ads for grief share and Trinity",
           "status": "done",
           "top": false
         }
@@ -857,6 +862,18 @@
         {
           "name": "Samuel Snodgrass",
           "note": "RTBC"
+        },
+        {
+          "name": "Jacob",
+          "note": "Band teacher, Edwardsburg School; met at RTBC open house"
+        },
+        {
+          "name": "Drew Gardner",
+          "note": "Director, Bair Lake Bible Camp"
+        },
+        {
+          "name": "Gary",
+          "note": "Fellow pastor; covering a pulpit vacancy nearby"
         }
       ],
       "quarterEndDate": "2026-10-17",
