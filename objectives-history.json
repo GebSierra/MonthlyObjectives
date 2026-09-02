@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-09-01",
+  "lastUpdated": "2026-09-02",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -615,7 +615,7 @@
         },
         {
           "title": "Schedule a deep-work session on caring well for the flock",
-          "status": "inProgress",
+          "status": "notStarted",
           "top": false
         },
         {
@@ -660,12 +660,12 @@
         },
         {
           "title": "Tech: Implement Sermon Audio",
-          "status": "inProgress",
+          "status": "done",
           "top": true
         },
         {
-          "title": "Tech: Post the livestream (or link) once a week to Facebook, X, and YouTube",
-          "status": "inProgress",
+          "title": "Tech: $ Post the livestream (or link) once a week to Facebook, X, and YouTube",
+          "status": "done",
           "top": false
         },
         {
@@ -686,7 +686,7 @@
         },
         {
           "title": "Focus on winning Souls - \"Do The Work of an Evangelist\"",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
@@ -696,13 +696,13 @@
         },
         {
           "title": "Sermon planning week - Wayne Geiger recommended I schedule a week, once a quarter to clear out my meetings and plan out my sermons.",
-          "status": "inProgress",
+          "status": "done",
           "top": false,
           "qg": "QG5"
         },
         {
-          "title": "Family - Have a strong and healthy family through Ruthies birth and focus on ways to support them during the baby Transition",
-          "status": "inProgress",
+          "title": "Family $ - Have a strong and healthy family through Ruthies birth and focus on ways to support them during the baby Transition $",
+          "status": "done",
           "top": false
         },
         {
@@ -733,8 +733,8 @@
           "qg": "QG4"
         },
         {
-          "title": "Mature my preaching by reading reflecting, and implementing what I'm learning.",
-          "status": "inProgress",
+          "title": "Mature my preaching by reading reflecting, and implementing what I'm learning: Read Motyers book, and another book",
+          "status": "done",
           "top": true
         },
         {
@@ -878,9 +878,14 @@
       ],
       "quarterEndDate": "2026-10-17",
       "quarterStartDate": "2026-10-15"
+    },
+    {
+      "key": "2026-09",
+      "label": "September 2026",
+      "items": []
     }
   ],
-  "activeMonth": "2026-08",
+  "activeMonth": "2026-09",
   "quarterEndDate": "2026-10-17",
   "quarterStartDate": "2026-10-15",
   "vision": {
