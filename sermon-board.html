@@ -218,6 +218,7 @@
   <div class="toolbar">
     <label>Columns in view:</label>
     <select id="viewCount">
+      <option value="1">1 sermon</option>
       <option value="2">2 sermons</option>
       <option value="3" selected>3 sermons</option>
     </select>
@@ -599,7 +600,8 @@ function updateMarkers(col){
       chip.classList.remove("mk-done", "mk-late");
       if(status === "done") chip.classList.add("mk-done");
       else if(status === "late") chip.classList.add("mk-late");
-      chip.title = m.label + " — due " + m.due + doneTxt + " — click to jump to it";
+      chip.title = m.label + " — due " + m.due + doneTxt;
+      chip.dataset.info = chip.title;
     }
 
     const flag = rowEl ? rowEl.querySelector('.markerflag') : null;
@@ -769,23 +771,33 @@ board.addEventListener("click", function(e){
   }
 });
 
-// clicking a progress-marker dot jumps the checklist to the task it's tied to
+// clicking a progress-marker dot pops up a small text box with its status, instead of
+// jumping the checklist down to the task it's tied to
+function showMarkerPopup(text, x, y){
+  const existing = document.getElementById("markerPopup");
+  if(existing) existing.remove();
+  const box = document.createElement("div");
+  box.id = "markerPopup";
+  box.textContent = text;
+  box.style.cssText =
+    "position:fixed;z-index:10005;left:"+x+"px;top:"+y+"px;transform:translate(-50%,-100%) translateY(-8px);"+
+    "background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 13px;"+
+    "font-size:12.5px;color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.18);max-width:240px;text-align:center;";
+  document.body.appendChild(box);
+  function remove(){ box.remove(); document.removeEventListener("click", onDocClick, true); document.removeEventListener("keydown", onKey, true); }
+  function onDocClick(){ remove(); }
+  function onKey(e){ if(e.key === "Escape") remove(); }
+  setTimeout(function(){
+    document.addEventListener("click", onDocClick, true);
+    document.addEventListener("keydown", onKey, true);
+  }, 0);
+}
 board.addEventListener("click", function(e){
   const chip = e.target.closest('.mk[data-mk]');
   if(!chip) return;
-  const col = chip.closest('.col');
-  const rowEl = col.querySelector('[data-marker="'+chip.dataset.mk+'"]');
-  if(!rowEl) return;
-  const details = rowEl.closest('details.stage');
-  if(details && !details.open){
-    details.open = true;
-    setStageOpen(col.dataset.slot, details.dataset.stage, true);
-  }
-  rowEl.scrollIntoView({behavior:"smooth", block:"center"});
-  rowEl.classList.remove('marker-flash');
-  void rowEl.offsetWidth; // restart the animation if it's already mid-flash
-  rowEl.classList.add('marker-flash');
-  setTimeout(function(){ rowEl.classList.remove('marker-flash'); }, 1600);
+  e.stopPropagation();
+  const rect = chip.getBoundingClientRect();
+  showMarkerPopup(chip.dataset.info || chip.title, rect.left + rect.width/2, rect.top);
 });
 
 /* ---------- toolbar ---------- */
@@ -962,6 +974,7 @@ function banner(text, px, py){
   st.textContent =
     "body.readonly .col-actions{display:none}" +
     "body.readonly label.cb{cursor:default}" +
+    "body.readonly #expandAll, body.readonly #collapseAll, body.readonly #torchToggle{display:none}" +
     ".col input:disabled{opacity:1}" +
     "#editbar{position:fixed;right:10px;top:8px;z-index:10001;font-size:11px;color:var(--muted);display:flex;gap:10px;align-items:center}" +
     "#editbar a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--line);cursor:pointer}";
