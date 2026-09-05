@@ -884,138 +884,52 @@
       "label": "September 2026",
       "items": [
         {
-          "title": "Begin a routine for working on Colossians memorization.",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Draft a Discipleship model and present that to the elders",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Schedule a deep-work session on caring well for the flock",
-          "status": "notStarted",
-          "top": false
-        },
-        {
           "title": "Check in with elders on how discipleship is going.",
+          "status": "done",
+          "top": false,
+          "qg": "QG2"
+        },
+        {
+          "title": "Ensure that the tech team continues to utilize sermonaudio.com so that the livestream gets posted automatically to Facebook, Sermon Audio, and youtube",
           "status": "inProgress",
-          "top": false
+          "top": false,
+          "qg": "QG3"
         },
         {
-          "title": "Fix the www domain issue with our website (progress made, called John Marshall, but this is still stuck)",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Draft a guest connection Sunday morning SOP for volunteers to folllow",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "All personal accounts consolidated to corporate accounts (Website Hosting, email, Migrate Google Business over to our admin account, website, YouTube, Google Drive, Microsoft, G Suite, tech team slide email)",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Get together with Stephanie to move church things forward",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Continue implementing the monthly objectives system",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Connect with some of the young men.",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Tech: Improve livestream",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Tech: Implement Sermon Audio",
-          "status": "done",
-          "top": true
-        },
-        {
-          "title": "Tech: $ Post the livestream (or link) once a week to Facebook, X, and YouTube",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Admin: Church website migration approved and launched",
-          "status": "inProgress",
+          "title": "Admin: Unify disparate personal accounts into a corporate account(s)",
+          "status": "notStarted",
           "top": false,
           "qg": "QG1"
         },
         {
-          "title": "Admin: Unify disparate personal accounts into a corporate account(s)",
-          "status": "inProgress",
-          "top": false
-        },
-        {
-          "title": "Discipleship: Continue implementing the 3-year vision (Rooted, Established, Abounding)",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Focus on winning Souls - \"Do The Work of an Evangelist\"",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Create and Send out the State of the Church Address",
-          "status": "done",
-          "top": true
-        },
-        {
-          "title": "Sermon planning week - Wayne Geiger recommended I schedule a week, once a quarter to clear out my meetings and plan out my sermons.",
-          "status": "done",
+          "title": "Develop a SPECKS Bible Study printout with Dan that people can stick in their bibles.",
+          "status": "notStarted",
           "top": false,
-          "qg": "QG5"
-        },
-        {
-          "title": "Family $ - Have a strong and healthy family through Ruthies birth and focus on ways to support them during the baby Transition $",
-          "status": "done",
-          "top": false
+          "qg": "QG2"
         },
         {
           "title": "Discipleship Rock",
           "status": "quarterly",
           "top": false,
-          "qg": "QG2",
-          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman’s Group, Agape Group)\r\n* Schedule the fall Men’s and Women’s retreats\r\n* \r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
+          "qg": "QG2"
         },
         {
           "title": "Admin Rock",
           "status": "quarterly",
           "top": false,
-          "qg": "QG1",
-          "details": "* Church website migration approved and launched \r\n* Fix domain issue\r\n* Unify disparate personal accounts into a corporate account(s)\r\n* Fully migrate from and shutdown (if appropriate) microsoft"
+          "qg": "QG1"
         },
         {
           "title": "Tech Rock",
           "status": "quarterly",
           "top": false,
-          "qg": "QG3",
-          "details": "* Improve livestream\r\n    * The tech team has enhanced the board settings to make it sound better\r\n    * We consitently have good sermon audio\r\n    * The livestream has improved to the point where people are commenting on how the livestream has improved\r\n* Continue to integrate Jay by having him acticaly participate in tech \r\n* The tech team implements using SermonAudio weekly\r\n* Post live steam/link once a week to Facebook, X,  and YouTube. (this will happen automatically through sermonaudio.com)\r\n* Evaluate posting on Instagram."
+          "qg": "QG3"
         },
         {
           "title": "Focus on winning Souls by having more meals with people who are seeking \"Do The Work of an Evangelist\" (2 Tim. 4:5)",
           "status": "quarterly",
           "top": false,
           "qg": "QG4"
-        },
-        {
-          "title": "Mature my preaching by reading reflecting, and implementing what I'm learning: Read Motyers book, and another book",
-          "status": "done",
-          "top": true
         },
         {
           "title": "Strengthen my daily and weekly routines this fall by doing my AM/PM/and office routine 5/7 days a week.",
@@ -1030,48 +944,92 @@
           "qg": "QG5"
         },
         {
-          "title": "Connect with Laura Sz about young adults and pick a study for the fall",
-          "status": "done",
+          "title": "Annual Ministry Report: 1. Make Final tweaks to the form 2. Send it out to ministry leaders and elders with a due date for when you need it back by",
+          "status": "notStarted",
           "top": false
         },
         {
-          "title": "Have a meal with Josh Galvin and confirm we're good to use Community for RTBC",
-          "status": "done",
-          "top": false
+          "title": "Visit Betsy and Dean Rowell with Dan. Check in and tell her the treasurer asked us to let you know that giving via zelle is done",
+          "status": "notStarted",
+          "top": false,
+          "qg": "QG1"
         },
         {
-          "title": "Help administratively prepare for Gunn Park outdoor service (connect with Stephanie M., Send out church text, print bulletins, prepare children's sermon, prep sermon)",
-          "status": "done",
-          "top": false
+          "title": "To improve my preaching by finishing Spurgeon's Biography and On Writing Well by WIlliam Zinzer",
+          "status": "inProgress",
+          "top": false,
+          "qg": "QG5"
         },
         {
-          "title": "Guest Connection SOP - Get Feedback and begin implementing",
+          "title": "Complete this month's sermon preparation a little earlier by following my weekly progress markers",
+          "status": "inProgress",
+          "top": true,
+          "qg": "QG5"
+        },
+        {
+          "title": "Revisit my preaching schedule and determine how I will preach through the the rest of the book of Acts",
+          "status": "inProgress",
+          "top": false,
+          "qg": "QG5"
+        },
+        {
+          "title": "Fix the www domain issue with our website by contacing John again",
+          "status": "inProgress",
+          "top": true,
+          "qg": "QG1"
+        },
+        {
+          "title": "Listen to a chapter from the Book of Colosian at least once a day, 4 out of seven days a week.",
+          "status": "inProgress",
+          "top": false,
+          "qg": "QG6"
+        },
+        {
+          "title": "Implement Paula Ralph's changes to the guest connection SOP, and then email out the SOP to the guest connection team.",
+          "status": "notStarted",
+          "top": false,
+          "qg": "QG2"
+        },
+        {
+          "title": "Prepare my lessons for release Time Bible Class by End of September",
+          "status": "inProgress",
+          "top": true
+        },
+        {
+          "title": "Complete preparation logistics for released time Bible class",
           "status": "inProgress",
           "top": false
         },
         {
-          "title": "changed billing credit card on file for microsoft and ChurchCenter",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Family - Complete some house projects before Baby is Due in September: Vent bathroom Fan to outside and replace fan + Rotate Tires",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Unexpected: Fix the Gap left by James Solarek for Released Time Bible Class. James Solarek was a key volunteer who just dropped out. I need reconfigure the teaching schedule, prepare a lesson for the first event, and reconfigure who is in charge of the games.",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "started Facebook ads for grief share and Trinity",
-          "status": "done",
+          "title": "Have the baby 🤪🐣",
+          "status": "inProgress",
           "top": false
         }
       ],
       "quarterEndDate": "2026-10-17",
-      "quarterStartDate": "2026-10-15"
+      "quarterStartDate": "2026-10-15",
+      "people": [
+        {
+          "name": "Shelley and Mike Blue",
+          "note": "neighbors, met on a walk"
+        },
+        {
+          "name": "Ben Peak",
+          "note": ""
+        },
+        {
+          "name": "Barbara Scroggins",
+          "note": "Nathan Scroggins' wife"
+        },
+        {
+          "name": "Drew Gardner",
+          "note": "met for lunch, involved in launching a biblical counseling ministry"
+        },
+        {
+          "name": "Tae Bae",
+          "note": ""
+        }
+      ]
     }
   ],
   "activeMonth": "2026-09",
