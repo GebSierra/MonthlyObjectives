@@ -352,7 +352,7 @@ const STAGES = [
       {k:"task", t:"Add in transition and review statements."},
       {k:"task", t:"Fill in the cracks. Look for Z markers and fix them."},
       {k:"secthead", title:"Final refining"},
-      {k:"task", t:"Add in illustrations, ideally one key illustration or story for every heading."},
+      {k:"task", t:"Add in illustrations, ideally one key illustration or story for every heading.", marker:7},
       {k:"task", t:"Search for compelling quotes and ideas."},
       {k:"task", t:"Do you have about one story per heading?"},
       {k:"task", t:"Do you have application throughout?"},
@@ -371,14 +371,14 @@ const STAGES = [
     key:"rehearse", cls:"rehearse", title:"Rehearsing",
     blocks:[
       {k:"note", html:"Let the message marinate and soak in. Pray it would bless specific people across life stages and situations: lost and saved, weak and mature, mothers and fathers, single, sick, divorced, retired, proud and humble, foreigners and locals. Don't just ask \"what do they need to hear?\", ask \"who needs to hear this?\""},
+      {k:"task", t:"Make revisions in light of feedback."},
+      {k:"task", t:"Memorize the outline, not the manuscript.", marker:8},
       {k:"task", t:"Practice.", subs:[
         {t:"Practice your intro twice.", ref:true},
         {t:"Practice your conclusion twice.", ref:true},
         {t:"Conversate it with a friend. Do not read a manuscript; talk through your outline and ask for feedback.", ref:true},
         {t:"Turn your outline into pictures, recall it without notes, or record 3 to 5 minutes of a key section and listen back.", ref:true}
       ]},
-      {k:"task", t:"Make revisions in light of feedback."},
-      {k:"task", t:"Memorize the outline, not the manuscript."},
       {k:"task", t:"Print it.", subs:[
         "Print Saturday, not Sunday, so you have buffer for problems.",
         "Look over the printed copy once more in case anything went odd in printing.",
@@ -580,7 +580,9 @@ const MARKERS = [
   {n:3, label:"Outline practiced aloud", due:"Tue 4:00 PM", dayOffset:-5, hour:16},
   {n:4, label:"Research complete", due:"Wed morning", dayOffset:-4, hour:9},
   {n:5, label:"Material gathered and grouped (W2)", due:"Thursday", dayOffset:-3, hour:17},
-  {n:6, label:"Sections organized and refined (W3)", due:"Thursday", dayOffset:-3, hour:17}
+  {n:6, label:"Sections organized and refined (W3)", due:"Thursday", dayOffset:-3, hour:17},
+  {n:7, label:"Illustrations added", due:"Saturday 12:00 PM", dayOffset:-1, hour:12},
+  {n:8, label:"Outline memorized", due:"Saturday 12:00 PM", dayOffset:-1, hour:12}
 ];
 function markerDueDate(dateStr, m){
   if(!dateStr) return null;
@@ -802,12 +804,41 @@ function showMarkerPopup(text, x, y){
     document.addEventListener("keydown", onKey, true);
   }, 0);
 }
+// double-clicking a marker dot jumps the checklist to the task it's tied to,
+// opening its stage if needed and flashing the row so it's easy to spot
+function jumpToMarker(chip){
+  const n = chip.dataset.mk;
+  const col = chip.closest('.col');
+  if(!col) return;
+  const rowEl = col.querySelector('[data-marker="'+n+'"]');
+  if(!rowEl) return;
+  const details = rowEl.closest('details.stage');
+  if(details && !details.open){
+    details.open = true;
+    setStageOpen(col.dataset.slot, details.dataset.stage, true);
+  }
+  rowEl.scrollIntoView({behavior:"smooth", block:"center"});
+  rowEl.classList.remove("marker-flash");
+  void rowEl.offsetWidth; // restart the animation if it was just played
+  rowEl.classList.add("marker-flash");
+  setTimeout(function(){ rowEl.classList.remove("marker-flash"); }, 1700);
+}
+let mkClickTimer = null;
 board.addEventListener("click", function(e){
   const chip = e.target.closest('.mk[data-mk]');
   if(!chip) return;
   e.stopPropagation();
-  const rect = chip.getBoundingClientRect();
-  showMarkerPopup(chip.dataset.info || chip.title, rect.left + rect.width/2, rect.top);
+  if(mkClickTimer){
+    clearTimeout(mkClickTimer);
+    mkClickTimer = null;
+    jumpToMarker(chip);
+    return;
+  }
+  mkClickTimer = setTimeout(function(){
+    mkClickTimer = null;
+    const rect = chip.getBoundingClientRect();
+    showMarkerPopup(chip.dataset.info || chip.title, rect.left + rect.width/2, rect.top);
+  }, 280);
 });
 
 /* ---------- toolbar ---------- */
