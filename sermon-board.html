@@ -302,70 +302,76 @@ const STAGES = [
   {
     key:"writing", cls:"writing", title:"Writing",
     blocks:[
-      {k:"phase", title:"W1: Dumping Draft"},
+      {k:"phase", title:"W1: Rough Outline"},
       {k:"task", t:"Revise your sermon outline in light of your research."},
-      {k:"task", t:"Preach the outline aloud to your virtual audience. Then pull a cleaner outline from what you said and get AI feedback on it."},
-      {k:"task", t:"Have a touchpoint with a friend. Walk them through your outline in progress and invite feedback before you are deep into writing."},
-      {k:"task", t:"Write the heading name for each section.", note:"Ensure each heading builds on the prior one, stays focused on your main point, and is rooted in the text."},
+      {k:"task", t:"Say your outline out loud.", subs:[
+        "Walk a friend through your outline in progress. Invite feedback. Their input can help clarify weak spots, and you get some outside perspective before you're deep into writing.",
+        "Preach it aloud to yourself.",
+        "Preach it to Cambridge's VA."
+      ]},
+      {k:"task", t:"Write the heading name for each section.", note:"Ensure each heading section builds on the prior one, is focused on your main point, and is relevant to the biblical text."},
       {k:"task", t:"Draft the intro."},
       {k:"task", t:"Draft the conclusion."},
-      {k:"task", t:"Write the worst version on purpose: pick a section, set a 10 minute timer, and draft it badly. You can fix a bad page, not a blank one."},
-      {k:"quote", html:"Feeling stuck? Start on the section that seems most exciting to you."},
-      {k:"ref", t:"Decide on a manuscript, a simple outline, or a detailed outline. (A detailed outline is recommended, but suit yourself.)"},
-      {k:"ref", t:"Lava lamp lump.", note:"As ideas come, lump like blobs with like blobs, then organize them under the right headings."},
-      {k:"task", t:"Plan a basic outline of section one."},
-      {k:"task", t:"Plan a basic outline of section two."},
-      {k:"task", t:"Plan a basic outline of section three."},
-      {k:"secthead", title:"Filling in the body"},
+      {k:"secthead", title:"Finish basic outline for body"},
+      {k:"task", t:"Think and plan through a basic outline of section one (an explanation, illustration, and application)."},
+      {k:"task", t:"Think and plan through a basic outline of section two (an explanation, illustration, and application)."},
+      {k:"task", t:"Think and plan through a basic outline of section three (an explanation, illustration, and application)."},
+
+      {k:"phase", title:"W2: Dumping Draft"},
       {k:"ref", t:"Section one: gather and group.", subs:[
-        "Gather relevant thoughts and quotes under this heading.",
-        "Group like ideas with like ideas."
+        "Gather relevant thoughts and quotes underneath this section's heading.",
+        "Group things together by gathering like ideas with like ideas."
       ]},
       {k:"ref", t:"Section two: gather and group.", subs:[
-        "Gather relevant key insights and quotes for this section's point.",
-        "Group like ideas with like ideas."
+        "Gather relevant key insights and quotes relevant to this section's main point.",
+        "Group things together by gathering like ideas with like ideas."
       ]},
       {k:"ref", t:"Section three: gather and group.", subs:[
-        "Gather relevant key insights and quotes for this section's point.",
-        {t:"Group like ideas with like ideas.", marker:5}
+        "Gather relevant key insights and quotes relevant to this section's main point.",
+        {t:"Group things together by gathering like ideas with like ideas.", marker:5}
       ]},
 
-      {k:"phase", title:"W2: Refining"},
-      {k:"note", html:"One thesis takes a main idea of the text and applies it to people's lives. Each section builds on that idea, pressing it home further toward the conclusion."},
+      {k:"phase", title:"W3: Refining"},
+      {k:"note", html:"Each sermon should have one thesis, which takes a main idea of the text and applies it to people's lives. Then each section should build on this main idea, progressing toward the conclusion, which presses the main idea home further."},
       {k:"secthead", title:"Refine the body"},
       {k:"ref", t:"Section one: organize and refine.", subs:[
-        "Arrange the materials in a logical order.",
-        "Keep what serves the section's point and cut what does not."
+        "Arrange the selected materials in a logical order.",
+        "Determine which materials contribute to the section's main point and cut out the thoughts which do not."
       ]},
       {k:"ref", t:"Section two: organize and refine.", subs:[
-        "Arrange the materials in a logical order.",
-        "Keep what serves the theme and cut what contributes least. (Expertise is in simplicity.)"
+        "Arrange the selected materials in a logical order.",
+        "Determine which materials contribute to the section's theme and cut out the thoughts which contribute least."
       ]},
       {k:"ref", t:"Section three: organize and refine.", subs:[
-        "Arrange the materials in a logical order.",
-        {t:"Keep what serves the theme and cut what contributes least.", marker:6}
+        "Arrange the selected materials in a logical order.",
+        {t:"Determine which materials contribute to the section's theme and cut out the thoughts which contribute least.", marker:6}
       ]},
-      {k:"task", t:"Add transition statements and fill in the cracks."},
-      {k:"task", t:"Add illustrations, ideally one key illustration or story per heading."},
+      {k:"task", t:"Add in transition statements and fill in the cracks."},
+      {k:"task", t:"Add in illustrations, ideally one key illustration or story for every heading."},
+      {k:"task", t:"Search for compelling quotes and ideas."},
       {k:"head", title:"Know, Feel, Do",
-        desc:"These move from mind to heart to hands, the order each section can follow. Know = explanation. Feel = illustration. Do = application."},
-      {k:"task", t:"About one story per heading?"},
-      {k:"task", t:"Application throughout?"},
-      {k:"task", t:"Fill the outline with Scripture using cross references (TSK, Topical Bible). This is the secret of Piper's and MacArthur's timeless preaching: it is full of the word of God."},
+        desc:"Earlier you asked what you want them to know, to feel, and to do. These move in a natural way from the mind, to the heart, to the hands, and that is the order each section of a sermon can follow. Know = explanation. Feel = illustration. Do = application."},
+      {k:"task", t:"Do you have about one story per heading?"},
+      {k:"task", t:"Do you have application throughout?"},
+      {k:"task", t:"Once you've got a rough outline down, use cross references (e.g. TSK, Topical Bible) to fill it up with Scripture. This is the secret of Piper's and MacArthur's timeless preaching: it is so full of the word of God."},
       {k:"task", t:"Refine the intro and conclusion."},
-      {k:"task", t:"Total length about 1,600 to 3,000 words, or 8 pages."},
-      {k:"task", t:"PowerPoint.", note:"Create your slides. Stephanie sends the main deck; add your sermon slides and send to Corey at <a href='mailto:tbc.edwardsburg@gmail.com'>tbc.edwardsburg@gmail.com</a>."}
+      {k:"task", t:"Total length should be about 1,600 to 3,000 words, or 8 pages."},
+      {k:"task", t:"PowerPoint.", note:"For myself, create the slides. Stephanie will send the main deck; add your sermon slides and send them to Corey at <a href='mailto:tbc.edwardsburg@gmail.com'>tbc.edwardsburg@gmail.com</a>."},
+
+      {k:"secthead", title:"Tips"},
+      {k:"quote", html:"Write your worst version on purpose. You can fix a bad page, not a blank one."},
+      {k:"quote", html:"If you're feeling stuck, start on the section that seems most exciting to you."}
     ]
   },
   {
     key:"rehearse", cls:"rehearse", title:"Rehearsing",
     blocks:[
-      {k:"note", html:"Let the message marinate and soak in. Pray it would bless specific people across life stages and situations: lost and saved, weak and mature, mothers and fathers, single, sick, divorced, retired, proud and humble, foreigners and locals."},
+      {k:"note", html:"Let the message marinate and soak in. Pray it would bless specific people across life stages and situations: lost and saved, weak and mature, mothers and fathers, single, sick, divorced, retired, proud and humble, foreigners and locals. Don't just ask \"what do they need to hear?\", ask \"who needs to hear this?\""},
       {k:"task", t:"Practice.", subs:[
-        "Practice your intro twice.",
-        "Practice your conclusion twice.",
-        "Conversate it with a friend. Do not read a manuscript; talk through your outline and ask for feedback.",
-        "Turn your outline into pictures, recall it without notes, or record 3 to 5 minutes of a key section and listen back."
+        {t:"Practice your intro twice.", ref:true},
+        {t:"Practice your conclusion twice.", ref:true},
+        {t:"Conversate it with a friend. Do not read a manuscript; talk through your outline and ask for feedback.", ref:true},
+        {t:"Turn your outline into pictures, recall it without notes, or record 3 to 5 minutes of a key section and listen back.", ref:true}
       ]},
       {k:"task", t:"Make revisions in light of feedback."},
       {k:"task", t:"Memorize the outline, not the manuscript."},
@@ -569,8 +575,8 @@ const MARKERS = [
   {n:2, label:"Bridge outline written", due:"Tue 2:00 PM", dayOffset:-5, hour:14},
   {n:3, label:"Outline practiced aloud", due:"Tue 4:00 PM", dayOffset:-5, hour:16},
   {n:4, label:"Research complete", due:"Wed morning", dayOffset:-4, hour:9},
-  {n:5, label:"Section outlines drafted (W1)", due:"Thursday", dayOffset:-3, hour:17},
-  {n:6, label:"Sections organized and refined (W2)", due:"Thursday", dayOffset:-3, hour:17}
+  {n:5, label:"Material gathered and grouped (W2)", due:"Thursday", dayOffset:-3, hour:17},
+  {n:6, label:"Sections organized and refined (W3)", due:"Thursday", dayOffset:-3, hour:17}
 ];
 function markerDueDate(dateStr, m){
   if(!dateStr) return null;
