@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-09-05",
+  "lastUpdated": "2026-09-17",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -897,13 +897,13 @@
         },
         {
           "title": "Admin: Unify disparate personal accounts into a corporate account(s)",
-          "status": "notStarted",
+          "status": "inProgress",
           "top": false,
           "qg": "QG1"
         },
         {
           "title": "Develop a SPECKS Bible Study printout with Dan that people can stick in their bibles.",
-          "status": "notStarted",
+          "status": "inProgress",
           "top": false,
           "qg": "QG2"
         },
@@ -948,12 +948,12 @@
         },
         {
           "title": "Annual Ministry Report: 1. Make Final tweaks to the form 2. Send it out to ministry leaders and elders with a due date for when you need it back by",
-          "status": "notStarted",
+          "status": "inProgress",
           "top": false
         },
         {
           "title": "Visit Betsy and Dean Rowell with Dan. Check in and tell her the treasurer asked us to let you know that giving via zelle is done",
-          "status": "notStarted",
+          "status": "inProgress",
           "top": false,
           "qg": "QG1"
         },
@@ -989,7 +989,7 @@
         },
         {
           "title": "Implement Paula Ralph's changes to the guest connection SOP, and then email out the SOP to the guest connection team.",
-          "status": "notStarted",
+          "status": "done",
           "top": false,
           "qg": "QG2"
         },
@@ -1000,12 +1000,32 @@
         },
         {
           "title": "Complete preparation logistics for released time Bible class",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
           "title": "Have the baby 🤪🐣",
           "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "Sermon Outline Added to back of Church Bulletin Template",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "RTBC Bus Registration - Apointment scheduled to get Church bus registered",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "Tech - Bulk Upload previous sermons that had not been added to Sermonaudio.com",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "Fall Festival",
+          "status": "done",
           "top": false
         }
       ],
@@ -1024,11 +1044,27 @@
         },
         {
           "name": "Drew Gardner",
-          "note": "met for lunch, involved in launching a biblical counseling ministry"
+          "note": "Met for lunch; involved in launching a biblical counseling ministry"
         },
         {
           "name": "Tae Bae",
           "note": ""
+        },
+        {
+          "name": "Dan Jones",
+          "note": "Breakfast with Tae Bae, discussing church"
+        },
+        {
+          "name": "Caleb & Anna",
+          "note": "Welcomed twins; dropped off a meal"
+        },
+        {
+          "name": "Dawn & Aaron",
+          "note": "Visited church with daughter Willow, from the RTBC open house"
+        },
+        {
+          "name": "Del Hatfield",
+          "note": "Friends of the Korhorns; interested in Trinity"
         }
       ],
       "quarterEndDate": "2026-10-17",
