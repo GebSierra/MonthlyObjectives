@@ -331,25 +331,20 @@ const STAGES = [
         {t:"Group things together by gathering like ideas with like ideas.", marker:5}
       ]},
 
-      {k:"phase", title:"W3: Refining"},
+      {k:"phase", title:"W3: Organizing"},
       {k:"note", html:"Each sermon should have one thesis, which takes a main idea of the text and applies it to people's lives. Then each section should build on this main idea, progressing toward the conclusion, which presses the main idea home further."},
-      {k:"secthead", title:"Refine the body"},
-      {k:"ref", t:"Section one: organize and refine.", subs:[
-        "Arrange the selected materials in a logical order.",
-        "Determine which materials contribute to the section's main point and cut out the thoughts which do not."
-      ]},
-      {k:"ref", t:"Section two: organize and refine.", subs:[
-        "Arrange the selected materials in a logical order.",
-        "Determine which materials contribute to the section's theme and cut out the thoughts which contribute least."
-      ]},
-      {k:"ref", t:"Section three: organize and refine.", subs:[
-        "Arrange the selected materials in a logical order.",
-        {t:"Determine which materials contribute to the section's theme and cut out the thoughts which contribute least.", marker:6}
-      ]},
+      {k:"secthead", title:"Organize the body"},
+      {k:"task", t:"Section one: arrange the selected materials in a logical order."},
+      {k:"task", t:"Section two: arrange the selected materials in a logical order."},
+      {k:"task", t:"Section three: arrange the selected materials in a logical order.", marker:6},
+      {k:"task", t:"Fill in the cracks. Look for Z markers and fix them."},
 
-      {k:"phase", title:"W4: Final Stage"},
-      {k:"secthead", title:"Fill in the cracks"},
+      {k:"phase", title:"W4: Refining"},
+      {k:"secthead", title:"Refine the body"},
       {k:"task", t:"Add in transition and review statements."},
+      {k:"task", t:"Section one: determine which materials contribute to the section's theme and cut out the thoughts which contribute least."},
+      {k:"task", t:"Section two: determine which materials contribute to the section's theme and cut out the thoughts which contribute least."},
+      {k:"task", t:"Section three: determine which materials contribute to the section's theme and cut out the thoughts which contribute least."},
       {k:"task", t:"Fill in the cracks. Look for Z markers and fix them."},
       {k:"secthead", title:"Final refining"},
       {k:"task", t:"Add in illustrations, ideally one key illustration or story for every heading.", marker:7},
@@ -380,9 +375,9 @@ const STAGES = [
         {t:"Turn your outline into pictures, recall it without notes, or record 3 to 5 minutes of a key section and listen back.", ref:true}
       ]},
       {k:"task", t:"Print it.", subs:[
-        "Print Saturday, not Sunday, so you have buffer for problems.",
-        "Look over the printed copy once more in case anything went odd in printing.",
-        "Keep a backup on your phone. Email it to yourself."
+        {t:"Print Saturday, not Sunday, so you have buffer for problems.", ref:true},
+        {t:"Look over the printed copy once more in case anything went odd in printing.", ref:true},
+        {t:"Keep a backup on your phone. Email it to yourself.", ref:true}
       ]},
       {k:"task", t:"Pray over it."},
       {k:"task", t:"Preach it to yourself."},
@@ -580,7 +575,7 @@ const MARKERS = [
   {n:3, label:"Outline practiced aloud", due:"Tue 4:00 PM", dayOffset:-5, hour:16},
   {n:4, label:"Research complete", due:"Wed morning", dayOffset:-4, hour:9},
   {n:5, label:"Material gathered and grouped (W2)", due:"Thursday", dayOffset:-3, hour:17},
-  {n:6, label:"Sections organized and refined (W3)", due:"Thursday", dayOffset:-3, hour:17},
+  {n:6, label:"Sections organized (W3)", due:"Thursday", dayOffset:-3, hour:17},
   {n:7, label:"Illustrations added", due:"Saturday 12:00 PM", dayOffset:-1, hour:12},
   {n:8, label:"Outline memorized", due:"Sunday morning", dayOffset:0, hour:9}
 ];
