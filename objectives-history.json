@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-09-21",
+  "lastUpdated": "2026-09-23",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -461,7 +461,7 @@
           "top": false
         },
         {
-          "title": "Discipleship: Improve small group participation to 50% of attendees (40 adults) \u2014 FBF, Friday Morning Men's, Women's Group, Agape Group",
+          "title": "Discipleship: Improve small group participation to 50% of attendees (40 adults) — FBF, Friday Morning Men's, Women's Group, Agape Group",
           "status": "quarterly",
           "top": false
         },
@@ -686,7 +686,7 @@
           "status": "quarterly",
           "top": false,
           "qg": "QG2",
-          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman\u2019s Group, Agape Group)\r\n* Schedule the fall Men\u2019s and Women\u2019s retreats\r\n* \r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
+          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman’s Group, Agape Group)\r\n* Schedule the fall Men’s and Women’s retreats\r\n* \r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
         },
         {
           "title": "Admin Rock",
@@ -855,7 +855,7 @@
         },
         {
           "title": "Ensure that the tech team continues to utilize sermonaudio.com so that the livestream gets posted automatically to Facebook, Sermon Audio, and youtube",
-          "status": "inProgress",
+          "status": "done",
           "top": false,
           "qg": "QG3"
         },
@@ -876,7 +876,7 @@
           "status": "quarterly",
           "top": false,
           "qg": "QG2",
-          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman\u2019s Group, Agape Group)\r\n* Schedule the fall Men\u2019s and Women\u2019s retreats\r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
+          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman’s Group, Agape Group)\r\n* Schedule the fall Men’s and Women’s retreats\r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
         },
         {
           "title": "Admin Rock",
@@ -912,7 +912,7 @@
         },
         {
           "title": "Annual Ministry Report: 1. Make Final tweaks to the form 2. Send it out to ministry leaders and elders with a due date for when you need it back by",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
@@ -923,7 +923,7 @@
         },
         {
           "title": "To improve my preaching by finishing Spurgeon's Biography and On Writing Well by WIlliam Zinzer",
-          "status": "inProgress",
+          "status": "done",
           "top": false,
           "qg": "QG5"
         },
@@ -941,7 +941,7 @@
         },
         {
           "title": "Fix the www domain issue with our website by contacing John again",
-          "status": "inProgress",
+          "status": "done",
           "top": true,
           "qg": "QG1"
         },
@@ -968,7 +968,7 @@
           "top": false
         },
         {
-          "title": "Have the baby \ud83e\udd2a\ud83d\udc23",
+          "title": "Have the baby 🤪🐣",
           "status": "inProgress",
           "top": false
         },
@@ -985,7 +985,8 @@
         {
           "title": "Tech - Bulk Upload previous sermons that had not been added to Sermonaudio.com",
           "status": "done",
-          "top": false
+          "top": false,
+          "qg": "QG3"
         },
         {
           "title": "Fall Festival",
