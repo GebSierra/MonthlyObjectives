@@ -313,11 +313,23 @@ button.chip[aria-current="true"] { background: var(--blue); border-color: var(--
 .missed small { display: block; color: var(--muted); }
 .mini-row { display: flex; gap: 6px; justify-content: center; margin: 4px 0 14px; }
 .mini { width: 36px; height: 36px; display: grid; place-items: center; background: var(--blue); color: #fff; border-radius: 9px; font-weight: 700; font-size: 22px; }
+.mini.big { width: 72px; height: 72px; border-radius: 16px; font-size: 44px; margin: 4px 0 12px; }
+.typein { display: grid; gap: 6px; margin: 16px 0; }
+.typein label { font-weight: 700; font-size: 14px; color: var(--muted); }
+.typein input { width: 100%; font: inherit; color: var(--ink); background: var(--bg); padding: 12px 14px; border: 2px solid var(--line); border-radius: 14px; }
+.typein input:focus-visible { border-color: var(--blue); }
+.typein input.right { border-color: var(--ok); background: var(--ok-bg); }
+.typein input.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.typein .actions { margin-top: 6px; align-items: center; }
+.typein .primary:disabled { opacity: .5; cursor: default; }
+.hint-mask { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 15px; letter-spacing: .08em; font-weight: 700; color: var(--blue); overflow-wrap: anywhere; }
 .order { display: grid; gap: 8px; margin: 14px 0; padding: 0; list-style: none; }
 .slot { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 4px; border: 2px dashed var(--line); border-radius: 14px; }
 .slot .mini { flex: none; }
 .slot.filled { border: 2px solid var(--ok); background: var(--ok-bg); }
 .slot .lbl { font-weight: 700; }
+.slot .lbl small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
+.pool .opt { text-align: left; }
 .pool { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
 .pool .opt { width: auto; padding: 8px 14px; }
 .pool .opt[hidden] { display: none; }
@@ -444,6 +456,7 @@ stages: [
    icons:["offspring","exodus","law","atonement","fall"] },
 
  { letter:"G", n:4, title:"Government in the Promised Land", era:"Conquest and kingdoms (united and divided)", dates:"ca. 1400–600 B.C.", testament:"Old Testament",
+   aliases:["Government in the Land"],
    covenant:"Davidic",
    summary:[
     "In the conquest, God kept every promise of the land (Josh 21:43–45). But without a faithful king, “everyone did what was right in his own eyes” (Judg 21:25). The people asked for a king to replace the Lord (1 Sam 8:7). They would not heed the prophets, so the kingdom split, and both north and south ended in exile (2 Kgs 17:6–23; 25:1–21).",
@@ -960,7 +973,10 @@ const QUESTION_MAKERS = {
 };
 
 function buildQuestions(kind) {
-  if (kind === "letters") return shuffle(QUESTION_MAKERS.a());
+  if (kind === "letters") return shuffle(STAGES.map(s => ({
+    key: "t:" + s.letter, type: "text", letter: s.letter, prompt: "What does " + s.letter + " stand for?",
+    title: s.title, accepted: [s.title].concat(s.aliases || []), why: whyStage(s)
+  })));
   // Full quiz: take one question from each type in turn so the mix stays varied.
   const pools = shuffle(Object.keys(QUESTION_MAKERS)).map(t => shuffle(QUESTION_MAKERS[t]()));
   const picked = [];
@@ -990,20 +1006,20 @@ function quizHome() {
   }, h("b", null, title), h("span", null, text + (bestText ? " · " + bestText : "")));
   quizCard(
     h("h2", { id: "quiz-title", tabindex: "-1" }, "Test yourself"),
-    h("p", { class: "lead" }, "Pick a quiz. Use the keys 1 to 4 to answer and Enter for the next question."),
+    h("p", { class: "lead" }, "Pick a quiz. In multiple choice, keys 1 to 4 pick an answer. Enter moves on."),
     h("div", { class: "choices" },
-      choice("letters", "Letters", "7 questions: what does each letter stand for?",
+      choice("letters", "Letters", "7 questions: type what each letter stands for",
         best.letters != null ? "Best " + best.letters + " / 7" : ""),
       choice("full", "Full quiz", "12 questions: a mix of everything",
         best.full != null ? "Best " + best.full + " / 12" : ""),
-      choice("order", "Put it in order", "Tap the seven stage titles in the right order",
+      choice("order", "Put it in order", "Put seven events of the story in order",
         best.order != null ? "Fewest misses " + best.order : ""))
   );
 }
 
 function startQuiz(kind) {
   if (kind === "order") return startOrder();
-  quiz = { kind, questions: buildQuestions(kind), index: 0, score: 0, missed: [], answered: false };
+  quiz = { kind, questions: buildQuestions(kind), index: 0, score: 0, hinted: 0, missed: [], answered: false };
   renderQuestion();
 }
 
@@ -1011,6 +1027,7 @@ function renderQuestion() {
   const q = quiz.questions[quiz.index];
   const total = quiz.questions.length;
   quiz.answered = false;
+  if (q.type === "text") return renderTextQuestion(q, total);
   const opts = q.options.map((text, i) => h("button", {
     class: "opt", type: "button", "data-index": i,
     onclick: () => answer(i)
@@ -1028,6 +1045,108 @@ function renderQuestion() {
     h("div", { class: "actions" }, next)
   );
   $("#quiz-title").focus({ preventScroll: true });
+}
+
+/* ---------- Type-in questions (Letters quiz) ---------- */
+const SMALL_WORDS = ["and", "the", "of", "in"];
+
+function normalizeAnswer(text) {
+  return String(text).toLowerCase()
+    .replace(/[\u2018\u2019\u201B]/g, "'").replace(/[\u201C\u201D]/g, '"')
+    .replace(/&/g, " and ")
+    .replace(/[^a-z ]/g, "")
+    .split(/\s+/).filter(w => w && !SMALL_WORDS.includes(w)).join(" ");
+}
+
+function editDistance(a, b) {
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const row = [i];
+    for (let j = 1; j <= b.length; j++) {
+      row[j] = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = row;
+  }
+  return prev[b.length];
+}
+
+// Returns "exact", "close" (a small typo) or "wrong".
+function gradeTyped(typed, accepted) {
+  const t = normalizeAnswer(typed);
+  if (!t) return "wrong";
+  let close = false;
+  for (const a of accepted) {
+    const n = normalizeAnswer(a);
+    if (t === n) return "exact";
+    if (editDistance(t, n) <= (n.length < 15 ? 1 : 2)) close = true;
+  }
+  return close ? "close" : "wrong";
+}
+
+function maskTitle(title) {
+  return title.split(" ").map(w => SMALL_WORDS.includes(w.toLowerCase()) ? w : w[0] + w.slice(1).replace(/[A-Za-z]/g, "_")).join(" ");
+}
+
+function renderTextQuestion(q, total) {
+  const input = h("input", {
+    type: "text", id: "typed", autocomplete: "off", autocapitalize: "off", spellcheck: "false",
+    placeholder: "Type the stage title", onkeydown: e => {
+      if (e.key === "Enter") { e.preventDefault(); e.stopPropagation(); checkTyped(); }
+    }
+  });
+  const hintBtn = h("button", { class: "secondary", type: "button", id: "hint", onclick: showHint }, "Hint");
+  const next = h("button", { class: "primary", type: "button", id: "next-q", hidden: true, onclick: nextQuestion },
+    quiz.index + 1 === total ? "See results" : "Next");
+  quizCard(
+    h("div", { class: "qmeta" }, h("span", null, "Question " + (quiz.index + 1) + " of " + total)),
+    h("div", { class: "progress", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(total), "aria-valuenow": String(quiz.index) },
+      h("i", { style: "width:" + (quiz.index / total * 100) + "%" })),
+    h("div", { class: "mini big", "aria-hidden": "true" }, q.letter),
+    h("h2", { id: "quiz-title", tabindex: "-1" }, q.prompt),
+    h("div", { class: "typein" },
+      h("label", { for: "typed" }, "Your answer"),
+      input,
+      h("div", { class: "actions" },
+        h("button", { class: "primary", type: "button", id: "check", onclick: checkTyped }, "Check"),
+        hintBtn)),
+    h("p", { class: "feedback", id: "feedback", "aria-live": "polite" }),
+    h("div", { class: "actions" }, next)
+  );
+  $("#quiz-title").focus({ preventScroll: true });
+}
+
+function showHint() {
+  if (!quiz || quiz.answered) return;
+  const q = quiz.questions[quiz.index];
+  if (!q.hinted) { q.hinted = true; quiz.hinted++; }
+  const btn = $("#hint");
+  if (btn) btn.replaceWith(h("span", { class: "hint-mask", id: "hint-mask" }, maskTitle(q.title)));
+  $("#typed").focus();
+}
+
+function checkTyped() {
+  if (!quiz || quiz.answered) return;
+  const input = $("#typed");
+  const typed = input.value.trim();
+  if (!typed) return;
+  const q = quiz.questions[quiz.index];
+  const result = gradeTyped(typed, q.accepted);
+  const ok = result !== "wrong";
+  quiz.answered = true;
+  input.disabled = true;
+  input.classList.add(ok ? "right" : "wrong");
+  $("#check").disabled = true;
+  const hint = $("#hint");
+  if (hint) hint.hidden = true;
+  if (ok) quiz.score++;
+  else quiz.missed.push({ prompt: q.prompt, typed, answer: q.title, why: q.why });
+  const lead = result === "exact" ? "Correct. "
+    : result === "close" ? "Correct. Watch the spelling: " + q.title + ". "
+    : "Not quite. The answer is " + q.title + ". ";
+  $("#feedback").append(h("strong", { class: ok ? "good" : "bad" }, lead), q.why);
+  const next = $("#next-q");
+  next.hidden = false;
+  next.focus();
 }
 
 function answer(choice) {
@@ -1070,23 +1189,27 @@ function miniRow() {
 function renderEnd() {
   const total = quiz.questions.length;
   const score = quiz.score;
-  const message = score === total ? "Perfect!" : score >= 9 || (total === 7 && score >= 6) ? "Well done." : "Keep going. Try again?";
+  const hinted = quiz.hinted || 0;
+  const perfect = score === total && !hinted;
+  const message = perfect ? "Perfect!" : score === total || score >= 9 || (total === 7 && score >= 6) ? "Well done." : "Keep going. Try again?";
   saveBest(quiz.kind, score, false);
   const kind = quiz.kind;
   const row = miniRow();
   quizCard(
-    score === total ? row : null,
+    perfect ? row : null,
     h("p", { class: "eyebrow" }, "Your score"),
     h("div", { class: "score", id: "score" }, score + " / " + total),
+    hinted ? h("p", { class: "lead", id: "hinted" }, hinted + " answered with a hint") : null,
     h("h2", { id: "quiz-title", tabindex: "-1" }, message),
     quiz.missed.length ? h("h3", null, "Missed") : null,
     quiz.missed.length ? h("ol", { class: "missed", id: "missed" }, quiz.missed.map(m =>
-      h("li", null, m.prompt, h("small", null, "Answer: " + m.answer), h("small", null, m.why)))) : null,
+      h("li", null, m.prompt, m.typed ? h("small", null, "You typed: " + m.typed) : null,
+        h("small", null, "Answer: " + m.answer), h("small", null, m.why)))) : null,
     h("div", { class: "actions" },
       h("button", { class: "primary", type: "button", id: "again", onclick: () => startQuiz(kind) }, "Try again"),
       h("button", { class: "secondary", type: "button", id: "back", onclick: backToFigure }, "Back to the figure"))
   );
-  if (score === total) celebrate(row);
+  if (perfect) celebrate(row);
   $("#quiz-title").focus({ preventScroll: true });
 }
 
@@ -1110,17 +1233,18 @@ function startOrder() {
 function renderOrder() {
   const slots = STAGES.map((s, i) => h("li", {
     class: "slot" + (i < quiz.next ? " filled" : ""), "data-slot": i
-  }, h("span", { class: "mini" }, s.letter), h("span", { class: "lbl" }, i < quiz.next ? s.title : "")));
+  }, h("span", { class: "mini" }, i < quiz.next ? s.letter : String(i + 1)),
+    h("span", { class: "lbl" }, i < quiz.next ? [s.title, h("small", null, s.era)] : "")));
   const pool = quiz.pool.map(si => h("button", {
     class: "opt", type: "button", "data-stage": si,
     hidden: si < quiz.next,
     onclick: e => tapOrder(si, e.currentTarget)
-  }, STAGES[si].title));
+  }, STAGES[si].era));
   quizCard(
     h("h2", { id: "quiz-title", tabindex: "-1" }, "Put it in order"),
-    h("p", { class: "lead" }, "Tap the stage titles in order, starting with " + STAGES[0].letter + ". Next up: " + STAGES[Math.min(quiz.next, 6)].letter + "."),
+    h("p", { class: "lead" }, "Tap these events in the order they happen in the Bible's story."),
     h("ol", { class: "order" }, slots),
-    h("div", { class: "pool", role: "group", "aria-label": "Stage titles" }, pool)
+    h("div", { class: "pool", role: "group", "aria-label": "Events" }, pool)
   );
   $("#quiz-title").focus({ preventScroll: true });
 }
@@ -1150,8 +1274,8 @@ function renderOrderEnd() {
     h("div", { class: "score", id: "score" }, misses.length === 0 ? "No misses" : misses.length + (misses.length === 1 ? " miss" : " misses")),
     h("h2", { id: "quiz-title", tabindex: "-1" }, misses.length === 0 ? "Perfect!" : "Done. Try again for fewer misses?"),
     misses.length ? h("ol", { class: "missed", id: "missed" }, misses.map(m =>
-      h("li", null, "For " + STAGES[m.slot].letter + " you tapped “" + STAGES[m.tapped].title + "”.",
-        h("small", null, "Answer: " + STAGES[m.slot].title)))) : null,
+      h("li", null, "For position " + (m.slot + 1) + " you tapped “" + STAGES[m.tapped].era + "”.",
+        h("small", null, "Answer: " + STAGES[m.slot].era + " (" + STAGES[m.slot].letter + " · " + STAGES[m.slot].title + ")")))) : null,
     h("div", { class: "actions" },
       h("button", { class: "primary", type: "button", id: "again", onclick: startOrder }, "Try again"),
       h("button", { class: "secondary", type: "button", id: "back", onclick: backToFigure }, "Back to the figure"))
@@ -1236,9 +1360,12 @@ function onKey(e) {
     if (e.key === "ArrowLeft") { e.preventDefault(); goToStage(state.panel.i - 1); return; }
   }
   if (state.mode === "quiz" && quiz && quiz.questions) {
+    const typing = e.target.closest && e.target.closest("input, textarea, select");
+    const q = quiz.questions[quiz.index];
     if (!quiz.answered && /^[1-4]$/.test(e.key)) {
+      if (typing || !q.options) return;
       const idx = Number(e.key) - 1;
-      if (idx < quiz.questions[quiz.index].options.length) answer(idx);
+      if (idx < q.options.length) answer(idx);
     } else if (quiz.answered && e.key === "Enter" && !(e.target.closest && e.target.closest("button, a"))) {
       e.preventDefault();
       nextQuestion();
