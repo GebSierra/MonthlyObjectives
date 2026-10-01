@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-09-24",
+  "lastUpdated": "2026-10-01",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -940,8 +940,8 @@
           "qg": "QG5"
         },
         {
-          "title": "Fix the www domain issue with our website by contacing John again",
-          "status": "done",
+          "title": "Fix the www domain issue",
+          "status": "inProgress",
           "top": true,
           "qg": "QG1"
         },
@@ -998,6 +998,11 @@
           "status": "done",
           "top": false,
           "qg": "QG1"
+        },
+        {
+          "title": "[QCG1] transfer over old domains from John's personal account to a church account",
+          "status": "done",
+          "top": false
         }
       ],
       "people": [
@@ -1044,6 +1049,18 @@
         {
           "name": "Dave Bartels",
           "note": "Geb got to connect with him"
+        },
+        {
+          "name": "David K",
+          "note": "Parker's friend; another gospel conversation over lunch"
+        },
+        {
+          "name": "Nathan Delguanto",
+          "note": "lunch at Chick-fil-A"
+        },
+        {
+          "name": "Jillian",
+          "note": "connected through Released Time Bible class"
         }
       ],
       "quarterEndDate": "2026-10-17",
