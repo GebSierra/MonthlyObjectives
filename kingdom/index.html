@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>God's KINGDOM Plan</title>
+<meta name="description" content="Seven stages of the story of God's glory in Christ, shown as an interactive KINGDOM figure with a quiz.">
+<style>
+/* ---------- Tokens ---------- */
+:root {
+  --blue: #0B6FAE;
+  --blue-deep: #085A8E;
+  --bg: #FFFFFF;
+  --ink: #1A2230;
+  --muted: #5B6575;
+  --panel: #F2F7FB;
+  --line: #D5E1EC;
+  --focus: #FFC94D;
+  --ok: #17703F;
+  --ok-bg: #E2F4E9;
+  --bad: #B3261E;
+  --bad-bg: #FBE6E4;
+  --shadow: 0 10px 40px rgba(16, 36, 58, .22);
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --blue: #1A82C4;
+    --blue-deep: #1470AB;
+    --bg: #0E1520;
+    --ink: #E6EDF5;
+    --muted: #9FB0C2;
+    --panel: #162231;
+    --line: #27394D;
+    --ok: #6FD79B;
+    --ok-bg: #12301F;
+    --bad: #FF9188;
+    --bad-bg: #3C1A18;
+    --shadow: 0 10px 40px rgba(0, 0, 0, .55);
+  }
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #1A2230;
+}
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 16px 24px; }
+
+/* Icons: one sprite, two looks. Solid by default, dotted outline when .promised.
+   The --s / --o custom properties flow into the <use> shadow tree. */
+svg.ic { display: block; width: 100%; height: 100%; fill: currentColor; overflow: visible; }
+.s { display: var(--s, inline); }
+.o { display: var(--o, none); }
+svg.ic.promised {
+  --s: none;
+  --o: inline;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--pw, 2.6);
+  stroke-dasharray: 0.1 var(--pd, 5);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Header and toolbar ---------- */
+header { text-align: center; padding: 28px 0 8px; }
+h1 { margin: 0 0 6px; font-size: clamp(26px, 5vw, 40px); line-height: 1.15; letter-spacing: -.01em; }
+.sub { margin: 0 auto 18px; max-width: 46em; color: var(--muted); font-size: clamp(15px, 2.4vw, 18px); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.pillbtn {
+  border: 2px solid var(--blue); background: transparent; color: var(--blue);
+  border-radius: 999px; padding: 6px 18px; font-weight: 700; font-size: 15px;
+  transition: background .15s, color .15s;
+}
+.pillbtn:hover { background: var(--panel); }
+.pillbtn[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.pillbtn[aria-pressed="true"]:hover { background: var(--blue-deep); border-color: var(--blue-deep); }
+
+/* ---------- Layout: main + side panel ---------- */
+.layout { display: flex; align-items: flex-start; margin-top: 18px; }
+main { flex: 1 1 auto; min-width: 0; container-type: inline-size; }
+
+/* ---------- Board ---------- */
+.board {
+  --w: clamp(34px, min(12cqw, calc(100cqw / 7.6)), 130px);
+  --pw: 2.4; --pd: 4.8;
+  display: grid;
+  grid-template-columns: repeat(7, var(--w));
+  gap: calc(var(--w) * .1);
+  justify-content: center;
+  align-items: start;
+  padding: 6px 0 20px;
+}
+@container (max-width: 560px) { .board { --pw: 3; --pd: 7; } }
+.col { display: flex; flex-direction: column; align-items: center; transition: opacity .25s; }
+.tile {
+  width: var(--w); height: var(--w);
+  display: grid; place-items: center;
+  border: 0; border-radius: calc(var(--w) * .22);
+  background: var(--blue); color: #fff;
+  font-weight: 700; font-size: calc(var(--w) * .62); line-height: 1;
+  padding: 0 0 calc(var(--w) * .03);
+  transition: background .15s, transform .15s;
+}
+.tile:hover, .tile:focus-visible { background: var(--blue-deep); }
+.col.sel .tile { background: var(--blue-deep); }
+.pill {
+  --r: calc(var(--w) / 2);
+  width: var(--w);
+  margin-top: calc(var(--w) * .035);
+  padding: calc(var(--w) * .01) 0;
+  background: var(--blue); color: #fff;
+  border-radius: var(--r);
+  display: flex; flex-direction: column; align-items: center;
+}
+.ico {
+  position: relative;
+  width: calc(var(--w) * .78); height: calc(var(--w) * .78);
+  margin: calc(var(--w) * .11) 0;
+  padding: 0; border: 0; background: transparent; color: inherit;
+  border-radius: 50%;
+  transition: transform .15s, opacity .2s, background .2s, box-shadow .2s;
+}
+.ico svg.ic { width: 100%; height: 100%; }
+.ico:hover, .ico:focus-visible { transform: scale(1.12); }
+
+/* Highlight state while an icon or stage is selected */
+.board.stage-mode .col:not(.sel) { opacity: .35; }
+.board.icon-mode .ico:not(.hit) { opacity: .25; }
+.board.icon-mode .tile { opacity: .55; }
+.ico.hit {
+  background: rgba(255, 255, 255, .16);
+  box-shadow: 0 0 0 calc(var(--w) * .035) #fff, 0 0 calc(var(--w) * .18) rgba(255, 255, 255, .55);
+}
+.ico.cur { background: rgba(255, 255, 255, .3); }
+
+/* Tooltip */
+#tip {
+  position: fixed; z-index: 60; pointer-events: none;
+  background: #1A2230; color: #fff; border-radius: 8px;
+  padding: 4px 10px; font-size: 13px; line-height: 1.35; max-width: 240px; text-align: center;
+  opacity: 0; transition: opacity .12s;
+}
+#tip.show { opacity: 1; }
+
+/* ---------- Intro animation ---------- */
+@keyframes drop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: none; } }
+@keyframes unroll { from { clip-path: inset(0 0 100% 0 round var(--r)); } to { clip-path: inset(0 0 0 0 round var(--r)); } }
+@keyframes pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes hop { 0%, 100% { transform: none; } 40% { transform: translateY(-22%); } }
+@keyframes shake { 0%, 100% { transform: none; } 20% { transform: translateX(-7px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
+.board.intro .tile { animation: drop 420ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(var(--i) * 70ms); }
+.board.intro .pill { --cd: calc(350ms + var(--i) * 90ms); animation: unroll 600ms cubic-bezier(.3, .7, .3, 1) both; animation-delay: var(--cd); }
+.board.intro .ico svg.ic { animation: pop 300ms cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: calc(var(--cd) + 150ms + var(--j) * 60ms); }
+.wave .mini { animation: hop 520ms ease-in-out both; animation-delay: calc(var(--i) * 80ms); }
+.shake { animation: shake 320ms; }
+
+/* ---------- Side panel ---------- */
+.panel {
+  position: sticky; top: 12px; flex: 0 0 auto;
+  width: 0; margin-left: 0; opacity: 0; visibility: hidden; overflow: hidden;
+  background: var(--panel); border-radius: 18px;
+  transition: width .3s ease, margin-left .3s ease, opacity .2s, visibility 0s .3s;
+}
+.panel.open {
+  width: 420px; margin-left: 16px; opacity: 1; visibility: visible;
+  box-shadow: var(--shadow);
+  transition: width .3s ease, margin-left .3s ease, opacity .2s, visibility 0s;
+}
+.panel-inner { width: 420px; max-height: min(calc(100vh - 24px), 780px); overflow-y: auto; overscroll-behavior: contain; }
+.panel-bar {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding: 10px 12px; background: var(--panel); border-bottom: 1px solid var(--line);
+}
+.nav { display: flex; gap: 6px; }
+.navbtn, .closebtn {
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  border-radius: 999px; padding: 4px 14px; font-size: 14px; font-weight: 600; min-height: 34px;
+}
+.navbtn:hover:not(:disabled), .closebtn:hover { border-color: var(--blue); color: var(--blue); }
+.navbtn:disabled { opacity: .4; cursor: default; }
+.closebtn { width: 36px; padding: 0; font-size: 22px; line-height: 1; }
+.panel-body { padding: 16px 20px 24px; }
+.panel-body h2 { margin: 0; font-size: 22px; line-height: 1.25; }
+.panel-body h2:focus { outline: none; }
+.panel-body p { margin: 0 0 12px; }
+.p-head { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+.bigletter {
+  flex: none; width: 68px; height: 68px; display: grid; place-items: center;
+  background: var(--blue); color: #fff; border-radius: 15px; font-size: 44px; font-weight: 700; line-height: 1; padding-bottom: 3px;
+}
+.eyebrow { margin: 0 0 2px; color: var(--muted); font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.facts { margin: 0 0 14px; padding: 0; list-style: none; font-size: 15px; }
+.facts li { margin: 2px 0; }
+.facts b { color: var(--muted); font-weight: 700; }
+.panel-body h3 { margin: 18px 0 8px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.chip {
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  border-radius: 999px; padding: 3px 11px; font-size: 14px;
+}
+button.chip:hover { border-color: var(--blue); color: var(--blue); }
+button.chip[aria-current="true"] { background: var(--blue); border-color: var(--blue); color: #fff; }
+.mini-icons { display: flex; flex-wrap: wrap; gap: 8px; }
+.mini-ico {
+  width: 52px; height: 52px; padding: 8px; border: 0; border-radius: 14px;
+  background: var(--blue); color: #fff; transition: transform .15s;
+}
+.mini-ico:hover { transform: scale(1.08); }
+.mini-ico svg.ic { --pw: 3.6; --pd: 6.5; }
+.icon-hero {
+  width: 132px; height: 132px; padding: 22px; margin: 0 0 14px;
+  background: var(--panel); color: var(--blue); border-radius: 22px; border: 1px solid var(--line);
+}
+.panel-body .icon-hero { background: var(--bg); }
+.icon-hero svg.ic { --pw: 2.6; --pd: 5; }
+.badge { display: inline-block; margin: 8px 0 12px; padding: 2px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+.badge.promised { border: 2px dotted var(--blue); color: var(--blue); }
+.badge.fulfilled { background: var(--blue); color: #fff; border: 2px solid var(--blue); }
+.note { font-size: 17px; }
+.linkbtn { border: 0; background: none; padding: 0; color: var(--blue); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.linkbtn:hover { color: var(--blue-deep); }
+.backdrop { display: none; }
+
+@media (max-width: 899px) {
+  .panel {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 50;
+    width: auto; margin: 0; opacity: 1;
+    border-radius: 18px 18px 0 0;
+    transform: translateY(105%);
+    transition: transform .3s ease, visibility 0s .3s;
+  }
+  .panel.open { width: auto; margin: 0; transform: none; transition: transform .3s ease, visibility 0s; }
+  .panel-inner { width: auto; max-height: 80vh; max-height: 80dvh; }
+  .backdrop { display: block; position: fixed; inset: 0; z-index: 40; background: rgba(10, 20, 32, .4); opacity: 0; visibility: hidden; transition: opacity .25s, visibility 0s .25s; }
+  .backdrop.show { opacity: 1; visibility: visible; transition: opacity .25s; }
+}
+
+/* ---------- Legend ---------- */
+.legend { max-width: 900px; margin: 8px auto 24px; padding: 20px; background: var(--panel); border-radius: 18px; }
+.legend h2 { margin: 0 0 10px; font-size: 20px; }
+.legend-key { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 16px; color: var(--ink); }
+.legend-key .pair { display: flex; gap: 8px; }
+.legend-key .swatch { width: 60px; height: 60px; padding: 9px; background: var(--blue); color: #fff; border-radius: 12px; }
+.legend-key .swatch svg.ic { --pw: 3.6; --pd: 6.5; }
+.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
+@media (max-width: 640px) { .legend-grid { grid-template-columns: 1fr; } }
+.legend-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  padding: 8px 12px 8px 8px; border: 1px solid var(--line); background: var(--bg); border-radius: 14px;
+  transition: border-color .15s, transform .15s;
+}
+.legend-item:hover { border-color: var(--blue); transform: translateY(-1px); }
+.legend-item .swatch { flex: none; width: 48px; height: 48px; padding: 8px; background: var(--blue); color: #fff; border-radius: 12px; }
+.legend-item .swatch svg.ic { --pw: 3.6; --pd: 6.5; }
+
+/* ---------- Quiz ---------- */
+.card { max-width: 680px; margin: 8px auto 24px; padding: 24px; background: var(--panel); border-radius: 20px; }
+.card h2 { margin: 0 0 6px; font-size: 24px; line-height: 1.25; }
+.card h2:focus { outline: none; }
+.card .lead { margin: 0 0 18px; color: var(--muted); }
+.choices { display: grid; gap: 10px; }
+.choice {
+  text-align: left; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--line);
+  background: var(--bg); color: var(--ink); transition: border-color .15s, transform .15s;
+}
+.choice:hover { border-color: var(--blue); transform: translateY(-1px); }
+.choice b { display: block; font-size: 18px; }
+.choice span { color: var(--muted); font-size: 14px; }
+.progress { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; margin: 6px 0 16px; }
+.progress > i { display: block; height: 100%; background: var(--blue); border-radius: 99px; transition: width .3s; }
+.qmeta { display: flex; justify-content: space-between; color: var(--muted); font-size: 14px; font-weight: 700; }
+.qicon { width: 120px; height: 120px; padding: 18px; margin: 4px 0 12px; background: var(--blue); color: #fff; border-radius: 22px; }
+.opts { display: grid; gap: 10px; margin: 16px 0; }
+.opt {
+  display: flex; gap: 12px; align-items: center; text-align: left; width: 100%;
+  padding: 12px 14px; border: 2px solid var(--line); border-radius: 14px; background: var(--bg); color: var(--ink);
+  transition: border-color .15s, background .15s;
+}
+.opt:hover:not(:disabled) { border-color: var(--blue); }
+.opt:disabled { cursor: default; }
+.opt .num { flex: none; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 8px; background: var(--panel); color: var(--muted); font-size: 13px; font-weight: 700; }
+.opt .mark { margin-left: auto; font-weight: 700; font-size: 18px; }
+.opt.right { border-color: var(--ok); background: var(--ok-bg); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.opt.right .mark { color: var(--ok); }
+.opt.wrong .mark { color: var(--bad); }
+.feedback { min-height: 3em; margin: 0 0 12px; }
+.feedback strong.good { color: var(--ok); }
+.feedback strong.bad { color: var(--bad); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.primary { border: 2px solid var(--blue); background: var(--blue); color: #fff; border-radius: 999px; padding: 8px 22px; font-weight: 700; }
+.primary:hover { background: var(--blue-deep); border-color: var(--blue-deep); }
+.secondary { border: 2px solid var(--blue); background: transparent; color: var(--blue); border-radius: 999px; padding: 8px 22px; font-weight: 700; }
+.secondary:hover { background: var(--bg); }
+.score { font-size: 54px; font-weight: 700; line-height: 1.1; margin: 4px 0; color: var(--blue); }
+.missed { margin: 12px 0 18px; padding-left: 22px; }
+.missed li { margin: 0 0 10px; }
+.missed small { display: block; color: var(--muted); }
+.mini-row { display: flex; gap: 6px; justify-content: center; margin: 4px 0 14px; }
+.mini { width: 36px; height: 36px; display: grid; place-items: center; background: var(--blue); color: #fff; border-radius: 9px; font-weight: 700; font-size: 22px; }
+.order { display: grid; gap: 8px; margin: 14px 0; padding: 0; list-style: none; }
+.slot { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 4px; border: 2px dashed var(--line); border-radius: 14px; }
+.slot .mini { flex: none; }
+.slot.filled { border: 2px solid var(--ok); background: var(--ok-bg); }
+.slot .lbl { font-weight: 700; }
+.pool { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.pool .opt { width: auto; padding: 8px 14px; }
+.pool .opt[hidden] { display: none; }
+
+/* ---------- Footer ---------- */
+footer { max-width: 52em; margin: 28px auto 0; color: var(--muted); font-size: 13px; text-align: center; }
+
+/* ---------- Reduced motion: no movement, panels fade only ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .panel, .panel.open { transition: opacity .15s !important; }
+  .backdrop { transition: opacity .15s !important; }
+}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-paradise" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M54.4 6.5L52.5 6.1L50.5 6L48.5 6.1L46.6 6.5L44.7 7.2L42.9 8L41.3 9.1L39.8 10.4L38.5 11.9L37.4 13.6L37 14.4L34.8 13.5L33.1 13.2L31.4 13.1L29.7 13.2L28 13.5L26.4 14L24.8 14.8L23.4 15.8L22.1 16.9L21 18.2L20 19.6L19.3 21.1L18.7 22.8L18.4 24.4L18.3 26.2L16 26.2L14.7 26.5L13.4 26.9L12.2 27.5L11.1 28.2L10.1 29.1L9.3 30.1L8.5 31.2L8 32.4L7.5 33.6L7.3 34.9L7.2 36.2L7.3 37.5L7.5 38.8L8 40.1L8.5 41.3L9.3 42.3L10.1 43.3L18.6 43.3L19.2 44.8L19.7 45.5L21 46.8L22.6 47.8L24.4 48.2L25.3 48.3L26.2 48.2L28 47.8L29.6 46.8L30.9 45.5L31.4 44.8L32.1 43.3L32.8 43.3L32.4 43.6L32.2 44.2L32.3 44.7L32.6 45.2L42.4 51.5L44.7 53.5L46.7 55.6L48.3 64.7L48.7 68L48.7 71.2L48.4 74.6L47.8 78.9L46 85.5L45.3 89.1L45.1 90.8L45.1 92.9L45.6 93.7L46.4 94L47.3 93.8L47.8 93L47.9 91.4L48.5 88.3L51.5 79.5L52.1 77.1L52.5 74.8L53 71L53.1 67.3L53 63.8L52.4 59L54.5 56.7L57.1 54.5L65.3 48.6L68.5 46L69.4 46.8L71 47.8L72.7 48.2L74.6 48.2L76.4 47.8L78 46.8L79.3 45.5L79.8 44.8L80.4 43.3L89.9 43.3L90.7 42.3L91.5 41.3L92 40.1L92.5 38.8L92.7 37.5L92.8 36.2L92.7 34.9L92.5 33.6L92 32.4L91.5 31.2L90.7 30.1L89.9 29.1L88.9 28.2L87.8 27.5L86.6 26.9L85.3 26.5L84 26.2L82.7 26.1L82.6 24.4L82.3 22.8L81.7 21.1L81 19.6L80 18.2L78.9 16.9L77.6 15.8L76.2 14.8L74.7 14L73 13.5L71.4 13.2L69.6 13.1L67.9 13.2L66.3 13.5L64 14.4L63.6 13.6L62.5 11.9L61.2 10.4L59.7 9.1L58.1 8L56.3 7.2ZM45.9 50.2L44.5 49.2L43.9 48.9L45 48.4L45.8 47.8ZM52 46.6L53.3 47.9L54.9 48.8L55.7 49.1L56.6 49.3L58.5 49.3L60.3 48.7L55 52L51.8 54.4L51.5 49.4L51.6 46ZM62.5 47.2L63.7 45.8L64.1 45L64.5 43.3L66.9 43.3L67.3 44.2L64.2 46.4L62 47.7ZM34.5 43.6L34 43.3L34 43.3L34.5 43.3Z"/></symbol>
+<symbol id="i-fall" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M57.9 7.9L57.6 7L57.4 6.6L56.8 6.2L55.9 6L55 6.3L54.6 6.8L53.2 8.9L50.7 13.4L49.7 15.8L48.8 18.3L48 20.9L47.5 23.3L47.2 26L47 28.8L47.2 31.7L45 30.8L44 30.1L42.4 28.5L41.7 28.3L29.5 28.3L28.6 28.6L26.4 29.6L24.4 31L23.1 32.1L24.3 33.1L27 36.2L29.2 39.6L31.1 43.2L32.4 47.1L33.2 51.1L33.4 55.2L33.2 59.3L32.4 63.3L31.1 67.2L29.2 70.8L27 74.2L24.3 77.3L22.1 79.2L22.5 80L24.8 83L27.7 85.9L28.6 86.2L30.2 86.3L31.8 86.2L33.4 85.7L35.1 85L39.9 82.7L41.5 82.2L43.1 82L44.8 82.2L46.4 82.7L51.2 85L52.8 85.7L54.4 86.2L56.1 86.3L57.7 86.2L59.3 85.7L60.9 85L65.8 82.7L67.4 82.2L69 82L70.6 82.2L72.2 82.7L74 83.4L76.7 80L77.9 77.8L74.9 75.1L72.2 72.1L70 68.7L68.1 65L66.8 61.1L66 57.1L65.8 53L66 49L66.8 45L68.1 41.1L70 37.4L72.2 34L73.9 32.1L71.4 30.9L68.9 30L66.3 29.5L63.6 29.3L60.9 29.5L58.3 30L55.8 30.9L53.4 32.1L51.1 33.6L50.2 34.4L49.7 33.9L50.4 33.7L50.9 33.5L51.4 33L51.9 32.2L52 31.3L51.7 28.4L51.7 26L51.9 23.7L52.3 21.3L52.9 19L54.5 14.5L56.6 10.3L57.7 8.5ZM41.5 93L45.5 93.8L49.6 94L53.7 93.8L57.7 93L61.6 91.9L65.2 90.2L68.6 88.2L71.7 85.8L72.4 85.1L70.6 84.6L69 84.4L67.4 84.6L65.8 85L64.1 85.7L59.3 88.1L57.7 88.6L56.1 88.7L54.4 88.6L52.8 88.1L46.4 85L44.8 84.6L43.1 84.4L41.5 84.6L39.9 85L33.4 88.1L31.2 88.6L34 90.2L37.6 91.9Z"/></symbol>
+<symbol id="i-exile" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M92.5 38.6L90.7 33.2L88.1 28L84.9 23.2L81.1 18.9L76.8 15.1L72 11.9L66.8 9.3L61.4 7.5L55.7 6.4L50 6L44.3 6.4L38.6 7.5L33.2 9.3L28 11.9L23.2 15.1L18.9 18.9L15.1 23.2L11.9 28L9.3 33.2L7.5 38.6L6.4 44.3L6 50L6.4 55.7L7.5 61.4L9.3 66.8L11.9 72L15.1 76.8L18.9 81.1L23.2 84.9L28 88.1L33.2 90.7L38.6 92.5L44.3 93.6L50 94L55.7 93.6L61.4 92.5L66.8 90.7L72 88.1L76.8 84.9L81.1 81.1L84.9 76.8L88.1 72L90.7 66.8L92.5 61.4L93.6 55.7L94 50L93.6 44.3ZM80.6 58.2L79.3 62.1L77.5 65.9L76.4 67.4L32.6 23.6L34.1 22.5L37.9 20.7L41.8 19.4L45.9 18.6L50 18.3L54.1 18.6L58.2 19.4L62.1 20.7L65.9 22.5L69.3 24.8L72.4 27.6L75.2 30.7L77.5 34.1L79.3 37.9L80.6 41.8L81.4 45.9L81.7 50L81.4 54.1ZM65.9 77.5L62.1 79.3L58.2 80.6L54.1 81.4L50 81.7L45.9 81.4L41.8 80.6L37.9 79.3L34.1 77.5L30.7 75.2L27.6 72.4L24.8 69.3L22.5 65.9L20.7 62.1L19.4 58.2L18.6 54.1L18.3 50L18.6 45.9L19.4 41.8L20.7 37.9L22.5 34.1L23.6 32.6L67.4 76.4Z"/></symbol>
+<symbol id="i-flood" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M20.3 28.9L19.7 29.2L19.5 29.5L19.4 30.2L19.6 30.8L28 42.4L28.5 42.7L29 42.9L71.2 42.8L72 42.4L80.4 30.8L80.6 30.2L80.5 29.5L80.3 29.2L79.7 28.9L79.3 28.8L64.7 28.8L64.7 17.5L59.4 17.5L58.7 17.2L58.4 16.5L58.3 11.2L41.6 11.2L41.6 16.5L41.3 17.2L40.6 17.5L35.3 17.5L35.3 28.8ZM53.1 24.1L52.7 24.6L52.2 24.8L47.9 24.9L47.4 24.7L47 24.3L46.9 23.9L46.9 20.7L47 20.1L47.3 19.8L47.8 19.6L52.1 19.6L52.6 19.8L53 20.1L53.1 20.5ZM11.9 53.1L13.5 52.4L15.1 52.2L16.7 52.5L18.3 53.3L23 56.6L24.6 57.3L26.2 57.6L27.8 57.5L29.4 56.8L34.1 53.6L35.7 52.7L37.3 52.2L38.9 52.3L40.5 52.8L42.1 53.7L45.2 56L46.8 57L48.4 57.5L50 57.6L51.6 57.2L53.2 56.4L57.9 53.1L59.5 52.4L61.1 52.2L62.7 52.5L64.3 53.2L69 56.5L70.6 57.3L72.2 57.6L73.8 57.5L75.4 56.9L77 55.9L80.2 53.6L81.7 52.7L83.3 52.3L84.9 52.3L86.5 52.8L88.1 53.7L92.3 56.6L93.6 50.5L94 44.8L6 44.8L6.4 50.5L7.5 56.1ZM15.1 70.2L16.7 69.9L18.3 69.2L23 65.9L24.6 65.1L26.2 64.8L27.8 65L29.4 65.6L34.1 68.9L35.7 69.7L37.3 70.2L38.9 70.1L40.5 69.6L42.1 68.7L45.2 66.4L46.8 65.5L48.4 64.9L50 64.8L51.6 65.2L53.2 66L57.9 69.3L59.5 70L61.1 70.2L62.7 69.9L64.3 69.2L69 65.9L70.6 65.1L72.2 64.8L73.8 64.9L75.4 65.6L77 66.5L80.2 68.8L81.7 69.7L83.3 70.2L84.9 70.1L86.1 69.8L88.1 66.8L90.7 61.6L91 60.6L88.1 58.5L86.5 57.6L84.9 57.1L83.3 57.1L81.7 57.5L80.2 58.4L77 60.7L75.4 61.7L73.8 62.3L72.2 62.5L70.6 62.1L69 61.3L64.3 58L62.7 57.3L61.1 57L59.5 57.2L57.9 57.9L53.2 61.2L51.6 62L50 62.4L48.4 62.4L46.8 61.8L45.2 60.8L42.1 58.6L40.5 57.6L38.9 57.1L37.3 57.1L35.7 57.5L34.1 58.4L29.4 61.6L27.8 62.3L26.2 62.5L24.6 62.1L23 61.4L18.3 58.1L16.7 57.3L15.1 57L13.5 57.2L11.9 57.9L8.8 60L9.3 61.6L11.9 66.8L14.1 70.1ZM28 82.9L33.2 85.4L38.6 87.3L44.3 88.4L50 88.8L55.7 88.4L61.4 87.3L66.8 85.4L72 82.9L76.8 79.7L81.1 75.9L82.2 74.6L80.2 73.6L77 71.4L75.4 70.4L73.8 69.8L72.2 69.6L70.6 69.9L69 70.7L64.3 74L62.7 74.8L61.1 75L59.5 74.8L57.9 74.1L53.2 70.9L51.6 70L50 69.6L48.4 69.7L46.8 70.3L45.2 71.2L42.1 73.5L40.5 74.4L38.9 74.9L37.3 75L35.7 74.5L34.1 73.7L29.4 70.4L27.8 69.8L26.2 69.6L24.6 69.9L23 70.7L18.3 74L17.5 74.3L18.9 75.9L23.2 79.7Z"/></symbol>
+<symbol id="i-patriarchs" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M74.8 6.1L73.2 6.4L71.8 7.1L70.2 8.4L68.9 10.2L68.1 11.8L67.5 14L67.3 15.7L67.3 45.4L66.8 44.9L63.1 43.1L56.4 39.4L52.5 37.4L50.7 36.6L46.1 25.8L29.8 25.8L27.7 40.2L21.7 62.5L17.6 91.8L60.3 91.8L58.3 62.4L53.5 44.9L59.9 47.8L64.6 49.7L65.3 49.8L66 49.7L66.6 49.5L67.3 49L67.3 93.1L67.5 93.7L67.9 94.4L68.4 94.7L69.2 95L70.3 94.8L70.7 94.6L71.3 93.9L71.6 92.9L71.6 16.8L71.7 14.6L72.1 13.1L72.6 11.9L73.2 11.1L73.9 10.5L74.6 10.1L75.3 10L76 10L76.7 10.2L77.3 10.6L77.9 11.2L78.4 12.1L78.7 13.3L79 15.3L79.2 15.7L79.7 16.1L80.5 16.4L81.4 16.2L82.1 15.6L82.4 14.7L82.2 12.6L81.7 10.8L80.6 8.8L79.6 7.7L78.1 6.7L76.5 6.2ZM45.3 9.8L44.6 8.8L43.8 7.8L42.8 7L41.8 6.3L40.6 5.7L39.4 5.3L38.2 5.1L36.9 5L35.7 5.1L34.4 5.3L33.2 5.7L32.1 6.3L31.1 7L30.1 7.8L29.3 8.8L28.6 9.8L28 11L27.6 12.2L27.4 13.4L27.3 14.7L27.4 15.9L27.6 17.1L28 18.3L28.6 19.5L29.3 20.5L30.1 21.5L31.1 22.3L32.1 23L33.2 23.6L34.4 24L35.7 24.2L36.9 24.3L38.2 24.2L39.4 24L40.6 23.6L41.8 23L42.8 22.3L43.8 21.5L44.6 20.5L45.3 19.5L45.8 18.3L46.3 17.1L46.5 15.9L46.6 14.7L46.5 13.4L46.3 12.2L45.8 11Z"/></symbol>
+<symbol id="i-offspring" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M35.8 12.1L29.6 12.5L29.3 12.8L29.4 13.1L34.1 17L34.2 17.3L32.8 23.3L32.8 23.6L33 23.7L33.2 23.7L38.4 20.4L38.7 20.4L44 23.7L44.3 23.7L44.5 23.3L43 17.3L43.1 17L47.8 13.1L47.9 12.9L47.8 12.7L47.6 12.5L41.4 12.1L41.1 11.8L38.9 6.2L38.6 6L38.3 6.2L36.1 11.8ZM12.9 15L6.8 15.4L6.5 15.6L6.6 15.9L11.3 19.8L11.5 20.1L10 26.2L10 26.4L10.2 26.6L10.4 26.5L15.6 23.3L15.9 23.2L21.2 26.5L21.6 26.5L21.7 26.2L20.2 20.1L20.3 19.8L25 15.9L25.1 15.7L25.1 15.5L24.8 15.4L18.6 14.9L18.4 14.7L16.1 9.1L15.8 8.8L15.5 9.1L13.3 14.7ZM24.3 36.8L18.2 37.2L17.9 37.4L18 37.8L22.7 41.7L22.9 42L21.4 48L21.4 48.3L21.6 48.4L21.8 48.4L27 45.1L27.3 45.1L32.6 48.4L33 48.4L33.1 48L31.6 42L31.7 41.7L36.4 37.8L36.5 37.6L36.4 37.3L36.2 37.2L30 36.8L29.8 36.5L27.5 30.9L27.2 30.7L26.9 30.9L24.7 36.5ZM47.2 38.7L41 39.1L40.7 39.3L40.8 39.7L45.5 43.6L45.6 43.9L44.2 49.9L44.2 50.2L44.4 50.3L44.6 50.3L49.7 47L50.1 47L55.4 50.3L55.7 50.3L55.8 49.9L54.4 43.9L54.5 43.6L59.2 39.7L59.3 39.4L59.2 39.2L59 39.1L52.8 38.7L52.5 38.4L50.3 32.8L50 32.6L49.7 32.8L47.5 38.4ZM12.9 59.6L6.8 60L6.5 60.2L6.6 60.6L11.3 64.5L11.5 64.8L10 70.8L10 71.1L10.2 71.2L10.4 71.2L15.6 67.9L15.9 67.9L21.2 71.2L21.6 71.2L21.7 70.8L20.2 64.8L20.3 64.5L25 60.6L25.1 60.3L25.1 60.1L24.8 60L18.6 59.6L18.4 59.3L16.1 53.7L15.8 53.5L15.5 53.7L13.3 59.3ZM35.7 61.5L29.6 61.9L29.3 62.1L29.4 62.5L34.1 66.4L34.2 66.7L32.8 72.7L32.8 73L33 73.1L33.2 73.1L38.4 69.8L38.7 69.8L44 73.1L44.3 73.1L44.5 72.7L43 66.7L43.1 66.4L47.8 62.5L47.9 62.2L47.8 62L47.6 61.9L41.4 61.5L41.1 61.2L38.9 55.6L38.6 55.4L38.3 55.6L36.1 61.2ZM81.4 14L75.2 14.4L74.9 14.7L75 15L79.7 18.9L79.8 19.2L78.3 25.2L78.4 25.5L78.5 25.6L78.8 25.6L83.9 22.3L84.3 22.3L89.6 25.6L89.9 25.6L90 25.2L88.5 19.2L88.7 18.9L93.4 15L93.5 14.8L93.4 14.6L93.2 14.4L87 14L86.7 13.7L84.5 8.1L84.2 7.9L83.9 8.1L81.6 13.7ZM58.4 16.9L52.4 17.3L52.1 17.5L52.2 17.8L56.9 21.7L57 22L55.5 28.1L55.6 28.3L55.8 28.5L56 28.4L61.1 25.2L61.5 25.1L66.8 28.4L67.1 28.4L67.2 28.1L65.8 22L65.9 21.7L70.6 17.8L70.7 17.6L70.6 17.4L70.4 17.3L64.2 16.8L63.9 16.6L61.7 11L61.4 10.7L61.1 11L58.9 16.6ZM69.8 35.9L63.8 36.3L63.5 36.5L63.6 36.8L68.3 40.7L68.4 41L66.9 47.1L67 47.3L67.1 47.5L67.4 47.4L72.5 44.2L72.9 44.1L78.2 47.4L78.5 47.4L78.6 47.1L77.1 41L77.3 40.7L82 36.8L82.1 36.6L82 36.4L81.8 36.3L75.6 35.8L75.3 35.6L73.1 30L72.8 29.7L72.5 30L70.2 35.6ZM58.6 57.7L52.4 58.1L52.1 58.3L52.2 58.7L56.9 62.6L57 62.9L55.5 68.9L55.6 69.2L55.8 69.3L56 69.3L61.1 66L61.5 66L66.8 69.3L67.1 69.3L67.2 68.9L65.8 62.9L65.9 62.6L70.6 58.7L70.7 58.4L70.6 58.2L70.4 58.1L64.2 57.7L63.9 57.4L61.7 51.8L61.4 51.6L61.1 51.8L58.9 57.4ZM81.2 59.6L75.2 60L74.9 60.2L75 60.6L79.7 64.5L79.8 64.8L78.3 70.8L78.4 71.1L78.5 71.2L78.8 71.2L83.9 67.9L84.3 67.9L89.6 71.2L89.9 71.2L90 70.8L88.5 64.8L88.7 64.5L93.4 60.6L93.5 60.3L93.4 60.1L93.2 60L87 59.6L86.7 59.3L84.5 53.7L84.2 53.5L83.9 53.7L81.6 59.3ZM47 82.4L41 82.8L40.7 83L40.8 83.4L45.5 87.2L45.6 87.6L44.2 93.6L44.2 93.9L44.4 94L44.6 93.9L49.7 90.7L50.1 90.7L55.4 93.9L55.7 94L55.8 93.6L54.4 87.6L54.5 87.2L59.2 83.4L59.3 83.1L59.2 82.9L59 82.8L52.8 82.4L52.5 82.1L50.3 76.5L50 76.3L49.7 76.5L47.5 82.1Z"/></symbol>
+<symbol id="i-land" viewBox="0 0 100 100"><path class="s" fill-rule="evenodd" d="M6.1 79.3L18.7 79.3L18.7 48L18.8 46.6L19.1 45.3L19.5 43.9L20.2 42.7L20.9 41.5L21.9 40.4L22.9 39.5L24.1 38.7L25.4 38.1L26.7 37.7L28.1 37.4L29.5 37.3L30.9 37.4L32.3 37.7L33.6 38.1L34.8 38.7L36 39.5L37.1 40.4L38 41.5L38.8 42.7L39.4 43.9L39.9 45.3L40.1 46.6L40.2 48L40.2 79.3L94 79.3L94 42.2L74 42.2L73 42L72.2 41.5L71.7 40.7L71.5 39.7L71.5 20.7L6 20.7ZM62.7 63.7L52 63.7L52 49.3L52.4 47.9L53.1 46.7L54.1 45.7L55.3 45L55.9 44.8L57.3 44.6L58.7 44.8L59.4 45L60 45.3L61.1 46.2L62 47.3L62.3 47.9L62.5 48.6L62.7 50ZM86.2 58.6L85.9 59.3L85.6 59.6L85.2 59.8L79.5 59.8L78.8 59.5L78.4 59.1L78.4 58.6L78.4 53.1L78.6 52.4L78.9 52.1L79.5 52L85 52L85.7 52.2L86 52.5L86.2 53Z"/><path class="o" fill-rule="evenodd" d="M6 79.3L18.7 79.3L18.7 48L18.8 46.6L19.1 45.3L19.5 43.9L20.2 42.7L20.9 41.5L21.9 40.4L22.9 39.5L24.1 38.7L25.4 38.1L26.7 37.7L28.1 37.4L29.5 37.3L30.9 37.4L32.3 37.7L33.6 38.1L34.8 38.7L36 39.5L37.1 40.4L38 41.5L38.8 42.7L39.4 43.9L39.9 45.3L40.1 46.6L40.2 48L40.2 79.3L94 79.3L94 42.2L74 42.2L73 42L72.2 41.5L71.7 40.7L71.5 39.7L71.5 20.7L6 20.7Z"/></symbol>
+<symbol id="i-nations" viewBox="0 0 100 100"><path class="s" fill-rule="evenodd" d="M76.8 15.1L72 11.9L66.8 9.3L61.4 7.5L55.7 6.4L50 6L44.3 6.4L38.6 7.5L33.2 9.3L28 11.9L23.2 15.1L18.9 18.9L15.1 23.2L11.9 28L9.3 33.2L7.5 38.6L6.4 44.3L6 50L6.4 55.7L7.5 61.4L9.3 66.8L11.9 72L15.1 76.8L18.9 81.1L23.2 84.9L28 88.1L33.2 90.7L38.6 92.5L44.3 93.6L50 94L55.7 93.6L61.4 92.5L66.8 90.7L72 88.1L76.8 84.9L81.1 81.1L84.9 76.8L88.1 72L90.7 66.8L92.5 61.4L93.6 55.7L94 50L93.6 44.3L92.5 38.6L90.7 33.2L88.1 28L84.9 23.2L81.1 18.9ZM55.9 30.1L46.7 17.4L46.7 26L44.1 26L44.1 9.2L53.3 22L53.3 13.3L55.9 13.3ZM54.7 88.1L45.3 87.5L45.5 84.9L52.5 85.3L53.1 82.7L43.9 79.7L45.3 72.6L54.7 73.1L54.5 75.8L47.5 75.3L46.9 77.9L56.1 80.9ZM78 48.7L84.9 48.7L84.9 51.3L78 51.3L78 55L85.9 55L85.9 57.7L75.4 57.7L75.4 42.3L85.9 42.3L85.9 45L78 45ZM18.7 43.5L20.8 51.3L23 43.3L25.5 44L20.9 61.4L18.7 53.6L16.6 61.4L11.9 44L14.4 43.3L16.6 51.3ZM28.6 28.6L53.8 46.2L52.7 45.4L53.2 45L53.7 44.8L54.3 44.9L54.8 45.2L72.6 70.6L72.8 71.1L72.8 71.6L72.6 72.1L72.4 72.4L72.1 72.6L71.6 72.8L71.1 72.8L70.6 72.6L45.2 54.8L44.9 54.3L44.8 53.7L45 53.2L45.4 52.7L46.2 53.8ZM71.4 71.4L53.8 46.2L46.2 53.8Z"/><path class="o" fill-rule="evenodd" d="M84.9 23.2L81.1 18.9L76.8 15.1L72 11.9L66.8 9.3L61.4 7.5L55.7 6.4L50 6L44.3 6.4L38.6 7.5L33.2 9.3L28 11.9L23.2 15.1L18.9 18.9L15.1 23.2L11.9 28L9.3 33.2L7.5 38.6L6.4 44.3L6 50L6.4 55.7L7.5 61.4L9.3 66.8L11.9 72L15.1 76.8L18.9 81.1L23.2 84.9L28 88.1L33.2 90.7L38.6 92.5L44.3 93.6L50 94L55.7 93.6L61.4 92.5L66.8 90.7L72 88.1L76.8 84.9L81.1 81.1L84.9 76.8L88.1 72L90.7 66.8L92.5 61.4L93.6 55.7L94 50L93.6 44.3L92.5 38.6L90.7 33.2L88.1 28ZM52 24.6L48 24.6L48 14.8L52 14.8ZM52 75.4L52 85.2L48 85.2L48 75.4ZM14.8 48L24.6 48L24.6 52L14.8 52ZM75.4 52L75.4 48L85.2 48L85.2 52ZM53.8 46.2L71.4 71.4L46.2 53.8L28.6 28.6Z"/></symbol>
+<symbol id="i-exodus" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M9.1 39.2L13.6 36.1L15.2 35.5L16.7 35.3L18.2 35.6L19.7 36.3L24.2 39.4L25.8 40.2L27.3 40.5L28.8 40.3L30.3 39.7L34.8 36.6L36.4 35.7L37.9 35.3L39.4 35.4L40.9 35.9L42 36.5L41.4 28.2L6 28.2L6.4 33.9L7.6 40ZM59.1 35.5L60.6 35.3L62.1 35.6L63.6 36.3L68.2 39.4L69.7 40.1L71.2 40.5L72.7 40.3L74.2 39.7L75.8 38.8L78.8 36.6L80.3 35.8L81.8 35.3L83.3 35.4L84.8 35.8L86.4 36.7L89.4 38.9L90.9 39.8L92.3 40.3L92.5 39.6L93.6 33.9L94 28.2L58.6 28.2L58 35.9ZM13.5 52.6L15.2 53.3L16.7 53.5L18.2 53.2L19.7 52.5L24.2 49.3L25.8 48.6L27.3 48.3L28.8 48.5L30.3 49.1L34.8 52.2L36.4 53L37.9 53.4L39.4 53.4L40.9 52.9L43.1 51.5L42.4 41.3L40.9 40.5L39.4 40L37.9 39.9L36.4 40.3L34.8 41.2L30.3 44.3L28.8 44.9L27.3 45.1L25.8 44.8L24.2 44L19.7 40.9L18.2 40.2L16.7 39.9L15.2 40.1L13.6 40.7L9 43.9L9.3 45L11.9 50.2ZM57.6 52.6L59.1 53.3L60.6 53.5L62.1 53.2L63.6 52.5L68.2 49.4L69.7 48.6L71.2 48.3L72.7 48.4L74.2 49L75.8 50L78.8 52.1L80.3 53L81.8 53.4L83.3 53.4L84.8 52.9L87.3 51.4L88.1 50.2L90.9 44.4L89.4 43.5L86.4 41.3L84.8 40.4L83.3 40L81.8 39.9L80.3 40.4L78.8 41.2L75.8 43.4L74.2 44.3L72.7 44.9L71.2 45.1L69.7 44.7L68.2 44L63.6 40.9L62.1 40.2L60.6 39.9L59.1 40.1L57.7 40.7L56.9 52.2ZM23.2 63.1L28 66.3L33.2 68.8L38.6 70.7L44.5 71.8L43.4 55.9L40.9 57.5L39.4 58L37.9 58L36.4 57.6L34.8 56.8L30.3 53.7L28.8 53.1L27.3 52.9L25.8 53.2L24.2 53.9L19.7 57.1L18.2 57.8L17.7 57.9L18.9 59.3ZM55.5 71.8L61.4 70.7L66.8 68.8L72 66.3L76.8 63.1L81.1 59.3L82.2 58L81.8 58L80.3 57.6L78.8 56.7L75.8 54.6L74.2 53.6L72.7 53L71.2 52.9L69.7 53.2L68.2 54L63.6 57.1L62.1 57.8L60.6 58.1L59.1 57.9L57.6 57.2L56.5 56.6Z"/></symbol>
+<symbol id="i-law" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M50.7 14.8L48.8 12.6L46.5 10.7L44.1 9L41.5 7.7L38.7 6.8L35.8 6.2L32.8 6L29.9 6.2L27 6.8L24.2 7.7L21.6 9L19.1 10.7L16.9 12.6L14.9 14.8L13.3 17.3L12 19.9L11.1 22.7L10.5 25.6L10.3 28.5L10.4 30.8L10.3 31.8L10.3 82.2L10.4 83L10.7 83.8L11.2 84.5L11.9 85L12.7 85.3L13.5 85.4L40.8 85.4L40.8 44.6L40.9 43.4L40.8 41.2L41 37.7L41.6 34.8L42.7 31.5L44.4 28L46.4 25.1L48.3 22.9L50.9 20.6L53.2 19L52.3 17.3ZM88.9 35.6L88 32.8L86.7 30.1L85.1 27.7L83.1 25.5L80.9 23.5L78.4 21.9L75.8 20.6L73 19.6L70.1 19.1L67.2 18.9L64.2 19.1L61.3 19.6L58.5 20.6L55.9 21.9L53.5 23.5L51.2 25.5L49.3 27.7L47.7 30.1L46.3 32.8L45.4 35.6L44.8 38.5L44.6 41.4L44.8 43.7L44.6 44.6L44.6 90.8L44.7 91.6L45.1 92.4L45.9 93.3L46.6 93.8L47.9 94L86.5 94L87.7 93.8L88.4 93.3L89 92.7L89.5 92L89.7 90.8L89.7 44.6L89.6 43.7L89.7 41.4L89.5 38.5Z"/></symbol>
+<symbol id="i-atonement" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M20.5 27.2L19.9 26.9L18.6 26.6L17.3 26.6L16.7 26.7L15.5 27.2L14.9 27.6L14.4 28L13.6 29L13.1 30.2L13 31.5L13.1 32.8L13.7 34.1L12 35.4L10.9 36.6L10.1 37.9L9.3 39.4L8.8 41.1L8.4 42.8L8.2 44.6L8.1 46.4L8.4 48.9L7.4 50.1L6.9 51L6.2 53.1L6 54.2L6.1 56.5L6.3 57.6L7.1 59.7L8.4 61.5L9.2 62.3L10.9 63.4L12.8 64L14.8 64L16.7 63.5L18.4 62.4L19.8 60.8L21 60.7L22.4 60.4L23.7 59.9L25 59.1L26.1 58.1L27.2 56.9L28 55.6L28.8 54.1L29.4 52.4L29.7 50.7L29.9 48.9L28.8 49.6L26.8 50.4L25.6 50.7L24.5 50.6L23.5 50.4L22.5 49.9L21.7 49.1L21.1 48L20.8 46.8L20.9 44.6L21.5 42.3L22.5 39.9L24 37.5L25.8 35.2L27.8 33.2L29.7 31.7L29.2 30.9L28.3 30.1L26.8 29.3L25.6 29.1L24.4 29.3L23.3 29.8L22.8 30.1L21.9 28.5L21.5 28ZM17.7 44.8L17.5 45.5L17 46.1L16.3 46.5L15.5 46.5L14.8 46.3L14.2 45.8L13.9 45.1L13.9 44.3L14.1 43.6L14.6 43L15.3 42.7L16.1 42.6L16.8 42.9L17.3 43.4L17.7 44.1ZM53.9 23.4L51.9 24.1L50 25L48.2 26.2L46.6 27.6L45.2 29.2L43.8 31.6L42.1 31.7L40.1 32.1L38.7 32.5L39 33.5L39.1 34.7L39 35.8L38.4 38L37.3 40.5L35.9 43L34.1 45.2L32.6 46.8L32.6 48.9L32.3 51.3L31.8 53.3L31.1 55.2L30.4 56.7L29.3 58.3L28.1 59.8L26.5 61.2L24.8 62.2L25.3 63.9L25.9 65.2L26.7 66.4L27.7 67.5L28.9 68.5L28.8 77.1L46.2 77.1L46.2 72.8L59.1 72.8L60.6 71.3L61.9 72.8L67.9 72.8L67.9 77.1L85.3 77.1L85.3 68.5L81.2 68.5L81.8 66.2L83.1 66.3L84.6 66.2L85.9 65.9L87.3 65.5L88.6 64.8L89.8 64L90.8 63.1L91.8 62L92.5 60.9L93.2 59.6L93.6 58.2L93.9 56.8L94 55.4L93.9 54L93.6 52.6L93.2 51.3L92.5 50L91.8 48.8L90.8 47.8L89.8 46.8L88.3 45.9L88.6 43.6L89.3 41.7L89.6 40.4L89.7 39.1L89.6 37.9L89.3 36.6L88.9 35.4L88.3 34.3L87.6 33.2L86.8 32.2L85.8 31.4L84.8 30.7L83.6 30.1L82.4 29.7L81.2 29.4L79.1 29.4L77.3 28.8L75.3 28.4L73.4 28.3L70.5 28.6L69.7 27.6L68.1 26.2L66.3 25L64.4 24.1L62.4 23.4L60.3 23L58.2 22.8L56 23ZM35 40.8L36.2 38.6L36.6 37.5L36.9 36.5L37.2 34.6L37 33.1L36.7 32.5L36.3 32.1L35.7 31.8L34.4 31.6L33.6 31.8L31.9 32.5L30 33.7L28.1 35.4L27.2 36.4L25.5 38.5L24.8 39.6L23.6 41.9L22.9 44L22.6 45.9L22.8 47.4L23.1 47.9L23.6 48.4L24.1 48.7L24.7 48.8L26.2 48.7L28 48L29.9 46.7L31.7 45L33.5 43Z"/></symbol>
+<symbol id="i-kingdom" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M18.8 8L17.7 6.8L16.3 6.1L14.7 6L13.2 6.5L12 7.6L11.3 9L11.2 10.6L11.8 12.1L12.8 13.3L14.2 14L15.8 14.1L17.3 13.6L18.5 12.5L19.2 11.1L19.3 9.5ZM88 7.6L86.8 6.5L85.3 6L83.7 6.1L82.3 6.8L81.2 8L80.7 9.5L80.8 11.1L81.5 12.5L82.7 13.6L84.2 14.1L85.8 14L87.2 13.3L88.2 12.1L88.8 10.6L88.7 9ZM75.1 73.7L75.1 16.3L70.3 16.3L70.3 11L65.4 11L65.4 16.3L34.6 16.3L34.6 11L29.7 11L29.7 16.3L24.9 16.3L24.9 70.8L50 80.5ZM41.9 38.7L42.3 38.8L42.6 38.6L50 29.4L57.4 38.6L57.7 38.8L58.2 38.6L66.4 32.2L63.5 49.6L36.5 49.6L33.6 32.2ZM51.7 85.3L48.3 85.3L48.3 94L51.7 94Z"/></symbol>
+<symbol id="i-christ" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M76.4 21.3L76.1 21L75.6 20.8L54.8 20.8L54.8 7L54.6 6.4L54.3 6.1L53.8 6L43.8 6L43.2 6.4L43 7L43 20.8L22.2 20.8L21.7 21L21.3 21.3L21.2 21.8L21.2 31.8L21.6 32.5L22.2 32.7L43 32.7L43 64.5L44.1 65.3L44.9 65.2L46 65.2L47.3 65.6L48.6 65.3L49.7 64L51.2 62.6L52.6 61.7L54.8 60.8L54.8 32.7L75.6 32.7L76.1 32.6L76.4 32.2L76.6 31.7L76.6 21.8ZM46.2 72.2L46.7 70.5L46.7 69.5L46.4 68.8L45.9 68.4L45.2 68.3L44.2 68.6L43.2 69.1L42.1 69.9L41.1 71L40.1 72.2L39.4 73.4L38.8 74.7L38.5 75.8L38.5 76.8L38.8 77.5L39.3 77.9L40.1 78L41 77.8L42 77.2L43.7 75.9L44.6 74.7L45.5 73.5ZM36.6 65.5L35.9 65.4L34.8 65.6L34.2 66L33.4 66.8L33.2 67.5L33.1 68.3L33.2 69L33.4 69.7L32.5 70.4L31.9 71.1L31 72.7L30.7 73.6L30.3 75.6L30.5 78.1L29.6 79.3L29.2 80.4L29.2 82.3L29.8 84.1L30.5 85.2L31.4 86L32.4 86.5L33 86.6L34.1 86.6L35.2 86.3L36.1 85.6L36.9 84.8L38.4 84.5L39.8 83.8L40.5 83.2L41.6 81.8L42 81L42.5 79.1L42.6 78.1L41.5 78.7L40.7 78.9L39.6 79L38.8 78.8L38.4 78.5L37.9 78L37.6 77.4L37.5 76.4L37.5 75.6L37.8 74.4L38.9 72.2L40.3 70.3L41.4 69.2L42.5 68.3L41.7 67.4L40.8 67L40.2 66.9L39.5 67L38.6 67.5L38.3 66.8L37.9 66.3L37.3 65.8ZM35.7 76L35.4 76.4L35.1 76.6L34.6 76.7L34.2 76.6L33.9 76.4L33.6 76L33.5 75.6L33.6 75.2L33.9 74.8L34.2 74.6L34.6 74.5L35.1 74.6L35.4 74.8L35.7 75.2L35.8 75.6ZM54 64.6L52.1 66L51.3 66.9L50.4 68.3L49.5 68.3L47.6 68.8L47.8 70.1L47.4 71.9L46.8 73.3L46 74.7L44.1 76.9L44 79.4L43.3 81.6L42.3 83.4L41.6 84.2L40.7 85L39.7 85.6L40.4 87.3L41.3 88.5L42 89.1L42 94L51.8 94L51.8 91.5L59.1 91.5L59.9 90.7L60.7 91.5L64.1 91.5L64.1 94L73.9 94L73.9 89.1L71.6 89.1L71.9 87.8L73.5 87.8L75 87.4L76.4 86.6L77 86.1L78 84.8L78.3 84.1L78.6 83.3L78.8 81.7L78.6 80.2L78 78.7L77 77.4L75.6 76.4L75.7 75.1L76.1 74L76.3 72.5L76.1 71.1L75.6 69.8L75.2 69.2L74.7 68.6L73.6 67.8L72.2 67.2L70.4 67.1L68.3 66.5L67.1 66.4L65.5 66.6L64.2 65.2L63.2 64.6L60.9 63.7L58.6 63.3L57.4 63.4L55 64Z"/></symbol>
+<symbol id="i-fire" viewBox="0 0 100 100"><path fill-rule="evenodd" d="M13.7 50.9L13.8 51.3L14 51.7L14.4 52L14.9 52.1L85.3 52.1L85.7 52L86.1 51.7L86.4 51.4L86.5 50.9L86.4 50.1L85.9 47.9L84.9 45L83.7 42.7L80.7 37.8L79.8 36.1L78.8 33.5L78.1 31L78.1 30.3L77.7 29.8L77.2 29.5L76.4 29.5L75.8 30.1L74.9 32.1L74.2 34L73.4 38.1L72.7 45.1L72.4 46.5L72 42.6L71.9 32L71.5 26.7L70.7 22.5L70.4 21.7L70.2 20.8L69.9 20.3L69.8 19.5L69.4 18.8L69.1 17.6L68.7 17.1L68.2 16.9L67.8 16.8L67.3 17L67 17.3L66.7 17.9L66.6 19.1L66.4 19.7L66.4 20.5L66.2 21.1L66.2 21.9L65.6 24.5L64.9 26.8L63.7 29.9L59.5 38.5L58.2 41.9L56.7 36.6L52.2 25L50.3 19.2L49.8 16.9L49.5 16L49.4 15L49.2 14.4L49.1 13.2L48.9 12.6L48.9 11.6L48.6 10.7L48.6 9.6L48.3 8.8L48.4 7.7L48.3 7.2L47.8 6.3L47.4 6.1L46.9 6L46.2 6.3L45.5 7.3L45.4 8.5L44.9 9.3L44.8 10.5L44.4 11.4L44.4 12.4L44 13.2L44 14.3L43.7 15.1L43.6 16.2L43.3 17.2L43.3 18L43.1 18.7L43.1 19.8L42.9 20.8L42.6 25.5L42.3 36.9L42.1 40.9L42.1 30.9L41.8 26.8L41.4 23.9L41.2 23.2L41.2 22.5L40.9 21.7L40.8 20.9L40.6 20.2L40.5 19.4L40.1 18.7L40 17.6L39.6 17.1L39.5 16.1L38.9 15.3L38.4 15.1L38 15.1L37.3 15.4L36.8 16.3L36.8 17.4L36.6 18L36.6 18.9L36.4 19.5L36.4 20.4L36.2 20.9L36.1 21.8L35.5 24.3L34.7 26.7L33.4 30L29.2 39.3L28.2 41.8L27.3 45.1L26 42.1L23.1 37L21.8 34.4L20.8 31.2L20.2 28.4L19.7 27.8L19.1 27.7L18.5 27.8L18 28.3L16.8 31.5L16 34.5L15.5 38.1L14.8 45.6L14.5 47.3L13.9 49.5ZM14 66.4L15.6 71L17.7 75.4L20.4 79.4L23.6 83.1L27.3 86.3L31.4 89L35.7 91.2L40.4 92.7L45.1 93.7L50 94L54.9 93.7L59.6 92.7L64.3 91.2L68.6 89L72.7 86.3L76.4 83.1L79.6 79.4L82.3 75.4L84.4 71L86 66.4L86.9 61.6L87.3 56.7L12.7 56.7L13.1 61.6Z"/></symbol>
+
+</svg>
+
+<div class="wrap">
+  <header>
+    <h1 id="title"></h1>
+    <p class="sub" id="subtitle"></p>
+    <div class="toolbar" role="group" aria-label="View">
+      <button class="pillbtn" type="button" data-mode="explore" aria-pressed="true">Explore</button>
+      <button class="pillbtn" type="button" data-mode="legend" aria-pressed="false">Legend</button>
+      <button class="pillbtn" type="button" data-mode="quiz" aria-pressed="false">Quiz</button>
+      <button class="pillbtn" type="button" id="replay">Replay</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main id="main">
+      <section id="board" class="board" aria-label="KINGDOM figure: seven stages"></section>
+      <section id="legend" class="legend" aria-labelledby="legend-title" hidden></section>
+      <section id="quiz" aria-label="Quiz" hidden></section>
+    </main>
+
+    <aside id="panel" class="panel" role="dialog" aria-modal="false" aria-labelledby="panel-title">
+      <div class="panel-inner">
+        <div class="panel-bar">
+          <div class="nav" id="nav">
+            <button class="navbtn" type="button" id="prev">&#8249; Prev</button>
+            <button class="navbtn" type="button" id="next">Next &#8250;</button>
+          </div>
+          <button class="closebtn" type="button" id="close" aria-label="Close panel">&times;</button>
+        </div>
+        <div class="panel-body" id="panel-body"></div>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    Framework and stage titles from Jason S. DeRouchie, <em>What the Old Testament Authors Really Cared About</em> (Kregel, 2013) and <em>Delighting in the Old Testament</em> (Crossway, 2024). Summaries written for this page. Scripture references are given for further reading.
+  </footer>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+"use strict";
+
+/* ====================================================================
+   DATA: all content lives here. Edit this object to change the page.
+   Icons marked with * are drawn dotted (promised, not yet fulfilled).
+   ==================================================================== */
+const DATA = {
+ ui: {
+  title: "God's KINGDOM Plan",
+  subtitle: "Seven stages of the story of God's glory in Christ. Tap a letter or an icon to learn more.",
+  fixedQuestion: {
+   prompt: "In stage I, why are the stars, house, and compass drawn with dotted lines?",
+   correct: "They are promised, not yet fulfilled.",
+   wrong: ["They were destroyed in the flood.", "They belong to other nations.", "They are only symbols of heaven."],
+   why: "Dotted outline = promised, not yet fulfilled. Solid = fulfilled or present."
+  },
+  legendKey: "Dotted outline = promised, not yet fulfilled. Solid = fulfilled or present."
+ }
+,
+
+stages: [
+ { letter:"K", n:1, title:"Kickoff and Rebellion", era:"Creation, fall, and flood", dates:"ca. ? B.C.", testament:"Old Testament",
+   covenant:"Adamic/Noahic",
+   summary:[
+    "God made humans to image him and told them to “fill the earth and subdue it” (Gen 1:28). But they listened to the serpent and rebelled (Gen 3:1–6). Because Adam acted as our covenant head, God counts all humanity as having sinned in him (Rom 5:12, 18–19).",
+    "Before the curse fell, God promised a human deliverer who would crush the power of evil (Gen 3:15). Sin kept spreading, so God judged the world with a flood, yet he kept a remnant and renewed his covenant with creation (Gen 6:7–8, 18; 9:9–11). At Babel, people exalted themselves again, and God scattered them (Gen 11:1–9)."
+   ],
+   keyTexts:["Gen 1:28","Gen 3:1–6","Gen 3:15","Gen 6:7–8","Gen 9:9–11","Gen 11:1–9","Rom 5:12"],
+   icons:["paradise","fall","exile","flood"] },
+
+ { letter:"I", n:2, title:"Instrument of Blessing", era:"Patriarchs", dates:"ca. 2100–1850 B.C.", testament:"Old Testament",
+   covenant:"Abrahamic",
+   summary:[
+    "After Babel, God chose Abraham as the one through whom he would reverse the curse. He told him to “go” to Canaan and to “be a blessing” (Gen 12:1–3). First Abraham would become a great nation. Then, through one royal offspring, God would bless some from all the families of the earth.",
+    "Sarah was barren, but Abraham believed God’s promise, and God counted it as righteousness (Gen 11:30; 15:6). God swore to give the land to Abraham’s offspring and said the coming King would rise from Judah (Gen 15:17–18; 49:8–10). He even sent Joseph to Egypt to keep the family alive (Gen 50:20)."
+   ],
+   keyTexts:["Gen 12:1–3","Gen 15:6","Gen 15:17–18","Gen 22:17–18","Gen 49:8–10","Gen 50:20"],
+   icons:["patriarchs","offspring*","land*","nations*"] },   // * = promised (dotted)
+
+ { letter:"N", n:3, title:"Nation Redeemed and Commissioned", era:"Exodus, Sinai, and wilderness", dates:"ca. 1450–1400 B.C.", testament:"Old Testament",
+   covenant:"Mosaic",
+   summary:[
+    "God kept his word and multiplied Israel in Egypt (Exod 1:7). For the sake of his name he struck Egypt with plagues and freed his people (Exod 9:15–16). At Sinai he gave the law so Israel would display his holiness among the nations (Exod 19:5–6), and he gave sacrifices so they could draw near (Lev 9:3–6).",
+    "Yet most of the people were “rebellious” and “unbelieving” (Deut 9:23–24). Moses foretold exile, but also a day when God would bring them back, raise up a prophet like Moses, and change their hearts so they would love him (Deut 18:15–19; 30:3–6)."
+   ],
+   keyTexts:["Exod 1:7","Exod 19:5–6","Lev 9:3–6","Deut 9:23–24","Deut 18:15–19","Deut 30:6"],
+   icons:["offspring","exodus","law","atonement","fall"] },
+
+ { letter:"G", n:4, title:"Government in the Promised Land", era:"Conquest and kingdoms (united and divided)", dates:"ca. 1400–600 B.C.", testament:"Old Testament",
+   covenant:"Davidic",
+   summary:[
+    "In the conquest, God kept every promise of the land (Josh 21:43–45). But without a faithful king, “everyone did what was right in his own eyes” (Judg 21:25). The people asked for a king to replace the Lord (1 Sam 8:7). They would not heed the prophets, so the kingdom split, and both north and south ended in exile (2 Kgs 17:6–23; 25:1–21).",
+    "Even so, God promised David a son whose throne would last forever (2 Sam 7:12, 16). This Servant-King would be a light to the nations and, though innocent, would die in the place of sinners to “make many to be accounted righteous” (Isa 49:6; 53:5, 11)."
+   ],
+   keyTexts:["Josh 21:43–45","Judg 21:25","1 Sam 8:7","2 Sam 7:12–16","Isa 49:6","Isa 53:5–11"],
+   icons:["kingdom","paradise","land","fall"] },
+
+ { letter:"D", n:5, title:"Dispersion and Return", era:"Exile and initial restoration", dates:"ca. 600–400 B.C.", testament:"Old Testament",
+   covenant:null,
+   summary:[
+    "God cast Israel from the land because they would not listen to his voice (2 Kgs 17:7; 2 Chr 36:16). From exile, Daniel pleaded for mercy (Dan 9:18–19). God promised a kingdom that would never be destroyed and “one like a son of man” whom all peoples would serve (Dan 2:44; 7:13–14).",
+    "God kept the Jews from being wiped out (Esther) and brought some back to the land (Ezra–Nehemiah). They rebuilt the temple (Hag 1:8). But the promised Servant-King had not yet come, and the story still waited for its fulfillment."
+   ],
+   keyTexts:["2 Kgs 17:7","Dan 2:44","Dan 7:13–14","Dan 9:18–19","Hag 1:8","Mal 1:14"],
+   icons:["exile","fall"] },
+
+ { letter:"O", n:6, title:"Overlap of the Ages", era:"Christ’s work and the church age", dates:"ca. 4 B.C.–A.D. ?", testament:"New Testament",
+   covenant:"New",
+   summary:[
+    "Jesus came first as the suffering Servant and will come again as the conquering King (Heb 9:28). So we live in an overlap: Christ has rescued us from “the present evil age” (Gal 1:4), and we already taste “the powers of the age to come” (Heb 6:5).",
+    "In the fullness of time “God sent forth his Son” (Gal 4:4), the Lamb of God who takes away sin (John 1:29). By his life, death, and resurrection he began the new covenant (Luke 22:20). God counts our sin to Christ and Christ’s righteousness to us (2 Cor 5:21). Now the church makes disciples of all nations (Matt 28:18–20; Acts 1:8)."
+   ],
+   keyTexts:["Gal 4:4","John 1:29","Luke 22:20","2 Cor 5:21","1 Cor 15:3–5","Matt 28:18–20","Acts 1:8"],
+   icons:["christ","kingdom","nations","offspring"] },
+
+ { letter:"M", n:7, title:"Mission Accomplished", era:"Christ’s return and kingdom consummation", dates:"ca. A.D. ?–eternity", testament:"New Testament",
+   covenant:null,
+   summary:[
+    "The King will return “on the clouds of heaven with power and great glory” (Matt 24:30). Only those who fear God and give him glory will escape his wrath on that day (2 Thess 1:9–10; Rev 14:7).",
+    "A great multitude will cry, “Salvation belongs to our God … and to the Lamb!” (Rev 7:10). God’s glory will light his city (Rev 21:23), and his servants “will reign forever and ever” (Rev 22:5), fulfilling the first calling given in Eden (Gen 1:26–28). With John we pray, “Come, Lord Jesus!” (Rev 22:20)."
+   ],
+   keyTexts:["Matt 24:30","2 Thess 1:9–10","Rev 5:9–10","Rev 7:9–10","Rev 21:23","Rev 22:5","Rev 22:20"],
+   icons:["kingdom","fire","nations","offspring","paradise","land"] }
+],
+
+legend: [
+ ["paradise","Paradise enjoyed"],
+ ["fall","Fall, sin, rebellion"],
+ ["exile","Exile; paradise lost"],
+ ["flood","Waters of judgment (flood)"],
+ ["patriarchs","Patriarchs"],
+ ["offspring","Much offspring (promise-fulfillment)"],
+ ["land","Land, home, rest (promise-fulfillment)"],
+ ["nations","Blessing to all nations (promise-fulfillment)"],
+ ["exodus","Waters of judgment (exodus)"],
+ ["law","Giving of the law"],
+ ["atonement","Penal substitutionary atonement"],
+ ["kingdom","Conquest; kingdom established"],
+ ["christ","Saving/atoning work of Christ"],
+ ["fire","Fires of judgment"]
+],
+
+notes: {
+ "K:paradise":"God made a good world and placed people in it to image him and rule it under him (Gen 1:26–28).",
+ "K:fall":"Adam and Eve listened to the serpent and rebelled against God (Gen 3:1–6). All humanity fell in Adam (Rom 5:12).",
+ "K:exile":"God sent them out of Eden and subjected the world to futility (Gen 3:16–19, 23; Rom 8:20). Yet he promised a deliverer (Gen 3:15).",
+ "K:flood":"Sin kept spreading, so God judged the world by flood. He saved a remnant and renewed his covenant with creation (Gen 6:7–8; 9:9–11).",
+
+ "I:patriarchs":"God chose Abraham, then Isaac and Jacob, as the family through whom he would bless the world (Gen 12:1–3).",
+ "I:offspring":"Promised: Sarah was barren, yet God promised Abraham offspring like the stars (Gen 11:30; 15:5–6; 22:17).",
+ "I:land":"Promised: God swore to give the land of Canaan to Abraham’s offspring (Gen 15:17–18; 17:8).",
+ "I:nations":"Promised: through Abraham’s royal offspring, all the families of the earth would be blessed (Gen 12:3; 22:17–18).",
+
+ "N:offspring":"Fulfilled: in Egypt, Israel grew from one family into a great people (Exod 1:7).",
+ "N:exodus":"God judged Egypt and brought his people out through the sea, for the sake of his name (Exod 9:15–16; 14).",
+ "N:law":"At Sinai God gave the law so Israel would be “a kingdom of priests and a holy nation” (Exod 19:5–6).",
+ "N:atonement":"God gave sacrifices so a sinful people could live near a holy God (Lev 9:3–6). They point ahead to a greater substitute.",
+ "N:fall":"Most of the people were “rebellious” and “unbelieving” (Deut 9:23–24). Moses foretold exile (Deut 4:25–29).",
+
+ "G:kingdom":"Israel took the land, and later God promised David a son whose throne would last forever (Josh 21:43–45; 2 Sam 7:12, 16).",
+ "G:paradise":"The land was a good land, a taste of Eden’s rest and plenty (Deut 8:7–10).",
+ "G:land":"Fulfilled: “Not one word of all the good promises … had failed” (Josh 21:45).",
+ "G:fall":"Kings and people turned from God. The kingdom split, and both halves fell into exile (1 Kgs 11:11–13; 2 Kgs 17; 25).",
+
+ "D:exile":"Because they would not listen, God cast his people from the land (2 Kgs 17:7; 2 Chr 36:16).",
+ "D:fall":"Some returned and rebuilt, but hearts were still unchanged, and the promised King had not yet come (Mal 1:6, 14).",
+
+ "O:christ":"Jesus is the Lamb of God who takes away sin (John 1:29). By his death and resurrection he began the new covenant (Luke 22:20).",
+ "O:kingdom":"Jesus proclaimed the kingdom of God (Luke 4:43). Risen, he holds all authority in heaven and on earth (Matt 28:18).",
+ "O:nations":"Fulfilled now: the gospel is going from Jerusalem to the ends of the earth (Acts 1:8; Matt 28:19).",
+ "O:offspring":"Fulfilled now: all who belong to Christ are Abraham’s offspring (Gal 3:29).",
+
+ "M:kingdom":"The King will return “on the clouds of heaven with power and great glory” (Matt 24:30).",
+ "M:fire":"Those who do not know God and do not obey the gospel will face eternal destruction (2 Thess 1:8–9).",
+ "M:nations":"People from every nation, tribe, and language will stand before the Lamb (Rev 7:9).",
+ "M:offspring":"A great multitude that no one can number, praising God and the Lamb (Rev 7:9–10).",
+ "M:paradise":"Eden restored: the river of life and the tree of life in the city of God (Rev 22:1–2).",
+ "M:land":"Our final home: God will dwell with his people in a new heaven and a new earth (Rev 21:1–3)."
+}
+};
+
+/* ====================================================================
+   Small helpers
+   ==================================================================== */
+const SVG_NS = "http://www.w3.org/2000/svg";
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+function h(tag, attrs, ...kids) {
+  const node = document.createElement(tag);
+  for (const [key, val] of Object.entries(attrs || {})) {
+    if (val === false || val == null) continue;
+    if (key === "class") node.className = val;
+    else if (key.startsWith("on")) node.addEventListener(key.slice(2), val);
+    else node.setAttribute(key, val === true ? "" : val);
+  }
+  for (const kid of kids.flat()) {
+    if (kid == null || kid === false) continue;
+    node.append(kid.nodeType ? kid : document.createTextNode(kid));
+  }
+  return node;
+}
+
+function iconSvg(id, promised) {
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.setAttribute("class", "ic" + (promised ? " promised" : ""));
+  svg.setAttribute("viewBox", "0 0 100 100");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("focusable", "false");
+  const use = document.createElementNS(SVG_NS, "use");
+  use.setAttribute("href", "#i-" + id);
+  svg.append(use);
+  return svg;
+}
+
+function shuffle(list) {
+  const a = list.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function reducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/* ====================================================================
+   Derived data
+   ==================================================================== */
+function parseIcon(raw) {
+  const promised = raw.endsWith("*");
+  return { id: promised ? raw.slice(0, -1) : raw, promised };
+}
+
+const STAGES = DATA.stages.map(stage => Object.assign({}, stage, { iconList: stage.icons.map(parseIcon) }));
+const ICON_NAME = new Map(DATA.legend);
+const PROMISE_ICONS = new Set(["offspring", "land", "nations"]);
+const ICON_IDS = DATA.legend.map(pair => pair[0]);
+
+function stageIndexByLetter(letter) {
+  return STAGES.findIndex(s => s.letter.toLowerCase() === String(letter).toLowerCase());
+}
+
+/** Stage indexes where an icon appears, in story order. */
+function occurrences(iconId) {
+  const found = [];
+  STAGES.forEach((stage, i) => {
+    if (stage.iconList.some(ic => ic.id === iconId)) found.push(i);
+  });
+  return found;
+}
+
+function iconEntry(stageIndex, iconId) {
+  return STAGES[stageIndex].iconList.find(ic => ic.id === iconId);
+}
+
+function firstAppearance(iconId) {
+  return occurrences(iconId)[0];
+}
+
+function stageLabel(stage) {
+  return stage.letter + ": " + stage.title;
+}
+
+function whyStage(stage) {
+  return "Stage " + stage.n + ": " + stage.title + ". " + stage.era + ".";
+}
+
+/* ====================================================================
+   State
+   ==================================================================== */
+const state = {
+  mode: "explore",       // explore | legend | quiz
+  panel: null,           // null | { type: "stage", i } | { type: "icon", i, icon }
+  trigger: null,         // element to return focus to when the panel closes
+  introToken: 0
+};
+
+const el = {
+  board: $("#board"), legend: $("#legend"), quiz: $("#quiz"),
+  panel: $("#panel"), body: $("#panel-body"), nav: $("#nav"),
+  prev: $("#prev"), next: $("#next"), close: $("#close"),
+  backdrop: $("#backdrop"), tip: $("#tip")
+};
+
+/* ====================================================================
+   Board
+   ==================================================================== */
+function renderBoard() {
+  el.board.textContent = "";
+  STAGES.forEach((stage, i) => {
+    const tile = h("button", {
+      class: "tile", type: "button", "data-stage": i,
+      "aria-label": stage.letter + ": " + stage.title
+    }, stage.letter);
+    const pill = h("div", { class: "pill" });
+    stage.iconList.forEach((ic, j) => {
+      const name = ICON_NAME.get(ic.id);
+      const label = name + (ic.promised ? ", promised" : "") + ", in stage " + stage.n;
+      const btn = h("button", {
+        class: "ico", type: "button", style: "--j:" + j,
+        "data-icon": ic.id, "data-stage": i, "data-promised": ic.promised ? "1" : "0",
+        "aria-label": label, "data-tip": name + (ic.promised ? " \u00B7 promised" : "")
+      }, iconSvg(ic.id, ic.promised));
+      pill.append(btn);
+    });
+    el.board.append(h("div", { class: "col", style: "--i:" + i, "data-col": i }, tile, pill));
+  });
+}
+
+/** Tiles drop in, columns unroll, icons pop. Clicking anything finishes it. */
+function playIntro() {
+  const token = ++state.introToken;
+  el.board.classList.remove("intro");
+  void el.board.offsetWidth;                // restart CSS animations
+  if (reducedMotion()) return;
+  el.board.classList.add("intro");
+  const anims = el.board.getAnimations({ subtree: true });
+  Promise.allSettled(anims.map(a => a.finished)).then(() => {
+    if (token === state.introToken) el.board.classList.remove("intro");
+  });
+}
+
+function finishIntro() {
+  if (!el.board.classList.contains("intro")) return;
+  el.board.getAnimations({ subtree: true }).forEach(a => { try { a.finish(); } catch (e) { /* already done */ } });
+  el.board.classList.remove("intro");
+}
+
+function clearHighlight() {
+  el.board.classList.remove("stage-mode", "icon-mode");
+  $$(".col.sel", el.board).forEach(c => c.classList.remove("sel"));
+  $$(".ico.hit, .ico.cur", el.board).forEach(b => b.classList.remove("hit", "cur"));
+}
+
+function highlightStage(i) {
+  clearHighlight();
+  el.board.classList.add("stage-mode");
+  $(`.col[data-col="${i}"]`, el.board).classList.add("sel");
+}
+
+function highlightIcon(iconId, currentStage) {
+  clearHighlight();
+  el.board.classList.add("icon-mode");
+  $$(`.ico[data-icon="${iconId}"]`, el.board).forEach(btn => {
+    btn.classList.add("hit");
+    if (Number(btn.dataset.stage) === currentStage) btn.classList.add("cur");
+  });
+}
+
+/* ---------- Tooltip ---------- */
+function showTip(target) {
+  const text = target.getAttribute("data-tip");
+  if (!text) return;
+  el.tip.textContent = text;
+  el.tip.classList.add("show");
+  const r = target.getBoundingClientRect();
+  const tw = el.tip.offsetWidth;
+  let x = r.left + r.width / 2 - tw / 2;
+  x = Math.max(6, Math.min(x, document.documentElement.clientWidth - tw - 6));
+  let y = r.top - el.tip.offsetHeight - 8;
+  if (y < 4) y = r.bottom + 8;
+  el.tip.style.left = x + "px";
+  el.tip.style.top = y + "px";
+}
+function hideTip() { el.tip.classList.remove("show"); }
+
+/* ====================================================================
+   Panel (stage view and icon view share one component)
+   ==================================================================== */
+function isNarrow() { return window.matchMedia("(max-width: 899px)").matches; }
+
+function showPanel(trigger) {
+  if (!state.panel || !el.panel.classList.contains("open")) {
+    state.trigger = trigger || document.activeElement;
+  }
+  el.panel.classList.add("open");
+  el.backdrop.classList.add("show");
+}
+
+function closePanel() {
+  if (!el.panel.classList.contains("open")) return;
+  el.panel.classList.remove("open");
+  el.backdrop.classList.remove("show");
+  state.panel = null;
+  clearHighlight();
+  setHash("");
+  const back = state.trigger;
+  state.trigger = null;
+  if (back && document.contains(back) && back.offsetParent !== null) back.focus();
+}
+
+function focusTitle() {
+  const title = $("#panel-title");
+  if (title) title.focus({ preventScroll: true });
+}
+
+function openStage(i, trigger) {
+  const stage = STAGES[i];
+  state.panel = { type: "stage", i };
+  showPanel(trigger);
+  highlightStage(i);
+
+  const facts = h("ul", { class: "facts" },
+    h("li", null, h("b", null, "Era: "), stage.era),
+    h("li", null, h("b", null, "Dates: "), stage.dates),
+    h("li", null, h("b", null, "Testament: "), stage.testament),
+    stage.covenant ? h("li", null, h("b", null, "Covenant in focus: "), stage.covenant) : null
+  );
+  const icons = h("div", { class: "mini-icons" }, stage.iconList.map(ic =>
+    h("button", {
+      class: "mini-ico", type: "button", "data-icon": ic.id,
+      "aria-label": ICON_NAME.get(ic.id) + (ic.promised ? ", promised" : ""),
+      "data-tip": ICON_NAME.get(ic.id) + (ic.promised ? " \u00B7 promised" : ""),
+      onclick: e => openIcon(i, ic.id, e.currentTarget)
+    }, iconSvg(ic.id, ic.promised))
+  ));
+
+  el.body.textContent = "";
+  el.body.append(
+    h("div", { class: "p-head" },
+      h("div", { class: "bigletter", "aria-hidden": "true" }, stage.letter),
+      h("div", null,
+        h("p", { class: "eyebrow" }, "Stage " + stage.n + " of " + STAGES.length),
+        h("h2", { id: "panel-title", tabindex: "-1" }, stage.title))),
+    facts,
+    ...stage.summary.map(p => h("p", null, p)),
+    h("h3", null, "Key texts"),
+    h("ul", { class: "chips" }, stage.keyTexts.map(t => h("li", { class: "chip" }, t))),
+    h("h3", null, "Icons in this stage"),
+    icons
+  );
+  el.nav.style.visibility = "visible";
+  el.prev.disabled = i === 0;
+  el.next.disabled = i === STAGES.length - 1;
+  el.prev.setAttribute("aria-label", i > 0 ? "Previous stage: " + STAGES[i - 1].title : "Previous stage");
+  el.next.setAttribute("aria-label", i < STAGES.length - 1 ? "Next stage: " + STAGES[i + 1].title : "Next stage");
+  el.body.parentElement.scrollTop = 0;
+  setHash(stage.letter.toLowerCase());
+  syncFocusAfterRender();
+}
+
+function openIcon(i, iconId, trigger) {
+  const stage = STAGES[i];
+  const entry = iconEntry(i, iconId);
+  if (!entry) return;
+  state.panel = { type: "icon", i, icon: iconId };
+  showPanel(trigger);
+  highlightIcon(iconId, i);
+
+  const where = occurrences(iconId);
+  const chips = h("ul", { class: "chips" }, where.map(si => {
+    const s = STAGES[si];
+    return h("li", null, h("button", {
+      class: "chip", type: "button",
+      "aria-current": si === i ? "true" : null,
+      "aria-label": ICON_NAME.get(iconId) + " in stage " + s.letter + ": " + s.title,
+      onclick: e => openIcon(si, iconId, e.currentTarget)
+    }, s.letter + " · Stage " + s.n));
+  }));
+
+  el.body.textContent = "";
+  el.body.append(
+    h("div", { class: "icon-hero" }, iconSvg(iconId, entry.promised)),
+    h("p", { class: "eyebrow" }, "Stage " + stage.n + " of " + STAGES.length + " · " + stage.letter),
+    h("h2", { id: "panel-title", tabindex: "-1" }, ICON_NAME.get(iconId)),
+    // Only the promise icons (offspring, land, nations) get a promised/fulfilled badge.
+    ...(PROMISE_ICONS.has(iconId) ? [h("span", { class: "badge " + (entry.promised ? "promised" : "fulfilled") },
+      entry.promised ? "Promised" : "Fulfilled")] : []),
+    h("p", { class: "note" }, DATA.notes[stage.letter + ":" + iconId] || ""),
+    h("p", null, h("button", { class: "linkbtn", type: "button", onclick: e => openStage(i, e.currentTarget) },
+      "Read about Stage " + stage.n + " (" + stage.title + ")")),
+    h("h3", null, "Trace this thread"),
+    chips
+  );
+  el.nav.style.visibility = "hidden";
+  el.body.parentElement.scrollTop = 0;
+  setHash(stage.letter.toLowerCase());
+  syncFocusAfterRender();
+}
+
+/** Move focus into the panel on open, but keep it on a nav button the user is pressing. */
+function syncFocusAfterRender() {
+  const active = document.activeElement;
+  const keepOnNav = (active === el.prev || active === el.next) && !active.disabled;
+  if (!keepOnNav) focusTitle();
+}
+
+/* ====================================================================
+   Modes: explore / legend / quiz
+   ==================================================================== */
+function setMode(mode) {
+  state.mode = mode;
+  $$(".pillbtn[data-mode]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+  el.board.hidden = mode === "quiz";
+  el.legend.hidden = mode !== "legend";
+  el.quiz.hidden = mode !== "quiz";
+  if (mode === "quiz") {
+    closePanel();
+    clearHighlight();
+    quizHome();
+    setHash("quiz");
+  } else if (location.hash.toLowerCase() === "#quiz") {
+    setHash("");
+  }
+  if (mode === "legend") renderLegend();
+}
+
+/* ---------- Legend ---------- */
+function renderLegend() {
+  const items = DATA.legend.map(([id, name]) => h("li", null,
+    h("button", {
+      class: "legend-item", type: "button", "data-icon": id,
+      onclick: e => legendPick(id, e.currentTarget)
+    }, h("span", { class: "swatch" }, iconSvg(id, false)), h("span", null, name))));
+  el.legend.textContent = "";
+  el.legend.append(
+    h("h2", { id: "legend-title" }, "Legend"),
+    h("div", { class: "legend-key" },
+      h("div", { class: "pair" },
+        h("span", { class: "swatch" }, iconSvg("offspring", true)),
+        h("span", { class: "swatch" }, iconSvg("offspring", false))),
+      h("span", null, DATA.ui.legendKey)),
+    h("ul", { class: "legend-grid" }, items)
+  );
+}
+
+function legendPick(iconId, trigger) {
+  const first = firstAppearance(iconId);
+  highlightIcon(iconId, first);
+  el.board.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "center" });
+  openIcon(first, iconId, trigger);
+}
+
+/* ====================================================================
+   Quiz
+   ==================================================================== */
+const BEST_KEY = "kingdom-best";
+
+function loadBest() {
+  try { return JSON.parse(localStorage.getItem(BEST_KEY)) || {}; } catch (e) { return {}; }
+}
+function saveBest(kind, value, lowerIsBetter) {
+  try {
+    const best = loadBest();
+    const old = best[kind];
+    if (old == null || (lowerIsBetter ? value < old : value > old)) {
+      best[kind] = value;
+      localStorage.setItem(BEST_KEY, JSON.stringify(best));
+    }
+  } catch (e) { /* storage blocked: scores just are not remembered */ }
+}
+
+/* ---------- Question building ---------- */
+function pickOptions(correct, pool, count = 4) {
+  const others = shuffle(Array.from(new Set(pool)).filter(x => x !== correct)).slice(0, count - 1);
+  const options = shuffle([correct].concat(others));
+  return { options, answerIndex: options.indexOf(correct) };
+}
+
+function makeQuestion(key, type, prompt, correct, pool, why, iconId) {
+  const { options, answerIndex } = pickOptions(correct, pool);
+  return { key, type, prompt, iconId, options, answerIndex, why };
+}
+
+const ALL_TITLES = STAGES.map(s => s.title);
+const ALL_LETTERS = STAGES.map(s => s.letter);
+const ALL_LABELS = STAGES.map(stageLabel);
+
+const QUESTION_MAKERS = {
+  a: () => STAGES.map(s => makeQuestion("a:" + s.letter, "a",
+    "What does " + s.letter + " stand for?", s.title, ALL_TITLES, whyStage(s))),
+  b: () => STAGES.map(s => makeQuestion("b:" + s.letter, "b",
+    "Which letter is “" + s.title + "”?", s.letter, ALL_LETTERS, whyStage(s))),
+  c: () => STAGES.map(s => makeQuestion("c:" + s.letter, "c",
+    "Which stage covers " + s.era + "?", stageLabel(s), ALL_LABELS, whyStage(s))),
+  // Stages whose dates contain a "?" are skipped: the question would be unclear.
+  d: () => STAGES.filter(s => !s.dates.includes("?")).map(s => makeQuestion("d:" + s.letter, "d",
+    "Which stage is dated " + s.dates + "?", stageLabel(s), ALL_LABELS, whyStage(s))),
+  e: () => ICON_IDS.map(id => {
+    const first = STAGES[firstAppearance(id)];
+    return makeQuestion("e:" + id, "e", "What does this image stand for?", ICON_NAME.get(id),
+      DATA.legend.map(p => p[1]), ICON_NAME.get(id) + ". First seen in Stage " + first.n + ": " + first.title + ".", id);
+  }),
+  f: () => ICON_IDS.map(id => {
+    const first = STAGES[firstAppearance(id)];
+    return makeQuestion("f:" + id, "f", "In which stage does “" + ICON_NAME.get(id) + "” first appear?",
+      stageLabel(first), ALL_LABELS, ICON_NAME.get(id) + " first appears in Stage " + first.n + ": " + first.title + ".");
+  }),
+  g: () => STAGES.slice(0, -1).map((s, i) => makeQuestion("g:" + s.letter, "g",
+    "Which stage comes right after “" + s.title + "”?", stageLabel(STAGES[i + 1]), ALL_LABELS,
+    whyStage(STAGES[i + 1]))),
+  h: () => STAGES.filter(s => s.covenant).map(s => makeQuestion("h:" + s.letter, "h",
+    "Which stage centers on the " + s.covenant + " covenant?", stageLabel(s), ALL_LABELS, whyStage(s))),
+  i: () => {
+    const f = DATA.ui.fixedQuestion;
+    const second = STAGES[1];
+    return [makeQuestion("i:fixed", "i", f.prompt, f.correct, [f.correct].concat(f.wrong),
+      f.why + " (Stage " + second.n + ": " + second.title + ")")];
+  }
+};
+
+function buildQuestions(kind) {
+  if (kind === "letters") return shuffle(QUESTION_MAKERS.a());
+  // Full quiz: take one question from each type in turn so the mix stays varied.
+  const pools = shuffle(Object.keys(QUESTION_MAKERS)).map(t => shuffle(QUESTION_MAKERS[t]()));
+  const picked = [];
+  while (picked.length < 12 && pools.some(p => p.length)) {
+    for (const pool of pools) {
+      if (pool.length && picked.length < 12) picked.push(pool.pop());
+    }
+  }
+  return shuffle(picked);
+}
+
+/* ---------- Screens ---------- */
+let quiz = null;   // { kind, questions, index, score, missed, answered }
+
+function quizCard(...kids) {
+  el.quiz.textContent = "";
+  const card = h("div", { class: "card" }, kids);
+  el.quiz.append(card);
+  return card;
+}
+
+function quizHome() {
+  quiz = null;
+  const best = loadBest();
+  const choice = (kind, title, text, bestText) => h("button", {
+    class: "choice", type: "button", "data-kind": kind, onclick: () => startQuiz(kind)
+  }, h("b", null, title), h("span", null, text + (bestText ? " · " + bestText : "")));
+  quizCard(
+    h("h2", { id: "quiz-title", tabindex: "-1" }, "Test yourself"),
+    h("p", { class: "lead" }, "Pick a quiz. Use the keys 1 to 4 to answer and Enter for the next question."),
+    h("div", { class: "choices" },
+      choice("letters", "Letters", "7 questions: what does each letter stand for?",
+        best.letters != null ? "Best " + best.letters + " / 7" : ""),
+      choice("full", "Full quiz", "12 questions: a mix of everything",
+        best.full != null ? "Best " + best.full + " / 12" : ""),
+      choice("order", "Put it in order", "Tap the seven stage titles in the right order",
+        best.order != null ? "Fewest misses " + best.order : ""))
+  );
+}
+
+function startQuiz(kind) {
+  if (kind === "order") return startOrder();
+  quiz = { kind, questions: buildQuestions(kind), index: 0, score: 0, missed: [], answered: false };
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = quiz.questions[quiz.index];
+  const total = quiz.questions.length;
+  quiz.answered = false;
+  const opts = q.options.map((text, i) => h("button", {
+    class: "opt", type: "button", "data-index": i,
+    onclick: () => answer(i)
+  }, h("span", { class: "num", "aria-hidden": "true" }, String(i + 1)), h("span", null, text), h("span", { class: "mark", "aria-hidden": "true" })));
+  const next = h("button", { class: "primary", type: "button", id: "next-q", hidden: true, onclick: nextQuestion },
+    quiz.index + 1 === total ? "See results" : "Next");
+  quizCard(
+    h("div", { class: "qmeta" }, h("span", null, "Question " + (quiz.index + 1) + " of " + total)),
+    h("div", { class: "progress", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(total), "aria-valuenow": String(quiz.index) },
+      h("i", { style: "width:" + (quiz.index / total * 100) + "%" })),
+    q.iconId ? h("div", { class: "qicon" }, iconSvg(q.iconId, false)) : null,
+    h("h2", { id: "quiz-title", tabindex: "-1" }, q.prompt),
+    h("div", { class: "opts", role: "group", "aria-label": "Answers" }, opts),
+    h("p", { class: "feedback", id: "feedback", "aria-live": "polite" }),
+    h("div", { class: "actions" }, next)
+  );
+  $("#quiz-title").focus({ preventScroll: true });
+}
+
+function answer(choice) {
+  if (!quiz || quiz.answered) return;
+  quiz.answered = true;
+  const q = quiz.questions[quiz.index];
+  const ok = choice === q.answerIndex;
+  $$(".opt", el.quiz).forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.answerIndex) {
+      btn.classList.add("right");
+      btn.dataset.correct = "true";
+      $(".mark", btn).textContent = "✓";
+    } else if (i === choice) {
+      btn.classList.add("wrong");
+      $(".mark", btn).textContent = "✗";
+    }
+  });
+  if (ok) quiz.score++;
+  else quiz.missed.push({ prompt: q.prompt, answer: q.options[q.answerIndex], why: q.why, iconId: q.iconId });
+  const fb = $("#feedback");
+  fb.append(h("strong", { class: ok ? "good" : "bad" }, ok ? "Correct. " : "Not quite. "), q.why);
+  const next = $("#next-q");
+  next.hidden = false;
+  next.focus();
+}
+
+function nextQuestion() {
+  if (!quiz || !quiz.answered) return;
+  quiz.index++;
+  if (quiz.index >= quiz.questions.length) renderEnd();
+  else renderQuestion();
+}
+
+function miniRow() {
+  return h("div", { class: "mini-row", "aria-hidden": "true" },
+    STAGES.map((s, i) => h("span", { class: "mini", style: "--i:" + i }, s.letter)));
+}
+
+function renderEnd() {
+  const total = quiz.questions.length;
+  const score = quiz.score;
+  const message = score === total ? "Perfect!" : score >= 9 || (total === 7 && score >= 6) ? "Well done." : "Keep going. Try again?";
+  saveBest(quiz.kind, score, false);
+  const kind = quiz.kind;
+  const row = miniRow();
+  quizCard(
+    score === total ? row : null,
+    h("p", { class: "eyebrow" }, "Your score"),
+    h("div", { class: "score", id: "score" }, score + " / " + total),
+    h("h2", { id: "quiz-title", tabindex: "-1" }, message),
+    quiz.missed.length ? h("h3", null, "Missed") : null,
+    quiz.missed.length ? h("ol", { class: "missed", id: "missed" }, quiz.missed.map(m =>
+      h("li", null, m.prompt, h("small", null, "Answer: " + m.answer), h("small", null, m.why)))) : null,
+    h("div", { class: "actions" },
+      h("button", { class: "primary", type: "button", id: "again", onclick: () => startQuiz(kind) }, "Try again"),
+      h("button", { class: "secondary", type: "button", id: "back", onclick: backToFigure }, "Back to the figure"))
+  );
+  if (score === total) celebrate(row);
+  $("#quiz-title").focus({ preventScroll: true });
+}
+
+function celebrate(row) {
+  if (reducedMotion()) return;
+  row.classList.add("wave");
+  setTimeout(() => row.classList.remove("wave"), 1500);
+}
+
+function backToFigure() {
+  setMode("explore");
+  quiz = null;
+}
+
+/* ---------- Put it in order ---------- */
+function startOrder() {
+  quiz = { kind: "order", next: 0, misses: [], pool: shuffle(STAGES.map((s, i) => i)) };
+  renderOrder();
+}
+
+function renderOrder() {
+  const slots = STAGES.map((s, i) => h("li", {
+    class: "slot" + (i < quiz.next ? " filled" : ""), "data-slot": i
+  }, h("span", { class: "mini" }, s.letter), h("span", { class: "lbl" }, i < quiz.next ? s.title : "")));
+  const pool = quiz.pool.map(si => h("button", {
+    class: "opt", type: "button", "data-stage": si,
+    hidden: si < quiz.next,
+    onclick: e => tapOrder(si, e.currentTarget)
+  }, STAGES[si].title));
+  quizCard(
+    h("h2", { id: "quiz-title", tabindex: "-1" }, "Put it in order"),
+    h("p", { class: "lead" }, "Tap the stage titles in order, starting with " + STAGES[0].letter + ". Next up: " + STAGES[Math.min(quiz.next, 6)].letter + "."),
+    h("ol", { class: "order" }, slots),
+    h("div", { class: "pool", role: "group", "aria-label": "Stage titles" }, pool)
+  );
+  $("#quiz-title").focus({ preventScroll: true });
+}
+
+function tapOrder(stageIndex, button) {
+  if (stageIndex === quiz.next) {
+    quiz.next++;
+    if (quiz.next >= STAGES.length) return renderOrderEnd();
+    renderOrder();
+    const nextBtn = $(".pool .opt:not([hidden])", el.quiz);
+    if (nextBtn) nextBtn.focus();
+  } else {
+    quiz.misses.push({ slot: quiz.next, tapped: stageIndex });
+    button.classList.remove("shake");
+    void button.offsetWidth;
+    button.classList.add("shake");
+  }
+}
+
+function renderOrderEnd() {
+  const misses = quiz.misses;
+  saveBest("order", misses.length, true);
+  const row = miniRow();
+  quizCard(
+    misses.length === 0 ? row : null,
+    h("p", { class: "eyebrow" }, "All seven in place"),
+    h("div", { class: "score", id: "score" }, misses.length === 0 ? "No misses" : misses.length + (misses.length === 1 ? " miss" : " misses")),
+    h("h2", { id: "quiz-title", tabindex: "-1" }, misses.length === 0 ? "Perfect!" : "Done. Try again for fewer misses?"),
+    misses.length ? h("ol", { class: "missed", id: "missed" }, misses.map(m =>
+      h("li", null, "For " + STAGES[m.slot].letter + " you tapped “" + STAGES[m.tapped].title + "”.",
+        h("small", null, "Answer: " + STAGES[m.slot].title)))) : null,
+    h("div", { class: "actions" },
+      h("button", { class: "primary", type: "button", id: "again", onclick: startOrder }, "Try again"),
+      h("button", { class: "secondary", type: "button", id: "back", onclick: backToFigure }, "Back to the figure"))
+  );
+  if (misses.length === 0) celebrate(row);
+  $("#quiz-title").focus({ preventScroll: true });
+}
+
+/* ====================================================================
+   URL hash, embedding, events
+   ==================================================================== */
+function setHash(value) {
+  try {
+    const url = location.pathname + location.search + (value ? "#" + value : "");
+    history.replaceState(null, "", url);
+  } catch (e) { /* some sandboxes block history changes */ }
+}
+
+function routeFromHash() {
+  const key = location.hash.replace("#", "").toLowerCase();
+  if (key === "quiz") { setMode("quiz"); return; }
+  const i = stageIndexByLetter(key);
+  if (key.length === 1 && i >= 0) openStage(i, $(`.tile[data-stage="${i}"]`));
+}
+
+function postHeight() {
+  if (window.parent === window) return;
+  try { parent.postMessage({ kingdomHeight: document.documentElement.scrollHeight }, "*"); } catch (e) { /* ignore */ }
+}
+
+function goToStage(i) {
+  if (i < 0 || i >= STAGES.length) return;
+  openStage(i);
+}
+
+function wireEvents() {
+  document.addEventListener("click", finishIntro, true);
+
+  el.board.addEventListener("click", e => {
+    const ico = e.target.closest(".ico");
+    const tile = e.target.closest(".tile");
+    if (ico) openIcon(Number(ico.dataset.stage), ico.dataset.icon, ico);
+    else if (tile) openStage(Number(tile.dataset.stage), tile);
+  });
+
+  // Tooltips on hover and keyboard focus, for board icons and panel icons
+  const tipTarget = e => e.target.closest && e.target.closest("[data-tip]");
+  document.addEventListener("mouseover", e => { const t = tipTarget(e); if (t) showTip(t); });
+  document.addEventListener("mouseout", e => { if (tipTarget(e)) hideTip(); });
+  document.addEventListener("focusin", e => { const t = tipTarget(e); if (t) showTip(t); else hideTip(); });
+  document.addEventListener("focusout", hideTip);
+  window.addEventListener("scroll", hideTip, { passive: true });
+
+  $$(".pillbtn[data-mode]").forEach(btn => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
+  $("#replay").addEventListener("click", () => {
+    if (state.mode === "quiz") setMode("explore");
+    closePanel();
+    clearHighlight();
+    playIntro();
+  });
+
+  el.close.addEventListener("click", closePanel);
+  el.backdrop.addEventListener("click", closePanel);
+  el.prev.addEventListener("click", () => state.panel && goToStage(state.panel.i - 1));
+  el.next.addEventListener("click", () => state.panel && goToStage(state.panel.i + 1));
+
+  document.addEventListener("keydown", onKey);
+  window.addEventListener("hashchange", routeFromHash);
+}
+
+function onKey(e) {
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  const panelOpen = el.panel.classList.contains("open");
+
+  if (e.key === "Escape" && panelOpen) {
+    e.preventDefault();
+    closePanel();
+    return;
+  }
+  if (panelOpen && state.panel && state.panel.type === "stage") {
+    if (e.key === "ArrowRight") { e.preventDefault(); goToStage(state.panel.i + 1); return; }
+    if (e.key === "ArrowLeft") { e.preventDefault(); goToStage(state.panel.i - 1); return; }
+  }
+  if (state.mode === "quiz" && quiz && quiz.questions) {
+    if (!quiz.answered && /^[1-4]$/.test(e.key)) {
+      const idx = Number(e.key) - 1;
+      if (idx < quiz.questions[quiz.index].options.length) answer(idx);
+    } else if (quiz.answered && e.key === "Enter" && !(e.target.closest && e.target.closest("button, a"))) {
+      e.preventDefault();
+      nextQuestion();
+    }
+  }
+}
+
+function init() {
+  $("#title").textContent = DATA.ui.title;
+  $("#subtitle").textContent = DATA.ui.subtitle;
+  renderBoard();
+  wireEvents();
+  playIntro();
+  routeFromHash();
+  if ("ResizeObserver" in window) new ResizeObserver(postHeight).observe(document.documentElement);
+  window.addEventListener("load", postHeight);
+  window.addEventListener("resize", postHeight);
+  postHeight();
+}
+
+init();
+</script>
+</body>
+</html>
