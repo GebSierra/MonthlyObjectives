@@ -24,7 +24,7 @@ Everything is in one file: `index.html`. It has no external requests, no librari
 
 ```html
 <iframe id="kingdom" src="/kingdom/index.html" title="God's KINGDOM Plan"
-        style="width:100%; border:0; min-height:900px" loading="lazy"></iframe>
+        style="width:100%; border:0; min-height:600px" loading="lazy"></iframe>
 ```
 
 The page tells its host how tall it is, so the frame can grow to fit and avoid inner scrollbars. Add this small listener on the host page (after the iframe):
