@@ -636,11 +636,11 @@ for(let s=0; s<SLOTS; s++){
 
 /* ---------- events ---------- */
 
-// shared toggle: none -> done -> skipped -> none
+// shared toggle: none -> skipped (strikethrough) -> done (check) -> none
 function toggleOne(col, id, originEl){
   const ss = slotState(col.dataset.slot);
   const cur = ss.checks[id] || 0;
-  const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
+  const next = cur === 0 ? 2 : (cur === 2 ? 1 : 0);
   if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
   const row = col.querySelector('li.task[data-row="'+id+'"]');
   if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); }
@@ -739,7 +739,7 @@ document.addEventListener("keydown", function(e){
       if(!row) return;
       if(row.classList.contains('ref')) return; // ref bullets aren't checkable
       const cur = ss.checks[id] || 0;
-      const next = cur === 0 ? 1 : (cur === 1 ? 2 : 0);
+      const next = cur === 0 ? 2 : (cur === 2 ? 1 : 0);
       if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
       row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2);
     });
