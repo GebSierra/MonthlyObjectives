@@ -632,20 +632,20 @@ for(let s=0; s<SLOTS; s++){
 
 /* ---------- events ---------- */
 
-// shared toggle: none -> highlighted -> done (check) -> struck through -> none
-// bullet points (ref rows) only switch between none and highlighted
-function nextState(row, cur){
-  if(row && row.classList.contains('ref')) return cur === 3 ? 0 : 3;
-  return cur === 0 ? 3 : (cur === 3 ? 1 : (cur === 1 ? 2 : 0));
+// box click: (none or highlighted) -> done (check) -> struck through -> none
+// text click: none <-> highlighted (leaves ticked/struck items alone); bullets only highlight
+function nextState(row, cur, viaText){
+  if(viaText || (row && row.classList.contains('ref'))) return cur === 3 ? 0 : (cur === 0 ? 3 : cur);
+  return cur === 1 ? 2 : (cur === 2 ? 0 : 1);
 }
 function paintRow(row, v){
   row.classList.toggle('hl', v===3); row.classList.toggle('done', v===1); row.classList.toggle('skip', v===2);
 }
-function toggleOne(col, id, originEl){
+function toggleOne(col, id, originEl, viaText){
   const ss = slotState(col.dataset.slot);
   const cur = ss.checks[id] || 0;
   const row = col.querySelector('li.task[data-row="'+id+'"]');
-  const next = nextState(row, cur);
+  const next = nextState(row, cur, viaText);
   if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
   if(row) paintRow(row, next);
   updateProgress(col);
@@ -671,7 +671,7 @@ board.addEventListener("click", function(e){
 });
 
 /* ---------- multi-select (click the label text) + Enter to cycle them all ---------- */
-// Plain click on a task's text advances it (same as clicking the box) and selects just that
+// Plain click on a task's text highlights it (or clears the highlight) and selects just that
 // row. Shift+click highlights the range from the last-clicked row without toggling anything.
 // Ctrl/Cmd+click adds or removes just that row from the highlight, also without toggling.
 // Press Enter to advance every highlighted row one step, Escape to clear the highlight.
@@ -714,7 +714,7 @@ board.addEventListener("click", function(e){
     clearSelection(col);
     setRowSelected(col, id, true);
     selAnchor[slot] = id;
-    toggleOne(col, id, row.querySelector('.box[data-cb]'));
+    toggleOne(col, id, row.querySelector('.box[data-cb]'), true);
   }
   e.preventDefault();
 });
