@@ -320,20 +320,10 @@ const STAGES = [
 
       {k:"phase", title:"W2: Dumping Draft"},
       {k:"task", id:"cbW2jort", t:"Create a JORT section for heading one, heading two, and heading three in the JORT.", subs:[
-        {t:"Group like ideas with like ideas.", id:"cbW2group"}
+        {t:"Group like ideas with like ideas.", id:"cbW2group"},
+        {t:"Organize thoughts so that they're either organized in the Jort or they're in the body.", id:"cbW2organize", marker:5}
       ]},
-      {k:"ref", t:"Section one: gather and group.", subs:[
-        "Gather relevant thoughts and quotes underneath this section's heading.",
-        "Group things together by gathering like ideas with like ideas."
-      ]},
-      {k:"ref", t:"Section two: gather and group.", subs:[
-        "Gather relevant key insights and quotes relevant to this section's main point.",
-        "Group things together by gathering like ideas with like ideas."
-      ]},
-      {k:"ref", t:"Section three: gather and group.", subs:[
-        "Gather relevant key insights and quotes relevant to this section's main point.",
-        {t:"Group things together by gathering like ideas with like ideas.", marker:5}
-      ]},
+      {k:"skipids", n:6}, // removed six old W2 checkboxes; keeps later saved ticks lined up
 
       {k:"phase", title:"W3: Organizing"},
       {k:"note", html:"Each sermon should have one thesis, which takes a main idea of the text and applies it to people's lives. Then each section should build on this main idea, progressing toward the conclusion, which presses the main idea home further."},
@@ -481,6 +471,7 @@ function renderStage(stage, ctr, slot){
       else if(b.k === "quote"){ body += '<blockquote class="q">'+b.html + (b.cite ? '<span class="cite">'+esc(b.cite)+'</span>' : '') + '</blockquote>'; }
       else if(b.k === "phase"){ body += '<div class="phase">'+b.title + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; }
       else if(b.k === "head"){ body += '<div class="phase">'+esc(b.title) + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; }
+      else if(b.k === "skipids"){ ctr.n += b.n; }
       else if(b.k === "secthead"){ body += '<div class="secthead">'+esc(b.title)+'</div>'; }
     }
   });
