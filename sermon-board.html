@@ -166,9 +166,10 @@
   li.task.done>label.cb .box{background:var(--accent);border-color:var(--accent)}
   li.task.done>label.cb .box::after{content:"✓";color:#fff;font-size:11px;font-weight:700}
   li.task.skip>label.cb .box{background:var(--line)}
-  li.task.skip>label.cb .box::after{content:"–";color:var(--muted);font-size:13px;font-weight:700}
+  li.task.skip>label.cb .box::after{content:"✓";color:var(--muted);font-size:11px;font-weight:700}
   label.cb .txt{flex:1 1 auto;cursor:pointer;-webkit-user-select:none;user-select:none}
   li.task.skip>label.cb .txt{text-decoration:line-through;color:var(--muted)}
+  li.task.hl>label.cb .txt, li.task.hl>.refline .txt{background:rgba(255,205,0,.38);border-radius:3px;box-shadow:0 0 0 2px rgba(255,205,0,.38)}
   li.task.selected{background:rgba(63,102,144,.08);border-radius:4px;box-shadow:0 0 0 1px rgba(63,102,144,.18) inset}
   body.readonly label.cb,body.readonly label.cb .box{cursor:default}
   body.readonly label.cb .txt{cursor:default}
@@ -318,6 +319,9 @@ const STAGES = [
       {k:"task", t:"Think and plan through a basic outline of section three (an explanation, illustration, and application)."},
 
       {k:"phase", title:"W2: Dumping Draft"},
+      {k:"task", id:"cbW2jort", t:"Create a JORT section for heading one, heading two, and heading three in the JORT.", subs:[
+        {t:"Group like ideas with like ideas.", id:"cbW2group"}
+      ]},
       {k:"ref", t:"Section one: gather and group.", subs:[
         "Gather relevant thoughts and quotes underneath this section's heading.",
         "Group things together by gathering like ideas with like ideas."
@@ -449,7 +453,8 @@ function renderTask(item, ctr, slot){
     html += '</li>';
     return html;
   }
-  const id = "cb" + (ctr.n++);
+  const id = (isObj && item.id) ? item.id : "cb" + (ctr.n++);
+  ctr.c++;
   let html = '<li class="task" data-row="'+id+'"'+markerAttr+'>';
   html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span>'+markerFlag+'</label>';
   if(note){ html += '<div class="subnote">'+note+'</div>'; }
@@ -485,10 +490,10 @@ function renderStage(stage, ctr, slot){
 }
 
 function renderColumn(slot){
-  const ctr = {n:0, r:0};
+  const ctr = {n:0, r:0, c:0};
   let stagesHtml = "";
   STAGES.forEach(function(st){ stagesHtml += renderStage(st, ctr, slot); });
-  const total = ctr.n;
+  const total = ctr.c;
   const ss = slotState(slot);
   const col = document.createElement("div");
   col.className = "col";
@@ -515,10 +520,9 @@ function renderColumn(slot){
 function applyChecks(col){
   const slot = col.dataset.slot;
   const ss = slotState(slot);
-  col.querySelectorAll('.box[data-cb]').forEach(function(box){
-    const v = ss.checks[box.dataset.cb] || 0;   // 0 none, 1 done, 2 skipped
-    const row = box.closest('li.task');
-    if(row){ row.classList.toggle('done', v===1); row.classList.toggle('skip', v===2); }
+  col.querySelectorAll('li.task[data-row]').forEach(function(row){
+    const v = ss.checks[row.dataset.row] || 0;   // 0 none, 3 highlighted, 1 done, 2 struck through
+    paintRow(row, v);
   });
   updateProgress(col);
   updateOverdueState(col);
@@ -595,7 +599,8 @@ function updateMarkers(col){
   const now = new Date();
   MARKERS.forEach(function(m){
     const rowEl = col.querySelector('[data-marker="'+m.n+'"]');
-    const done = rowEl ? (ss.checks[rowEl.dataset.row] === 1) : false;
+    const v = rowEl ? ss.checks[rowEl.dataset.row] : 0;
+    const done = v === 1 || v === 2; // ticked, or ticked then struck through
     const due = hasDate ? markerDueDate(ss.meta.date, m) : null;
     let status = "upcoming";
     if(done) status = "done";
@@ -636,14 +641,22 @@ for(let s=0; s<SLOTS; s++){
 
 /* ---------- events ---------- */
 
-// shared toggle: none -> skipped (strikethrough) -> done (check) -> none
+// shared toggle: none -> highlighted -> done (check) -> struck through -> none
+// bullet points (ref rows) only switch between none and highlighted
+function nextState(row, cur){
+  if(row && row.classList.contains('ref')) return cur === 3 ? 0 : 3;
+  return cur === 0 ? 3 : (cur === 3 ? 1 : (cur === 1 ? 2 : 0));
+}
+function paintRow(row, v){
+  row.classList.toggle('hl', v===3); row.classList.toggle('done', v===1); row.classList.toggle('skip', v===2);
+}
 function toggleOne(col, id, originEl){
   const ss = slotState(col.dataset.slot);
   const cur = ss.checks[id] || 0;
-  const next = cur === 0 ? 2 : (cur === 2 ? 1 : 0);
-  if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
   const row = col.querySelector('li.task[data-row="'+id+'"]');
-  if(row){ row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2); }
+  const next = nextState(row, cur);
+  if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
+  if(row) paintRow(row, next);
   updateProgress(col);
   updateMarkers(col);
   save();
@@ -667,7 +680,7 @@ board.addEventListener("click", function(e){
 });
 
 /* ---------- multi-select (click the label text) + Enter to cycle them all ---------- */
-// Plain click on a task's text toggles it (same as clicking the box) and highlights just that
+// Plain click on a task's text advances it (same as clicking the box) and selects just that
 // row. Shift+click highlights the range from the last-clicked row without toggling anything.
 // Ctrl/Cmd+click adds or removes just that row from the highlight, also without toggling.
 // Press Enter to advance every highlighted row one step, Escape to clear the highlight.
@@ -710,10 +723,7 @@ board.addEventListener("click", function(e){
     clearSelection(col);
     setRowSelected(col, id, true);
     selAnchor[slot] = id;
-    if(!row.classList.contains('ref')){
-      const box = row.querySelector('.box[data-cb]');
-      toggleOne(col, id, box);
-    }
+    toggleOne(col, id, row.querySelector('.box[data-cb]'));
   }
   e.preventDefault();
 });
@@ -737,11 +747,9 @@ document.addEventListener("keydown", function(e){
     sel.forEach(function(id){
       const row = col.querySelector('li.task[data-row="'+id+'"]');
       if(!row) return;
-      if(row.classList.contains('ref')) return; // ref bullets aren't checkable
-      const cur = ss.checks[id] || 0;
-      const next = cur === 0 ? 2 : (cur === 2 ? 1 : 0);
+      const next = nextState(row, ss.checks[id] || 0);
       if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
-      row.classList.toggle('done', next===1); row.classList.toggle('skip', next===2);
+      paintRow(row, next);
     });
     updateProgress(col);
     updateMarkers(col);
