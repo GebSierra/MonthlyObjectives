@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-10-08",
+  "lastUpdated": "2026-10-12",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -550,10 +550,6 @@
           "note": "update on Logan's training"
         },
         {
-          "name": "Uncle Brian and Aunt Tammy",
-          "note": "reached out to check on them"
-        },
-        {
           "name": "Laura Szl",
           "note": "planning young adults curriculum"
         },
@@ -867,7 +863,7 @@
         },
         {
           "title": "Develop a SPECKS Bible Study printout with Dan that people can stick in their bibles.",
-          "status": "inProgress",
+          "status": "done",
           "top": false,
           "qg": "QG2"
         },
@@ -917,7 +913,7 @@
         },
         {
           "title": "Visit Betsy and Dean Rowell with Dan. Check in and tell her the treasurer asked us to let you know that giving via zelle is done",
-          "status": "inProgress",
+          "status": "done",
           "top": false,
           "qg": "QG1"
         },
@@ -941,7 +937,7 @@
         },
         {
           "title": "Fix the www domain issue",
-          "status": "inProgress",
+          "status": "done",
           "top": true,
           "qg": "QG1"
         },
@@ -969,7 +965,7 @@
         },
         {
           "title": "Have the baby 🤪🐣",
-          "status": "inProgress",
+          "status": "done",
           "top": false
         },
         {
@@ -1002,6 +998,11 @@
         {
           "title": "[QCG1] transfer over old domains from John's personal account to a church account",
           "status": "done",
+          "top": false
+        },
+        {
+          "title": "Finish",
+          "status": "inProgress",
           "top": false
         }
       ],
