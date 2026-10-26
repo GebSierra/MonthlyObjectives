@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-10-22",
+  "lastUpdated": "2026-10-26",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -840,18 +840,6 @@
       "label": "September 2026",
       "items": [
         {
-          "title": "Check in with elders on how discipleship is going.",
-          "status": "done",
-          "top": false,
-          "qg": "QG2"
-        },
-        {
-          "title": "Ensure that the tech team continues to utilize sermonaudio.com so that the livestream gets posted automatically to Facebook, Sermon Audio, and youtube",
-          "status": "done",
-          "top": false,
-          "qg": "QG3"
-        },
-        {
           "title": "Admin: Unify disparate personal accounts into a corporate account(s)",
           "status": "inProgress",
           "top": false,
@@ -864,47 +852,24 @@
           "qg": "QG2"
         },
         {
-          "title": "Discipleship Rock",
-          "status": "quarterly",
-          "top": false,
-          "qg": "QG2",
-          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman’s Group, Agape Group)\r\n* Schedule the fall Men’s and Women’s retreats\r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
+          "title": "Prepare my lessons for release Time Bible Class by End of September",
+          "status": "inProgress",
+          "top": true
         },
         {
-          "title": "Admin Rock",
-          "status": "quarterly",
-          "top": false,
-          "qg": "QG1",
-          "details": "* Church website migration approved and launched \r\n* Fix domain issue\r\n* Unify disparate personal accounts into a corporate account(s)\r\n* Fully migrate from and shutdown (if appropriate) microsoft"
-        },
-        {
-          "title": "Tech Rock",
-          "status": "quarterly",
-          "top": false,
-          "qg": "QG3",
-          "details": "* Improve livestream\r\n    * The tech team has enhanced the board settings to make it sound better\r\n    * We consitently have good sermon audio\r\n    * The livestream has improved to the point where people are commenting on how the livestream has improved\r\n* Continue to integrate Jay by having him acticaly participate in tech \r\n* The tech team implements using SermonAudio weekly\r\n* Post live steam/link once a week to Facebook, X,  and YouTube. (this will happen automatically through sermonaudio.com)\r\n* Evaluate posting on Instagram."
-        },
-        {
-          "title": "Focus on winning Souls by having more meals with people who are seeking \"Do The Work of an Evangelist\" (2 Tim. 4:5)",
-          "status": "quarterly",
-          "top": false,
-          "qg": "QG4"
-        },
-        {
-          "title": "Strengthen my daily and weekly routines this fall by doing my AM/PM/and office routine 5/7 days a week.",
-          "status": "quarterly",
-          "top": false,
-          "qg": "QG6"
-        },
-        {
-          "title": "Mature my preaching by reading 4 books, and intentionally logging post-sermon comments in my sermon log",
-          "status": "quarterly",
-          "top": false,
-          "qg": "QG5"
-        },
-        {
-          "title": "Annual Ministry Report: 1. Make Final tweaks to the form 2. Send it out to ministry leaders and elders with a due date for when you need it back by",
+          "title": "Fix the www domain issue",
           "status": "done",
+          "top": true,
+          "qg": "QG1"
+        },
+        {
+          "title": "Have the baby 🤪🐣",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "Finish",
+          "status": "inProgress",
           "top": false
         },
         {
@@ -914,53 +879,7 @@
           "qg": "QG1"
         },
         {
-          "title": "Improve my preaching by finishing Arnold Dallimore's biography of Spurgeon and \"On Writing Well\" by WIlliam Zinzer",
-          "status": "done",
-          "top": false,
-          "qg": "QG5"
-        },
-        {
-          "title": "Complete this month's sermon preparation a little earlier by following my weekly progress markers",
-          "status": "inProgress",
-          "top": true,
-          "qg": "QG5"
-        },
-        {
-          "title": "Revisit my preaching schedule and determine how I will preach through the the rest of the book of Acts",
-          "status": "inProgress",
-          "top": false,
-          "qg": "QG5"
-        },
-        {
-          "title": "Fix the www domain issue",
-          "status": "done",
-          "top": true,
-          "qg": "QG1"
-        },
-        {
-          "title": "Listen to a chapter from the Book of Colosian at least once a day, 4 out of seven days a week.",
-          "status": "inProgress",
-          "top": false,
-          "qg": "QG6"
-        },
-        {
-          "title": "Implement Paula Ralph's changes to the guest connection SOP, and then email out the SOP to the guest connection team.",
-          "status": "done",
-          "top": false,
-          "qg": "QG2"
-        },
-        {
-          "title": "Prepare my lessons for release Time Bible Class by End of September",
-          "status": "inProgress",
-          "top": true
-        },
-        {
-          "title": "Complete preparation logistics for released time Bible class",
-          "status": "done",
-          "top": false
-        },
-        {
-          "title": "Have the baby 🤪🐣",
+          "title": "[QCG1] transfer over old domains from John's personal account to a church account",
           "status": "done",
           "top": false
         },
@@ -992,14 +911,95 @@
           "qg": "QG1"
         },
         {
-          "title": "[QCG1] transfer over old domains from John's personal account to a church account",
+          "title": "Improve my preaching by finishing Arnold Dallimore's biography of Spurgeon and \"On Writing Well\" by WIlliam Zinzer",
+          "status": "done",
+          "top": false,
+          "qg": "QG5"
+        },
+        {
+          "title": "Ensure that the tech team continues to utilize sermonaudio.com so that the livestream gets posted automatically to Facebook, Sermon Audio, and youtube",
+          "status": "done",
+          "top": false,
+          "qg": "QG3"
+        },
+        {
+          "title": "Annual Ministry Report: 1. Make Final tweaks to the form 2. Send it out to ministry leaders and elders with a due date for when you need it back by",
           "status": "done",
           "top": false
         },
         {
-          "title": "Finish",
+          "title": "Implement Paula Ralph's changes to the guest connection SOP, and then email out the SOP to the guest connection team.",
+          "status": "done",
+          "top": false,
+          "qg": "QG2"
+        },
+        {
+          "title": "Complete this month's sermon preparation a little earlier by following my weekly progress markers",
           "status": "inProgress",
+          "top": true,
+          "qg": "QG5"
+        },
+        {
+          "title": "Complete preparation logistics for released time Bible class",
+          "status": "done",
           "top": false
+        },
+        {
+          "title": "Listen to a chapter from the Book of Colosian at least once a day, 4 out of seven days a week.",
+          "status": "inProgress",
+          "top": false,
+          "qg": "QG6"
+        },
+        {
+          "title": "Check in with elders on how discipleship is going.",
+          "status": "done",
+          "top": false,
+          "qg": "QG2"
+        },
+        {
+          "title": "Revisit my preaching schedule and determine how I will preach through the the rest of the book of Acts",
+          "status": "inProgress",
+          "top": false,
+          "qg": "QG5"
+        },
+        {
+          "title": "Discipleship Rock",
+          "status": "quarterly",
+          "top": false,
+          "qg": "QG2",
+          "details": "* Improve participation in small groups to 50% of attendees (40 adults) (FBF, Friday Morning Mens, Woman’s Group, Agape Group)\r\n* Schedule the fall Men’s and Women’s retreats\r\n* We equip the church to use the SPECKS bible study method, and \r\n    * Create a bible print out that people can stick in their bibles (business card?, Binder insert) (SPECKS, \"What does it say, mean, do?)\r\n* 3 year vision continued to implemented (Rooted, Established, Abounding)\r\n* Develop and test implement  a strategy for shepherding the flock.  \r\n    * Hold a deep work on this \r\n* Define the discipleship development track\r\n* Each elder actively meeting with a potential leader"
+        },
+        {
+          "title": "Strengthen my daily and weekly routines this fall by doing my AM/PM/and office routine 5/7 days a week.",
+          "status": "quarterly",
+          "top": false,
+          "qg": "QG6"
+        },
+        {
+          "title": "Mature my preaching by reading 4 books, and intentionally logging post-sermon comments in my sermon log",
+          "status": "quarterly",
+          "top": false,
+          "qg": "QG5"
+        },
+        {
+          "title": "Focus on winning Souls by having more meals with people who are seeking \"Do The Work of an Evangelist\" (2 Tim. 4:5)",
+          "status": "quarterly",
+          "top": false,
+          "qg": "QG4"
+        },
+        {
+          "title": "Tech Rock",
+          "status": "quarterly",
+          "top": false,
+          "qg": "QG3",
+          "details": "* Improve livestream\r\n    * The tech team has enhanced the board settings to make it sound better\r\n    * We consitently have good sermon audio\r\n    * The livestream has improved to the point where people are commenting on how the livestream has improved\r\n* Continue to integrate Jay by having him acticaly participate in tech \r\n* The tech team implements using SermonAudio weekly\r\n* Post live steam/link once a week to Facebook, X,  and YouTube. (this will happen automatically through sermonaudio.com)\r\n* Evaluate posting on Instagram."
+        },
+        {
+          "title": "Admin Rock",
+          "status": "quarterly",
+          "top": false,
+          "qg": "QG1",
+          "details": "* Church website migration approved and launched \r\n* Fix domain issue\r\n* Unify disparate personal accounts into a corporate account(s)\r\n* Fully migrate from and shutdown (if appropriate) microsoft"
         }
       ],
       "people": [
