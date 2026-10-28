@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Goal Cascade</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#ffffff; --ink:#1f2430; --muted:#6b7280; --line:#e6e8ec;
+    --blue:#2f6fed; --blue-soft:#eaf1fe; --gold:#e0a106;
+    --purple:#7c5cd6; --purple-soft:#f1ecfc;
+    --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.45}
+  .wrap{max-width:1500px;margin:0 auto;padding:28px 22px 60px}
+  header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:6px}
+  h1{font-size:26px;margin:0;letter-spacing:-.02em}
+  .subtitle{color:var(--muted);font-size:14px;margin-top:4px}
+  .back-link{color:var(--muted);font-size:13px;text-decoration:none;border:1px solid var(--line);
+    background:var(--card);padding:7px 14px;border-radius:999px;box-shadow:var(--shadow);white-space:nowrap}
+  .back-link:hover{border-color:#c7ccd4;color:var(--ink)}
+  .legend{color:var(--muted);font-size:12.5px;margin:10px 0 20px}
+  .stage{position:relative}
+  .cascade{display:flex;gap:28px;align-items:flex-start;overflow-x:auto;padding-bottom:16px;position:relative}
+  .lane{flex:1 1 0;min-width:240px;max-width:320px;display:flex;flex-direction:column;gap:10px}
+  .lane-head{font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+    display:flex;align-items:center;gap:7px;padding-bottom:4px;border-bottom:2px solid var(--line)}
+  .lane-head .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .lane.vision .lane-head .dot{background:var(--gold)}
+  .lane.elders .lane-head .dot{background:var(--blue)}
+  .lane.mine .lane-head .dot{background:var(--purple)}
+  .lane.monthly .lane-head .dot{background:var(--ink)}
+  .lcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;
+    font-size:13px;box-shadow:var(--shadow);position:relative;cursor:default}
+  .lcard.vision-item{color:#3a2f06;background:#fffdf6;border-color:#f0e2b8}
+  .lcard.clickable{cursor:pointer}
+  .lcard.clickable:hover{border-color:#c7ccd4}
+  .lcard .tagpill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;
+    padding:1px 7px;border-radius:999px;margin-bottom:5px;background:var(--line);color:var(--muted)}
+  .lcard.lit{box-shadow:0 0 0 2px var(--accent-ring, var(--blue))}
+  .verse-card{background:var(--blue-soft);border-color:#cfe0fb;font-style:italic;color:#23457f;font-size:13px}
+  .verse-cite{display:block;font-style:normal;font-size:11px;color:#4a6aa5;margin-top:6px}
+  .empty-lane{color:var(--muted);font-size:12.5px;font-style:italic;padding:10px 4px}
+  svg.links{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  svg.links path{fill:none;stroke-width:1.6;opacity:.55}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(16,20,30,.45);z-index:50;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal-box{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+  .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);font-weight:700;font-size:15px}
+  .modal-close{background:none;border:none;font-size:22px;line-height:1;cursor:pointer;color:var(--muted);padding:2px 8px;border-radius:6px}
+  .modal-body{padding:14px 20px 20px;font-size:13.5px}
+  .modal-body ul{margin:6px 0;padding-left:20px}
+  .modal-body p.empty{color:var(--muted);font-style:italic}
+  footer{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
+  @media(max-width:760px){ .cascade{flex-wrap:nowrap} .lane{min-width:78vw;max-width:78vw} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Goal Cascade</h1>
+      <div class="subtitle" id="hSub"></div>
+    </div>
+    <a class="back-link" href="index.html">&larr; Back to dashboard</a>
+  </header>
+  <div class="legend">Vision on the left narrows down to this month's objectives on the right. Lines connect a goal to the objectives tagged under it (shared <code>[TAG]</code>, e.g. <code>[ADMIN]</code>). Click any card with a &rsaquo; for its full details.</div>
+  <div class="stage">
+    <div class="cascade" id="cascade"></div>
+  </div>
+  <footer id="foot"></footer>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head"><span id="modalTitle"></span><button class="modal-close" id="modalClose" type="button" aria-label="Close">&times;</button></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+function openModal(title,bodyHtml){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalBody').innerHTML=bodyHtml;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+function renderBulletText(text){
+  if(!text || !text.trim()) return '<p class="empty">No additional details.</p>';
+  const lines=text.replace(/\r\n/g,'\n').split('\n');
+  let out='', open=[];
+  lines.forEach(raw=>{
+    const m=raw.match(/^(\s*)\*\s*(.*)$/);
+    if(!m) return;
+    const content=m[2].trim();
+    if(!content) return;
+    const level=m[1].length>=4?1:0;
+    while(open.length>level+1){out+='</ul>';open.pop();}
+    while(open.length<level+1){out+='<ul>';open.push(level);}
+    out+=`<li>${esc(content)}</li>`;
+  });
+  while(open.length){out+='</ul>';open.pop();}
+  return out || '<p class="empty">No additional details.</p>';
+}
+
+// A leading [TAG] (or several) on a title doubles as this item's cascade
+// connector key, skipping month/year tags like [Nov] or [2027] which are
+// just filing labels, not a goal category.
+const SKIP_TAG = /^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|20\d\d|QG\d+)$/i;
+function tagsOf(it){
+  const tags=[];
+  const re=/\[([A-Za-z0-9/]+)\]/g;
+  let m;
+  while((m=re.exec(it.title||''))){
+    const t=m[1].toUpperCase();
+    if(!SKIP_TAG.test(t)) tags.push(t);
+  }
+  return tags;
+}
+function ownerOf(it){
+  let m=/\(([^)]+?)\s+owns\)/i.exec(it.title||'');
+  if(m) return m[1].trim();
+  m=/Owner:\s*([A-Za-z]+)/i.exec(it.details||'');
+  if(m) return m[1].trim();
+  return 'Geb';
+}
+function isMine(it){ return /^geb$/i.test(ownerOf(it)); }
+
+fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
+  document.getElementById('hSub').textContent = DATA.subtitle || '';
+  const pref = DATA.activeMonth;
+  const m = DATA.months.find(x=>x.key===pref) || DATA.months[DATA.months.length-1];
+  document.getElementById('foot').textContent = 'Showing ' + (m ? m.label : '') + ' — mirrors the same data as the main dashboard.';
+
+  const items = (m && m.items) || [];
+  const quarterly = items.filter(it=>it.status==='quarterly');
+  const elders = quarterly.filter(it=>!isMine(it));
+  const mine = quarterly.filter(it=>isMine(it));
+  const monthly = items.filter(it=>it.status!=='quarterly');
+  const vision = (DATA.vision && DATA.vision.results) || [];
+
+  let uid=0;
+  function card(it, cls){
+    const id='lc'+(uid++);
+    const tags=tagsOf(it);
+    const tagHtml=tags.map(t=>`<span class="tagpill">${esc(t)}</span>`).join(' ');
+    const hasDetails=!!(it.details && it.details.trim());
+    const arrow=hasDetails?' &rsaquo;':'';
+    return {id, tags, html:`<div class="lcard ${cls}${hasDetails?' clickable':''}" id="${id}" ${hasDetails?`data-title="${esc(it.title)}"`:''}>${tagHtml?('<div>'+tagHtml+'</div>'):''}${esc(it.title)}${arrow}</div>`};
+  }
+
+  const visionLane = vision.length
+    ? vision.map(v=>`<div class="lcard vision-item">${esc(v)}</div>`).join('')
+    : '<div class="empty-lane">No vision items set.</div>';
+
+  const verseHtml = (DATA.vision && DATA.vision.verse)
+    ? `<div class="lcard verse-card">&ldquo;${esc(DATA.vision.verse)}&rdquo;<span class="verse-cite">${esc(DATA.vision.reference||'')}</span></div>`
+    : '';
+
+  const eldersCards = elders.length ? elders.map(it=>card(it,'')) : [];
+  const mineCards = mine.length ? mine.map(it=>card(it,'')) : [];
+  const monthlyCards = monthly.length ? monthly.map(it=>card(it,'')) : [];
+
+  function laneHtml(label, dotCls, cardsOrHtml, emptyMsg){
+    const body = Array.isArray(cardsOrHtml)
+      ? (cardsOrHtml.length ? cardsOrHtml.map(c=>c.html).join('') : `<div class="empty-lane">${emptyMsg}</div>`)
+      : cardsOrHtml;
+    return `<div class="lane ${dotCls}"><div class="lane-head"><span class="dot"></span>${label}</div>${body}</div>`;
+  }
+
+  document.getElementById('cascade').innerHTML =
+    laneHtml('3-Year Vision','vision', verseHtml+visionLane, 'No vision items set.') +
+    laneHtml('Elders’ Goals','elders', eldersCards, 'No elder-owned quarterly goals right now.') +
+    laneHtml('My Goals','mine', mineCards, 'No goals of yours in the quarterly list right now.') +
+    laneHtml('Monthly Objectives','monthly', monthlyCards, 'No objectives set this month.');
+
+  // wire up click-for-details on any card that has them
+  function wire(list, cards){
+    cards.forEach((c,i)=>{
+      const el=document.getElementById(c.id);
+      if(!el) return;
+      const it=list[i];
+      if(it.details && it.details.trim()){
+        el.addEventListener('click',()=>openModal(it.title, renderBulletText(it.details)));
+      }
+    });
+  }
+  wire(elders, eldersCards);
+  wire(mine, mineCards);
+
+  // draw connector lines: elders/mine -> monthly, matched on shared tag
+  function drawLines(){
+    const stage=document.querySelector('.stage');
+    const old=stage.querySelector('svg.links');
+    if(old) old.remove();
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','links');
+    const stageRect=stage.getBoundingClientRect();
+    svg.setAttribute('width', stageRect.width);
+    svg.setAttribute('height', stageRect.height);
+    const colors={elders:'#2f6fed', mine:'#7c5cd6'};
+    function connect(sourceCards, sourceItems, color){
+      sourceCards.forEach((sc,i)=>{
+        const srcEl=document.getElementById(sc.id);
+        if(!srcEl || !sc.tags.length) return;
+        monthlyCards.forEach((mc,j)=>{
+          if(!mc.tags.some(t=>sc.tags.includes(t))) return;
+          const dstEl=document.getElementById(mc.id);
+          if(!dstEl) return;
+          const sr=srcEl.getBoundingClientRect(), dr=dstEl.getBoundingClientRect();
+          const x1=sr.right-stageRect.left, y1=sr.top+sr.height/2-stageRect.top;
+          const x2=dr.left-stageRect.left, y2=dr.top+dr.height/2-stageRect.top;
+          const mx=(x1+x2)/2;
+          const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+          path.setAttribute('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+          path.setAttribute('stroke', color);
+          svg.appendChild(path);
+        });
+      });
+    }
+    connect(eldersCards, elders, colors.elders);
+    connect(mineCards, mine, colors.mine);
+    stage.appendChild(svg);
+  }
+  requestAnimationFrame(drawLines);
+  let resizeT;
+  window.addEventListener('resize', ()=>{ clearTimeout(resizeT); resizeT=setTimeout(drawLines,150); });
+}).catch(err=>{
+  document.getElementById('cascade').innerHTML = '<div class="empty-lane">Could not load objectives-history.json: '+esc(err.message)+'</div>';
+});
+</script>
+</body>
+</html>
