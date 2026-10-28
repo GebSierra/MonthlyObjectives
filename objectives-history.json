@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-10-26",
+  "lastUpdated": "2026-10-28",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -1062,9 +1062,108 @@
       ],
       "quarterEndDate": "2026-10-17",
       "quarterStartDate": "2026-10-15"
+    },
+    {
+      "key": "2026-10",
+      "label": "October 2026",
+      "items": [],
+      "note": "No monthly objectives were set this month — we welcomed our new baby! 👶"
+    },
+    {
+      "key": "2026-11",
+      "label": "November 2026",
+      "items": [
+        {
+          "title": "[Nov] [ADMIN] Finish unifying disparate admin accounts.",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] [Personal] Car and Daisy errands",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] Coordinate 5th Sunday Family Worship with Craig Clapper and Janna Marshall",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] Reach out to David Kanczuzewski to get together",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] Reach out to Seth Thomey to get together",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] RTBC prep",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] Schedule a premarital session with Pat and Ashley",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] [VISION] Write the State of the Church address and send it out",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] [Personal] Family devotions on Saturday to prep for Sunday, 3 weeks in a row; plan a family getaway between Christmas and New Year's",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] [CARE] Hold the Nov 8 membership class and personally invite 5 regular attenders",
+          "status": "notStarted",
+          "top": false
+        },
+        {
+          "title": "[Nov] Advent ready by Nov 22: series plan set, Craig's week confirmed, all four sermons outlined",
+          "status": "notStarted",
+          "top": true
+        },
+        {
+          "title": "[Nov] [VISION] Draft the Established 2027 one-pager and bring it to the elders meeting",
+          "status": "notStarted",
+          "top": true
+        },
+        {
+          "title": "[Nov] [ADMIN] Microsoft shut down and WordPress hosting cancelled by Nov 20",
+          "status": "notStarted",
+          "top": true
+        },
+        {
+          "title": "[CARE] Q4 Rock (Dan owns): Member care",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "[BUILD] Q4 Rock (Jim owns): Building",
+          "status": "quarterly",
+          "top": false
+        },
+        {
+          "title": "[VISION] Q4 Rock: Plan for recasting the 3-year vision (finish Rooted strong, prep for Established)",
+          "status": "quarterly",
+          "top": true
+        },
+        {
+          "title": "[ADMIN] Q4 Rock: Close old systems, launch the website, confirm church records",
+          "status": "quarterly",
+          "top": false
+        }
+      ],
+      "quarterEndDate": "2026-10-17",
+      "quarterStartDate": "2026-10-15"
     }
   ],
-  "activeMonth": "2026-09",
+  "activeMonth": "2026-11",
   "quarterEndDate": "2026-10-17",
   "quarterStartDate": "2026-10-15",
   "vision": {
