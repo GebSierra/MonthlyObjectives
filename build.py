@@ -57,7 +57,22 @@ for t in board["tasks"]:
     item={"title":title,"status":st,"top":bool(top)}
     if qg: item["qg"]=qg
     if st=="quarterly":
-        details=(t.get("content") or "").strip()
+        # Build a bulleted details blob from whatever TickTick actually has: a
+        # free-text content/desc blurb (used for owner/due notes) and/or real
+        # checklist subtasks (TickTick "items"). Each becomes its own bullet
+        # line so renderBulletText() in the dashboard can always show something,
+        # regardless of which field this month's Rock happens to use.
+        bullets=[]
+        for blob in ((t.get("desc") or "").strip(), (t.get("content") or "").strip()):
+            if not blob: continue
+            if re.search(r"(?m)^\s*\*\s+", blob):
+                bullets.append(blob)  # already hand-formatted as bullets; keep as-is
+            else:
+                bullets.append("* " + re.sub(r"\s+"," ", blob).strip())
+        for sub in (t.get("items") or []):
+            title=clean(sub.get("title",""))
+            if title: bullets.append("* " + title)
+        details="\n".join(bullets).strip()
         if details: item["details"]=details
     items.append(item)
 
