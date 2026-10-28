@@ -25,7 +25,7 @@
   .back-link:hover{border-color:#c7ccd4;color:var(--ink)}
   .legend{color:var(--muted);font-size:12.5px;margin:10px 0 20px}
   .stage{position:relative}
-  .cascade{display:flex;gap:28px;align-items:flex-start;overflow-x:auto;padding-bottom:16px;position:relative}
+  .cascade{display:flex;gap:64px;align-items:flex-start;overflow-x:auto;padding-bottom:16px;position:relative}
   .lane{flex:1 1 0;min-width:240px;max-width:320px;display:flex;flex-direction:column;gap:10px}
   .lane-head{font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
     display:flex;align-items:center;gap:7px;padding-bottom:4px;border-bottom:2px solid var(--line)}
@@ -46,7 +46,7 @@
   .verse-cite{display:block;font-style:normal;font-size:11px;color:#4a6aa5;margin-top:6px}
   .empty-lane{color:var(--muted);font-size:12.5px;font-style:italic;padding:10px 4px}
   svg.links{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-  svg.links path{fill:none;stroke-width:1.6;opacity:.55}
+  svg.links path{fill:none;stroke-width:2.2;opacity:.7}
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(16,20,30,.45);z-index:50;align-items:center;justify-content:center;padding:20px}
   .modal-overlay.open{display:flex}
   .modal-box{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
@@ -68,7 +68,7 @@
     </div>
     <a class="back-link" href="index.html">&larr; Back to dashboard</a>
   </header>
-  <div class="legend">Vision on the left narrows down to this month's objectives on the right. Lines connect a goal to the objectives tagged under it (shared <code>[TAG]</code>, e.g. <code>[ADMIN]</code>). Click any card with a &rsaquo; for its full details.</div>
+  <div class="legend">Vision on the left narrows down to this month's objectives on the right. Lines connect a goal to the objectives tagged under it (shared <code>[TAG]</code>, e.g. <code>[ADMIN]</code>) — each tag gets its own line color. Click any card with a &rsaquo; for its full details.</div>
   <div class="stage">
     <div class="cascade" id="cascade"></div>
   </div>
@@ -198,7 +198,14 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
   wire(elders, eldersCards);
   wire(mine, mineCards);
 
-  // draw connector lines: elders/mine -> monthly, matched on shared tag
+  // draw connector lines: elders/mine -> monthly, matched on shared tag.
+  // Each distinct tag gets its own color so overlapping connections stay readable.
+  const TAG_PALETTE=['#2f6fed','#e0a106','#d6336c','#12b886','#7c5cd6','#fd7e14','#0ca5e9','#f03e3e','#2b8a3e'];
+  const tagColor={};
+  function colorForTag(tag){
+    if(!tagColor[tag]) tagColor[tag]=TAG_PALETTE[Object.keys(tagColor).length % TAG_PALETTE.length];
+    return tagColor[tag];
+  }
   function drawLines(){
     const stage=document.querySelector('.stage');
     const old=stage.querySelector('svg.links');
@@ -208,13 +215,13 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
     const stageRect=stage.getBoundingClientRect();
     svg.setAttribute('width', stageRect.width);
     svg.setAttribute('height', stageRect.height);
-    const colors={elders:'#2f6fed', mine:'#7c5cd6'};
-    function connect(sourceCards, sourceItems, color){
-      sourceCards.forEach((sc,i)=>{
+    function connect(sourceCards){
+      sourceCards.forEach((sc)=>{
         const srcEl=document.getElementById(sc.id);
         if(!srcEl || !sc.tags.length) return;
-        monthlyCards.forEach((mc,j)=>{
-          if(!mc.tags.some(t=>sc.tags.includes(t))) return;
+        monthlyCards.forEach((mc)=>{
+          const shared=sc.tags.find(t=>mc.tags.includes(t));
+          if(!shared) return;
           const dstEl=document.getElementById(mc.id);
           if(!dstEl) return;
           const sr=srcEl.getBoundingClientRect(), dr=dstEl.getBoundingClientRect();
@@ -223,13 +230,13 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
           const mx=(x1+x2)/2;
           const path=document.createElementNS('http://www.w3.org/2000/svg','path');
           path.setAttribute('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
-          path.setAttribute('stroke', color);
+          path.setAttribute('stroke', colorForTag(shared));
           svg.appendChild(path);
         });
       });
     }
-    connect(eldersCards, elders, colors.elders);
-    connect(mineCards, mine, colors.mine);
+    connect(eldersCards);
+    connect(mineCards);
     stage.appendChild(svg);
   }
   requestAnimationFrame(drawLines);
