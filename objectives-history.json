@@ -1252,6 +1252,9 @@
           "title": "Member Care Implementation",
           "items": [
             "How to encourage more regular attendees to become members"
+          ],
+          "rocks": [
+            "CARE"
           ]
         },
         {
@@ -1300,6 +1303,10 @@
               ]
             },
             "Evaluate small groups"
+          ],
+          "rocks": [
+            "VISION",
+            "CARE"
           ]
         },
         {
@@ -1318,6 +1325,9 @@
               ]
             },
             "24 hour prayer vigil before building campaign begins"
+          ],
+          "rocks": [
+            "BUILD"
           ]
         },
         {
@@ -1326,6 +1336,9 @@
             "Evaluate and confirm financial partners",
             "Church Center giving fully integrated",
             "Grant process applied and implemented"
+          ],
+          "rocks": [
+            "ADMIN"
           ]
         },
         {
@@ -1344,7 +1357,10 @@
             },
             "Get a second bus"
           ],
-          "note": "Auto-imported from our VTO. We never agreed on these."
+          "note": "Auto-imported from our VTO. We never agreed on these.",
+          "rocks": [
+            "MISSIONS"
+          ]
         }
       ]
     },

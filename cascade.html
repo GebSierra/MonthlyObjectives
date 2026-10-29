@@ -51,7 +51,8 @@
   .verse-card{background:var(--blue-soft);border-color:#cfe0fb;font-style:italic;color:#23457f;font-size:13px}
   .verse-cite{display:block;font-style:normal;font-size:11px;color:#4a6aa5;margin-top:6px}
   .empty-lane{color:var(--muted);font-size:12.5px;font-style:italic;padding:10px 4px}
-  svg.links{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  svg.links{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0}
+  .lane{position:relative;z-index:1}
   svg.links path{fill:none;stroke-width:2.2;opacity:.7;transition:opacity .15s ease,stroke-width .15s ease}
   svg.links path.active{opacity:1;stroke-width:3.4}
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(16,20,30,.45);z-index:50;align-items:center;justify-content:center;padding:20px}
@@ -75,7 +76,7 @@
     </div>
     <a class="back-link" href="index.html">&larr; Back to dashboard</a>
   </header>
-  <div class="legend">Our 10-year target on the left narrows down through the 3-year vision, one-year goals and this quarter's rocks to this month's objectives on the right. Lines connect a goal to the objectives tagged under it (shared <code>[TAG]</code>, e.g. <code>[ADMIN]</code>) — each tag gets its own line color. Click any card with a &rsaquo; for its full details.</div>
+  <div class="legend">Our 10-year target on the left narrows down through the 3-year vision, one-year goals and this quarter's rocks to this month's objectives on the right. Lines connect each one-year goal to the Q4 rocks that directly support it, and each rock to the objectives tagged under it (shared <code>[TAG]</code>, e.g. <code>[ADMIN]</code>) — each tag gets its own line color. Click any card with a &rsaquo; for its full details.</div>
   <div class="stage">
     <div class="cascade" id="cascade"></div>
   </div>
@@ -196,7 +197,7 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
     return '<ul>'+arr.map(s=> typeof s==='string' ? `<li>${esc(s)}</li>` : `<li>${esc(s.text)}${s.sub&&s.sub.length?subList(s.sub):''}</li>`).join('')+'</ul>';
   }
   const oyLane = (oy.draftNote?`<div class="draft-note">* ${esc(oy.draftNote)}</div>`:'') +
-    (oyGoals.length ? oyGoals.map((g,i)=>`<div class="lcard clickable" id="oy${i}">${esc(g.title)} &rsaquo;${g.note?`<span class="subnote">${esc(g.note)}</span>`:''}</div>`).join('') : '<div class="empty-lane">No one-year goals set.</div>');
+    (oyGoals.length ? oyGoals.map((g,i)=>`<div class="lcard clickable" id="oy${i}">${(g.rocks||[]).length?'<div>'+g.rocks.map(r=>`<span class="tagpill">${esc(r)}</span>`).join(' ')+'</div>':''}${esc(g.title)} &rsaquo;${g.note?`<span class="subnote">${esc(g.note)}</span>`:''}</div>`).join('') : '<div class="empty-lane">No one-year goals set.</div>');
   document.getElementById('cascade').innerHTML =
     laneHtml('10-Year Target','ten', tenLane, '') +
     laneHtml('3-Year Vision'+(CAS.threeYearDue?' (by '+esc(CAS.threeYearDue)+')':''),'vision', verseHtml+visionLane, 'No vision items set.') +
@@ -233,40 +234,47 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
   }
   let CONNECTIONS=[];
   function drawLines(){
-    const stage=document.querySelector('.stage');
-    const old=stage.querySelector('svg.links');
+    // The SVG lives inside the scrolling .cascade box, so lines scroll with the cards.
+    const host=document.getElementById('cascade');
+    const old=host.querySelector('svg.links');
     if(old) old.remove();
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
     svg.setAttribute('class','links');
-    const stageRect=stage.getBoundingClientRect();
-    svg.setAttribute('width', stageRect.width);
-    svg.setAttribute('height', stageRect.height);
+    const W=host.scrollWidth, H=host.scrollHeight;
+    svg.setAttribute('width', W); svg.setAttribute('height', H);
+    svg.style.width=W+'px'; svg.style.height=H+'px';
+    const hr=host.getBoundingClientRect();
+    const ox=host.scrollLeft-hr.left, oy=host.scrollTop-hr.top;
     CONNECTIONS=[];
-    function connect(sourceCards){
-      sourceCards.forEach((sc)=>{
-        const srcEl=document.getElementById(sc.id);
-        if(!srcEl || !sc.tags.length) return;
-        monthlyCards.forEach((mc)=>{
-          const shared=sc.tags.find(t=>mc.tags.includes(t));
-          if(!shared) return;
-          const dstEl=document.getElementById(mc.id);
-          if(!dstEl) return;
-          const sr=srcEl.getBoundingClientRect(), dr=dstEl.getBoundingClientRect();
-          const x1=sr.right-stageRect.left, y1=sr.top+sr.height/2-stageRect.top;
-          const x2=dr.left-stageRect.left, y2=dr.top+dr.height/2-stageRect.top;
-          const mx=(x1+x2)/2;
-          const color=colorForTag(shared);
-          const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-          path.setAttribute('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
-          path.setAttribute('stroke', color);
-          svg.appendChild(path);
-          CONNECTIONS.push({srcId:sc.id, dstId:mc.id, color, pathEl:path});
-        });
-      });
+    function link(srcId, dstId, tag){
+      const srcEl=document.getElementById(srcId), dstEl=document.getElementById(dstId);
+      if(!srcEl || !dstEl) return;
+      const sr=srcEl.getBoundingClientRect(), dr=dstEl.getBoundingClientRect();
+      const x1=sr.right+ox, y1=sr.top+sr.height/2+oy;
+      const x2=dr.left+ox, y2=dr.top+dr.height/2+oy;
+      const mx=(x1+x2)/2;
+      const color=colorForTag(tag);
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+      path.setAttribute('stroke', color);
+      svg.appendChild(path);
+      CONNECTIONS.push({srcId, dstId, color, pathEl:path});
     }
-    connect(eldersCards);
-    connect(mineCards);
-    stage.appendChild(svg);
+    const rockCards=eldersCards.concat(mineCards);
+    // one-year goal -> the Q4 rocks that directly support it
+    oyGoals.forEach((g,i)=>{
+      (g.rocks||[]).forEach(tag=>{
+        rockCards.forEach(rc=>{ if(rc.tags.includes(tag)) link('oy'+i, rc.id, tag); });
+      });
+    });
+    // Q4 rock -> this month's objectives with the same tag
+    rockCards.forEach(sc=>{
+      monthlyCards.forEach(mc=>{
+        const shared=sc.tags.find(t=>mc.tags.includes(t));
+        if(shared) link(sc.id, mc.id, shared);
+      });
+    });
+    host.appendChild(svg);
   }
   requestAnimationFrame(drawLines);
   let resizeT;
