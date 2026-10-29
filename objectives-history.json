@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-10-28",
+  "lastUpdated": "2026-10-29",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -1067,12 +1067,47 @@
       "key": "2026-10",
       "label": "October 2026",
       "items": [],
-      "note": "No monthly objectives were set this month — we welcomed our new baby! 👶"
+      "note": "No monthly objectives were set this month — we welcomed our new baby! 👶",
+      "people": [
+        {
+          "name": "Jim Parrish",
+          "note": "phone call about the building and Celebration Sunday"
+        },
+        {
+          "name": "Seth Hill",
+          "note": "enjoyed the men's retreat; wants to join Friday mornings"
+        },
+        {
+          "name": "Dave Fishbaugh",
+          "note": "agreed to help with a prayer chain"
+        },
+        {
+          "name": "Dwight and Demi Unruh",
+          "note": "agreed to help with People Updates texting"
+        },
+        {
+          "name": "Jay and Elizabeth Tipton",
+          "note": "Geb got to connect with them"
+        },
+        {
+          "name": "Brantley Settle",
+          "note": "connected at RTBC"
+        },
+        {
+          "name": "Elaina",
+          "note": "KFG intern; heard more of her family background"
+        }
+      ]
     },
     {
       "key": "2026-11",
       "label": "November 2026",
       "items": [
+        {
+          "title": "[Nov] [VISION] Draft the Established 2027 one-pager and bring it to the elders meeting due by the 18th",
+          "status": "notStarted",
+          "top": true
+        },
         {
           "title": "[Nov] [ADMIN] Finish unifying disparate admin accounts.",
           "status": "notStarted",
@@ -1129,11 +1164,6 @@
           "top": true
         },
         {
-          "title": "[Nov] [VISION] Draft the Established 2027 one-pager and bring it to the elders meeting",
-          "status": "notStarted",
-          "top": true
-        },
-        {
           "title": "[Nov] [ADMIN] Microsoft shut down and WordPress hosting cancelled by Nov 20",
           "status": "notStarted",
           "top": true
@@ -1163,7 +1193,8 @@
           "details": "* Owner: Geb. Due Jan 7, 2027. Done when every item below is checked.\n* Microsoft shut down: my mailbox and John's exported to Google Drive, subscription cancelled\n* WordPress / WP Engine hosting cancelled, after the new site is live and old content is backed up\n* New website live, elders signed off, every old domain points to it\n* Church name, EIN and nonprofit status confirmed with Michigan and federal records (check with Drew or Corey)\n* Clearstream cleanup in my email inbox"
         }
       ],
-      "quarterEndDate": "2027-01-08"
+      "quarterEndDate": "2027-01-08",
+      "people": []
     }
   ],
   "activeMonth": "2026-11",
