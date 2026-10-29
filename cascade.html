@@ -16,7 +16,7 @@
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;line-height:1.45}
-  .wrap{max-width:1500px;margin:0 auto;padding:28px 22px 60px}
+  .wrap{max-width:1800px;margin:0 auto;padding:28px 22px 60px}
   header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:6px}
   h1{font-size:26px;margin:0;letter-spacing:-.02em}
   .subtitle{color:var(--muted);font-size:14px;margin-top:4px}
@@ -25,12 +25,18 @@
   .back-link:hover{border-color:#c7ccd4;color:var(--ink)}
   .legend{color:var(--muted);font-size:12.5px;margin:10px 0 20px}
   .stage{position:relative}
-  .cascade{display:flex;gap:64px;align-items:flex-start;overflow-x:auto;padding-bottom:16px;position:relative}
-  .lane{flex:1 1 0;min-width:240px;max-width:320px;display:flex;flex-direction:column;gap:10px}
+  .cascade{display:flex;gap:44px;align-items:flex-start;overflow-x:auto;padding-bottom:16px;position:relative}
+  .lane{flex:1 1 0;min-width:230px;max-width:300px;display:flex;flex-direction:column;gap:10px}
   .lane-head{font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
     display:flex;align-items:center;gap:7px;padding-bottom:4px;border-bottom:2px solid var(--line)}
   .lane-head .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .lane.ten .lane-head .dot{background:#b5651d}
   .lane.vision .lane-head .dot{background:var(--gold)}
+  .lane.oneyear .lane-head .dot{background:#12b886}
+  .lcard.ten-item{background:#fff7ef;border-color:#f0d3b4;color:#5a3210;font-size:15px;font-weight:600}
+  .lcard .due{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:6px}
+  .draft-note{font-size:12px;color:#8a5a00;background:#fff6dc;border:1px dashed #e8c66a;border-radius:10px;padding:8px 10px}
+  .lcard .subnote{display:block;font-size:11px;font-style:italic;color:var(--muted);margin-top:4px}
   .lane.elders .lane-head .dot{background:var(--blue)}
   .lane.mine .lane-head .dot{background:var(--purple)}
   .lane.monthly .lane-head .dot{background:var(--ink)}
@@ -69,7 +75,7 @@
     </div>
     <a class="back-link" href="index.html">&larr; Back to dashboard</a>
   </header>
-  <div class="legend">Vision on the left narrows down to this month's objectives on the right. Lines connect a goal to the objectives tagged under it (shared <code>[TAG]</code>, e.g. <code>[ADMIN]</code>) — each tag gets its own line color. Click any card with a &rsaquo; for its full details.</div>
+  <div class="legend">Our 10-year target on the left narrows down through the 3-year vision, one-year goals and this quarter's rocks to this month's objectives on the right. Lines connect a goal to the objectives tagged under it (shared <code>[TAG]</code>, e.g. <code>[ADMIN]</code>) — each tag gets its own line color. Click any card with a &rsaquo; for its full details.</div>
   <div class="stage">
     <div class="cascade" id="cascade"></div>
   </div>
@@ -144,7 +150,10 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
   document.getElementById('foot').textContent = 'Showing ' + (m ? m.label : '') + ' — mirrors the same data as the main dashboard.';
 
   const items = (m && m.items) || [];
-  const quarterly = items.filter(it=>it.status==='quarterly');
+  const CAS = DATA.cascade || {};
+  const ORDER = CAS.rockOrder || [];
+  const rank = it=>{const t=tagsOf(it)[0]; const i=ORDER.indexOf(t); return i<0?99:i;};
+  const quarterly = items.filter(it=>it.status==='quarterly').sort((a,b)=>rank(a)-rank(b));
   const elders = quarterly.filter(it=>!isMine(it));
   const mine = quarterly.filter(it=>isMine(it));
   const monthly = items.filter(it=>it.status!=='quarterly');
@@ -179,10 +188,21 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
     return `<div class="lane ${dotCls}"><div class="lane-head"><span class="dot"></span>${label}</div>${body}</div>`;
   }
 
+  const ten = CAS.tenYear;
+  const tenLane = ten ? `<div class="lcard ten-item">${esc(ten.target)}</div>` : '<div class="empty-lane">No 10-year target set.</div>';
+  const oy = CAS.oneYear || {};
+  const oyGoals = oy.goals || [];
+  function subList(arr){
+    return '<ul>'+arr.map(s=> typeof s==='string' ? `<li>${esc(s)}</li>` : `<li>${esc(s.text)}${s.sub&&s.sub.length?subList(s.sub):''}</li>`).join('')+'</ul>';
+  }
+  const oyLane = (oy.draftNote?`<div class="draft-note">* ${esc(oy.draftNote)}</div>`:'') +
+    (oyGoals.length ? oyGoals.map((g,i)=>`<div class="lcard clickable" id="oy${i}">${esc(g.title)} &rsaquo;${g.note?`<span class="subnote">${esc(g.note)}</span>`:''}</div>`).join('') : '<div class="empty-lane">No one-year goals set.</div>');
   document.getElementById('cascade').innerHTML =
-    laneHtml('3-Year Vision','vision', verseHtml+visionLane, 'No vision items set.') +
-    laneHtml('Elders’ Goals','elders', eldersCards, 'No elder-owned quarterly goals right now.') +
-    laneHtml('My Goals','mine', mineCards, 'No goals of yours in the quarterly list right now.') +
+    laneHtml('10-Year Target','ten', tenLane, '') +
+    laneHtml('3-Year Vision'+(CAS.threeYearDue?' (by '+esc(CAS.threeYearDue)+')':''),'vision', verseHtml+visionLane, 'No vision items set.') +
+    laneHtml('One-Year Goals (draft*)','oneyear', oyLane, '') +
+    laneHtml('Church Goals (Q4 Rocks)','elders', eldersCards, 'No elder-owned quarterly goals right now.') +
+    laneHtml('My Goals (Q4 Rocks)','mine', mineCards, 'No goals of yours in the quarterly list right now.') +
     laneHtml('Monthly Objectives','monthly', monthlyCards, 'No objectives set this month.');
 
   // wire up click-for-details on any card that has them
@@ -198,6 +218,10 @@ fetch('objectives-history.json').then(r=>r.json()).then(DATA=>{
   }
   wire(elders, eldersCards);
   wire(mine, mineCards);
+  oyGoals.forEach((g,i)=>{
+    const el=document.getElementById('oy'+i);
+    if(el) el.addEventListener('click',()=>openModal(g.title, (g.note?`<p class="empty">${esc(g.note)}</p>`:'')+subList(g.items||[])+(oy.draftNote?`<p class="empty">* ${esc(oy.draftNote)}</p>`:'')));
+  });
 
   // draw connector lines: elders/mine -> monthly, matched on shared tag.
   // Each distinct tag gets its own color so overlapping connections stay readable.

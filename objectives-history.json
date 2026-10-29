@@ -1172,29 +1172,40 @@
           "title": "[CARE] Q4 Rock (Dan owns): Member care",
           "status": "quarterly",
           "top": false,
-          "details": "* Owner: Dan. Due Jan 7, 2027. On my board so I can support it. Items from the Oct 16 planning meeting.\n* Go/no go on Agape Groups in winter and spring\n* Finish our discipleship track / pathway\n* Decide who is responsible for whom\n* Define the TBCoE way of member care"
+          "details": "* Owner: Dan. Due Jan 7, 2027. On my board so I can support it. Items from the Oct 16 planning meeting.\n* Earlier wording (kept for review): \"Finish our discipleship track / pathway\"; \"Decide who is responsible for whom\"\n* Go/No Go on Agape Groups in winter and spring\n* Developing leaders and Discipleship: finish our Discipleship track / pathway\n* Who is responsible for whom\n* Define the TBCoE way of member care"
         },
         {
           "title": "[BUILD] Q4 Rock (Jim owns): Building",
           "status": "quarterly",
           "top": false,
-          "details": "* Owner: Jim. Due Jan 7, 2027. On my board so I can support it.\n* Agree on what our building cost is\n* Begin the pledge campaign"
+          "details": "* Owner: Jim. Due Jan 7, 2027. On my board so I can support it.\n* Earlier checklist items (kept for review; they may overlap the new list):\n    * Agree on what our building cost is\n    * Begin the pledge campaign\n* Execute a recasting of the vision\n* Execute Pledge Campaign by when?\n* Pledge campaign: Go/No Go on if we hire a consultant\n* Pick a builder\n* Seek an interim building\n* Determine the scope of the building\n* Determine the scope of the cost (2 million?)"
         },
         {
           "title": "[VISION] Q4 Rock: Plan for recasting the 3-year vision (finish Rooted strong, prep for Established)",
           "status": "quarterly",
           "top": true,
-          "details": "* Owner: Geb. Due Jan 7, 2027. One-pager idea: front has the theme and the five marks of Established (biblical truth, faithfulness to Christ, loving people, growing disciples, growing in fellowship). Back has what we ask people to buy into: 2027 memory verses (starting with Col 2:6-7), column 2 of the reading plan, member care, membership, moving from reading to studying the Bible.\n* One-page Established 2027 plan approved by the elders\n* Church hears a Rooted year-end review of what God did in 2026\n* January launch planned: vision Sunday or sermon date, one-sheet printed, communication schedule\n* Q4 State of the Church update sent out\n* Our vision for Established sent out to the church (and played Sunday AM?)"
+          "details": "* Owner: Geb. Due Jan 7, 2027.\n* One-pager idea: front has the theme and the five marks of Established (biblical truth, faithfulness to Christ, loving people, growing disciples, growing in fellowship). Back has what we ask people to buy into: 2027 memory verses (starting with Col 2:6-7), column 2 of the reading plan, member care, membership, moving from reading to studying the Bible.\n* Earlier checklist items (kept for review; they may overlap the new list):\n    * One-page Established 2027 plan approved by the elders\n    * Church hears a Rooted year-end review of what God did in 2026\n    * January launch planned: vision Sunday or sermon date, one-sheet printed, communication schedule\n    * Q4 State of the Church update sent out\n    * Our vision for Established sent out to the church (and played Sunday AM?)\n* Finishing out Rooted strong\n* Prepping for Established"
         },
         {
           "title": "[ADMIN] Q4 Rock: Close old systems, launch the website, confirm church records",
           "status": "quarterly",
           "top": false,
-          "details": "* Owner: Geb. Due Jan 7, 2027. Done when every item below is checked.\n* Microsoft shut down: my mailbox and John's exported to Google Drive, subscription cancelled\n* WordPress / WP Engine hosting cancelled, after the new site is live and old content is backed up\n* New website live, elders signed off, every old domain points to it\n* Church name, EIN and nonprofit status confirmed with Michigan and federal records (check with Drew or Corey)\n* Clearstream cleanup in my email inbox"
+          "details": "* Owner: Geb. Due Jan 7, 2027. Done when every item below is checked.\n* Earlier checklist items (kept for review; they may overlap the new list):\n    * Microsoft shut down: my mailbox and John's exported to Google Drive, subscription cancelled\n    * WordPress / WP Engine hosting cancelled, after the new site is live and old content is backed up\n    * New website live, elders signed off, every old domain points to it\n    * Church name, EIN and nonprofit status confirmed with Michigan and federal records (check with Drew or Corey)\n    * Clearstream cleanup in my email inbox\n* Finish closing out Microsoft\n* Finish closing out WordPress/website hosting\n* Button up the website and launch it\n* Confirm the entities are correct with the state and fed\n* Confirm that anyone who is spending money has a bill.com card and sales tax exempt letter"
+        },
+        {
+          "title": "[HR] Q4 Rock (Kevin owns): HR",
+          "status": "quarterly",
+          "top": false,
+          "details": "* Owner: Kevin. Due Jan 7, 2027. On my board so I can support it.\n* Dan/Geb visit Betsy\n* Geb's 2027 compensation approved and presented to him\n* Geb's quarterly (annual, as this is the 4th quarter) review completed\n* Communicate the DCI matrix, update accountability chart, and communicate role descriptions to the church"
+        },
+        {
+          "title": "[MISSIONS] Q4 Rock (Dan owns): Missions",
+          "status": "quarterly",
+          "top": false,
+          "details": "* Owner: Dan. Due Jan 7, 2027. On my board so I can support it.\n* Supporting long-term missionaries\n* We have created our short-term missions process\n* Go/No Go on supporting the Guest's"
         }
       ],
-      "quarterEndDate": "2027-01-08",
-      "people": []
+      "quarterEndDate": "2027-01-08"
     }
   ],
   "activeMonth": "2026-11",
@@ -1218,6 +1229,132 @@
       "50% of attendees are members",
       "Completed an Israel Trip",
       "V/TO complete and Operating system written, shared, and followed by all"
+    ]
+  },
+  "cascade": {
+    "tenYear": {
+      "target": "Plant 5 churches with 1,500 disciples by December 31, 2033.",
+      "due": "2033-12-31"
+    },
+    "threeYearDue": "2028",
+    "oneYear": {
+      "draftNote": "Draft. The elders never fully settled these. We did not get the time to finish agreeing on them, clarifying them, and cutting them.",
+      "goals": [
+        {
+          "title": "Church Multiplication Strategy",
+          "items": [
+            "Training young pastors and leaders of the church",
+            "One pastoral assistant/intern",
+            "Go/No Go on Bethel intern"
+          ]
+        },
+        {
+          "title": "Member Care Implementation",
+          "items": [
+            "How to encourage more regular attendees to become members"
+          ]
+        },
+        {
+          "title": "Establish Ministries",
+          "items": [
+            "Get the kids in the lower level of KFG",
+            "Coordinate adult and children memory verses",
+            {
+              "text": "Volunteer multiplication strategy",
+              "sub": [
+                "Coleader with every leader",
+                "Apprenticeship model for every volunteer"
+              ]
+            },
+            "Administrative volunteer(s)",
+            "Identify and empower worship leader(s)",
+            {
+              "text": "Develop and implement Church Center",
+              "sub": [
+                "All team chats are in Church Center",
+                "Membership data complete and correct"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Discipleship",
+          "items": [
+            "Sunday morning classes enhanced",
+            "Youth discipleship enhanced",
+            "Annual picnic and baptism held",
+            {
+              "text": "Established",
+              "sub": [
+                "Biblical truth",
+                "Faithfulness to Christ",
+                "Loving people",
+                "Growing disciples",
+                "Growing in fellowship"
+              ]
+            },
+            {
+              "text": "Moving from reading to studying the Bible",
+              "sub": [
+                "SPECKS"
+              ]
+            },
+            "Evaluate small groups"
+          ]
+        },
+        {
+          "title": "Building",
+          "items": [
+            "$1.25m of building funds collected by 12/31/2027",
+            "$1.25m of building pledges (5 year?)",
+            "Go/No Go on interim building",
+            "Continue implementing Building Campaign (Q1)",
+            {
+              "text": "Present to the congregation",
+              "sub": [
+                "Building plans",
+                "Building cost",
+                "Building uses"
+              ]
+            },
+            "24 hour prayer vigil before building campaign begins"
+          ]
+        },
+        {
+          "title": "Finance",
+          "items": [
+            "Evaluate and confirm financial partners",
+            "Church Center giving fully integrated",
+            "Grant process applied and implemented"
+          ]
+        },
+        {
+          "title": "Missions",
+          "items": [
+            "Identify 2nd school system for RTBC",
+            "Tent meeting planned and held",
+            "Israel trip planned",
+            {
+              "text": "__ mission trips held",
+              "sub": [
+                "Camp Raybird",
+                "DR",
+                "Liberia"
+              ]
+            },
+            "Get a second bus"
+          ],
+          "note": "Auto-imported from our VTO. We never agreed on these."
+        }
+      ]
+    },
+    "rockOrder": [
+      "HR",
+      "VISION",
+      "MISSIONS",
+      "ADMIN",
+      "CARE",
+      "BUILD"
     ]
   }
 }

@@ -20,6 +20,8 @@
   header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:8px}
   h1{font-size:30px;margin:0;letter-spacing:-.02em}
   .subtitle{color:var(--muted);font-size:15px;margin-top:4px}
+  .cascade-btn{display:inline-block;margin-top:8px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 16px;box-shadow:var(--shadow)}
+  .cascade-btn:hover{border-color:#c7ccd4}
   .updated{color:var(--muted);font-size:13px;white-space:nowrap}
   .months{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 8px}
   .month-tab{border:1px solid var(--line);background:var(--card);color:var(--ink);
@@ -131,7 +133,7 @@
   <header class="top">
     <div>
       <h1 id="hTitle"></h1>
-      <div class="subtitle" id="hSub"></div>
+      <a class="cascade-btn" href="cascade.html">Cascading Goals View &rsaquo;</a>
     </div>
     <div class="updated" id="hUpdated"></div>
   </header>
@@ -170,7 +172,6 @@
     <iframe class="sermon-frame" src="sermon-board.html" title="This week's sermon progress" loading="lazy"></iframe>
   </div>
   <footer id="foot"></footer>
-  <div style="text-align:center;margin-top:12px"><a href="cascade.html" style="color:var(--muted);font-size:13px;text-decoration:none;opacity:.8;border:1px solid var(--line);border-radius:999px;padding:6px 16px;display:inline-block">Goal view</a></div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -261,7 +262,6 @@ document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 function render(){
   document.getElementById('hTitle').textContent=DATA.title;
-  document.getElementById('hSub').textContent=DATA.subtitle;
   document.getElementById('hUpdated').textContent='Last updated: '+DATA.lastUpdated;
   renderMonths();
   const m=DATA.months[current];
