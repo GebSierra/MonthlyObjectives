@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-10-29",
+  "lastUpdated": "2026-11-02",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -1096,6 +1096,10 @@
         {
           "name": "Elaina",
           "note": "KFG intern; heard more of her family background"
+        },
+        {
+          "name": "AJ",
+          "note": "neighbor in Edwardsburg; new baby Noel"
         }
       ]
     },
@@ -1103,6 +1107,18 @@
       "key": "2026-11",
       "label": "November 2026",
       "items": [
+        {
+          "title": "[MISSIONS] Q4 Rock (Dan owns): Missions",
+          "status": "quarterly",
+          "top": false,
+          "details": "* Owner: Dan. Due Jan 7, 2027. On my board so I can support it.\n* Supporting long-term missionaries\n* We have created our short-term missions process\n* Go/No Go on supporting the Guest's"
+        },
+        {
+          "title": "[HR] Q4 Rock (Kevin owns): HR",
+          "status": "quarterly",
+          "top": false,
+          "details": "* Owner: Kevin. Due Jan 7, 2027. On my board so I can support it.\n* Dan/Geb visit Betsy\n* Geb's 2027 compensation approved and presented to him\n* Geb's quarterly (annual, as this is the 4th quarter) review completed\n* Communicate the DCI matrix, update accountability chart, and communicate role descriptions to the church"
+        },
         {
           "title": "[Nov] [VISION] Draft the Established 2027 one-pager and bring it to the elders meeting due by the 18th",
           "status": "notStarted",
@@ -1191,18 +1207,6 @@
           "status": "quarterly",
           "top": false,
           "details": "* Owner: Geb. Due Jan 7, 2027. Done when every item below is checked.\n* Earlier checklist items (kept for review; they may overlap the new list):\n    * Microsoft shut down: my mailbox and John's exported to Google Drive, subscription cancelled\n    * WordPress / WP Engine hosting cancelled, after the new site is live and old content is backed up\n    * New website live, elders signed off, every old domain points to it\n    * Church name, EIN and nonprofit status confirmed with Michigan and federal records (check with Drew or Corey)\n    * Clearstream cleanup in my email inbox\n* Finish closing out Microsoft\n* Finish closing out WordPress/website hosting\n* Button up the website and launch it\n* Confirm the entities are correct with the state and fed\n* Confirm that anyone who is spending money has a bill.com card and sales tax exempt letter"
-        },
-        {
-          "title": "[HR] Q4 Rock (Kevin owns): HR",
-          "status": "quarterly",
-          "top": false,
-          "details": "* Owner: Kevin. Due Jan 7, 2027. On my board so I can support it.\n* Dan/Geb visit Betsy\n* Geb's 2027 compensation approved and presented to him\n* Geb's quarterly (annual, as this is the 4th quarter) review completed\n* Communicate the DCI matrix, update accountability chart, and communicate role descriptions to the church"
-        },
-        {
-          "title": "[MISSIONS] Q4 Rock (Dan owns): Missions",
-          "status": "quarterly",
-          "top": false,
-          "details": "* Owner: Dan. Due Jan 7, 2027. On my board so I can support it.\n* Supporting long-term missionaries\n* We have created our short-term missions process\n* Go/No Go on supporting the Guest's"
         }
       ],
       "quarterEndDate": "2027-01-08"
