@@ -299,7 +299,7 @@ const STAGES = [
         {t:"Identify logical movements: contrast, cause and effect, progression, climax.", ref:true},
         {t:"Listen to other people's sermons on the text.", ref:true, note:"Only after you've got your initial outline in mind."}
       ]},
-      {k:"task", id:"cbDigDeeperOptional", t:"Dig deeper still, if you have time.", note:"Optional. Come back to this later in the week, even after you've started writing &mdash; another pass through the commentaries, praying through what God has shown others through it.", subs:[
+      {k:"task", t:"Dig deeper still, if you have time.", note:"Optional. Come back to this later in the week, even after you've started writing &mdash; another pass through the commentaries, praying through what God has shown others through it.", subs:[
         {t:"Study the Greek / Hebrew.", ref:true, note:"A custom passage guide in Logos. Free options: <a href='https://www.blueletterbible.org' target='_blank' rel='noopener'>Blue Letter Bible</a> or <a href='http://www.greekbible.com' target='_blank' rel='noopener'>GreekBible.com</a>."},
         {t:"Read good commentaries.", ref:true, note:"<a href='https://www.preceptaustin.org/verse_by_verse' target='_blank' rel='noopener'>Precept Austin</a> is a great free start. <a href='https://bestcommentaries.com/' target='_blank' rel='noopener'>BestCommentaries.com</a> helps you buy wisely. See also Logos, your Kindle library, and the Puritans."},
         {t:"Check past sermons on a similar topic for scrapped hook/conclusion ideas, quotes, and cross references.", ref:true},
@@ -332,11 +332,10 @@ const STAGES = [
       {k:"task", t:"Think and plan through a basic outline of section three (an explanation, illustration, and application)."},
 
       {k:"phase", title:"W2: Dumping Draft"},
-      {k:"task", id:"cbW2jort", t:"Create a JORT section for heading one, heading two, and heading three in the JORT.", subs:[
-        {t:"Group like ideas with like ideas.", id:"cbW2group"},
-        {t:"Organize thoughts so that they're either organized in the Jort or they're in the body.", id:"cbW2organize", marker:5}
+      {k:"task", t:"Create a JORT section for heading one, heading two, and heading three in the JORT.", subs:[
+        {t:"Group like ideas with like ideas."},
+        {t:"Organize thoughts so that they're either organized in the Jort or they're in the body.", marker:5}
       ]},
-      {k:"skipids", n:6}, // removed six old W2 checkboxes; keeps later saved ticks lined up
 
       {k:"phase", title:"W3: Organizing"},
       {k:"note", html:"Each sermon should have one thesis, which takes a main idea of the text and applies it to people's lives. Then each section should build on this main idea, progressing toward the conclusion, which presses the main idea home further."},
@@ -434,7 +433,18 @@ function persistStageOpenState(){
 /* ---------- render ---------- */
 function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-function renderTask(item, ctr, slot){
+// Stable checkbox/highlight IDs: derived from an item's own text plus the stage,
+// phase/section, and parent task it sits under -- never from its position in the
+// list. Insert, delete, or reorder items anywhere and every other item keeps its
+// saved checkmark or highlight. (item.id still overrides this, for the rare case
+// two items would otherwise land on the exact same text in the exact same spot.)
+function stableId(prefix, key){
+  let h = 5381;
+  for(let i=0;i<key.length;i++){ h = (((h*33)>>>0) ^ key.charCodeAt(i)) >>> 0; }
+  return prefix + h.toString(36);
+}
+
+function renderTask(item, ctr, slot, path){
   const isObj = typeof item === "object";
   const isRef = isObj && item.ref === true;
   const text = isObj ? item.t : item;
@@ -443,27 +453,28 @@ function renderTask(item, ctr, slot){
   const marker = isObj ? item.marker : null;
   const markerAttr = marker ? ' data-marker="'+marker+'"' : '';
   const markerFlag = marker ? '<span class="markerflag" title="Progress marker '+marker+'">'+marker+'</span>' : '';
+  const key = path ? path + " » " + text : text;
   if(isRef){
-    const id = "rb" + (ctr.r++);
+    const id = (isObj && item.id) ? item.id : stableId("rb_", key);
     let html = '<li class="task ref" data-row="'+id+'"'+markerAttr+'>';
     html += '<div class="refline"><span class="bullet">&bull;</span><span class="txt">'+esc(text)+'</span>'+markerFlag+'</div>';
     if(note){ html += '<div class="subnote">'+note+'</div>'; }
     if(subs && subs.length){
       html += '<ul class="tasks">';
-      subs.forEach(function(sub){ html += renderTask(sub, ctr, slot); });
+      subs.forEach(function(sub){ html += renderTask(sub, ctr, slot, key); });
       html += '</ul>';
     }
     html += '</li>';
     return html;
   }
-  const id = (isObj && item.id) ? item.id : "cb" + (ctr.n++);
+  const id = (isObj && item.id) ? item.id : stableId("cb_", key);
   ctr.c++;
   let html = '<li class="task" data-row="'+id+'"'+markerAttr+'>';
   html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span>'+markerFlag+'</label>';
   if(note){ html += '<div class="subnote">'+note+'</div>'; }
   if(subs && subs.length){
     html += '<ul class="tasks">';
-    subs.forEach(function(sub){ html += renderTask(sub, ctr, slot); });
+    subs.forEach(function(sub){ html += renderTask(sub, ctr, slot, key); });
     html += '</ul>';
   }
   html += '</li>';
@@ -473,19 +484,20 @@ function renderTask(item, ctr, slot){
 function renderStage(stage, ctr, slot){
   let body = "";
   let openList = false;
+  let curPhase = "", curSecthead = "";
+  function sectionPath(){ return stage.key + (curPhase?" » "+curPhase:"") + (curSecthead?" » "+curSecthead:""); }
   function closeList(){ if(openList){ body += '</ul>'; openList = false; } }
   stage.blocks.forEach(function(b){
     if(b.k === "task" || b.k === "ref"){
       if(!openList){ body += '<ul class="tasks">'; openList = true; }
-      body += renderTask(b.k === "ref" ? Object.assign({}, b, {ref:true}) : b, ctr, slot);
+      body += renderTask(b.k === "ref" ? Object.assign({}, b, {ref:true}) : b, ctr, slot, sectionPath());
     } else {
       closeList();
       if(b.k === "note"){ body += '<div class="note">'+b.html+'</div>'; }
       else if(b.k === "quote"){ body += '<blockquote class="q">'+b.html + (b.cite ? '<span class="cite">'+esc(b.cite)+'</span>' : '') + '</blockquote>'; }
-      else if(b.k === "phase"){ body += '<div class="phase">'+b.title + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; }
-      else if(b.k === "head"){ body += '<div class="phase">'+esc(b.title) + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; }
-      else if(b.k === "skipids"){ ctr.n += b.n; }
-      else if(b.k === "secthead"){ body += '<div class="secthead">'+esc(b.title)+'</div>'; }
+      else if(b.k === "phase"){ body += '<div class="phase">'+b.title + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; curPhase = b.title; curSecthead = ""; }
+      else if(b.k === "head"){ body += '<div class="phase">'+esc(b.title) + (b.desc ? '<span class="desc">'+esc(b.desc)+'</span>' : '') + '</div>'; curPhase = b.title; curSecthead = ""; }
+      else if(b.k === "secthead"){ body += '<div class="secthead">'+esc(b.title)+'</div>'; curSecthead = b.title; }
     }
   });
   closeList();
