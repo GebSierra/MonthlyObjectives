@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="robots" content="noindex, nofollow"/>
-<title>Sermon Prep Board</title>
+<title>Sermon progress</title>
 <style>
   :root{
     --bg:#e5e7eb;
@@ -216,7 +216,7 @@
 </head>
 <body>
 <div class="page">
-  <h1 class="sitehead">Sermon Prep Board</h1>
+  <h1 class="sitehead">Sermon progress</h1>
 
   <div class="toolbar">
     <label>Columns in view:</label>
@@ -808,9 +808,12 @@ board.addEventListener("click", function(e){
   if(!btn) return;
   const col = e.target.closest('.col');
   if(btn.dataset.act === "reset"){
-    if(confirm("Clear all checkmarks for this sermon? The title and passage stay.")){
-      slotState(col.dataset.slot).checks = {};
-      slotState(col.dataset.slot).stamps = {};
+    if(confirm("Clear all checkmarks, the title and the date for this sermon? The passage stays.")){
+      const rs = slotState(col.dataset.slot);
+      rs.checks = {};
+      rs.stamps = {};
+      rs.meta.title = ""; rs.meta.date = "";
+      col.querySelectorAll('[data-field="title"],[data-field="date"]').forEach(function(f){ f.value = ""; });
       save();
       applyChecks(col);
     }
