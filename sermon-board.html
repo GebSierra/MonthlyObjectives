@@ -168,6 +168,8 @@
   li.task.skip>label.cb .box{background:var(--line)}
   li.task.skip>label.cb .box::after{content:"✓";color:var(--muted);font-size:11px;font-weight:700}
   label.cb .txt{flex:1 1 auto;cursor:pointer;-webkit-user-select:none;user-select:none}
+  label.cb .stamp{flex:0 0 auto;padding-left:8px;font-size:11px;line-height:1.6;color:var(--muted);opacity:.75;white-space:nowrap}
+  label.cb .stamp:empty{display:none}
   li.task.skip>label.cb .txt{text-decoration:line-through;color:var(--muted)}
   li.task.hl>label.cb .txt, li.task.hl>.refline .txt{background:rgba(255,205,0,.38);border-radius:3px;box-shadow:0 0 0 2px rgba(255,205,0,.38)}
   li.task.selected{background:rgba(63,102,144,.08);border-radius:4px;box-shadow:0 0 0 1px rgba(63,102,144,.18) inset}
@@ -404,6 +406,7 @@ function slotState(s){
   if(!state[s]) state[s] = {meta:{title:"",passage:"",date:""}, checks:{}};
   if(!state[s].meta) state[s].meta = {title:"",passage:"",date:""};
   if(!state[s].checks) state[s].checks = {};
+  if(!state[s].stamps) state[s].stamps = {};
   return state[s];
 }
 
@@ -469,7 +472,7 @@ function renderTask(item, ctr, slot, path){
   const id = (isObj && item.id) ? item.id : stableId("cb_", key);
   ctr.c++;
   let html = '<li class="task" data-row="'+id+'"'+markerAttr+'>';
-  html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span>'+markerFlag+'</label>';
+  html += '<label class="cb"><span class="box" data-cb="'+id+'"></span><span class="txt">'+esc(text)+'</span>'+markerFlag+'<span class="stamp"></span></label>';
   if(note){ html += '<div class="subnote">'+note+'</div>'; }
   if(subs && subs.length){
     html += '<ul class="tasks">';
@@ -664,13 +667,31 @@ function nextState(row, cur, viaText){
 }
 function paintRow(row, v){
   row.classList.toggle('hl', v===3); row.classList.toggle('done', v===1); row.classList.toggle('skip', v===2);
+  const st = row.querySelector(':scope>label.cb .stamp');
+  if(st){
+    const col = row.closest('.col');
+    const ts = (v===1 || v===2) && col ? slotState(col.dataset.slot).stamps[row.dataset.row] : null;
+    st.textContent = ts ? fmtStamp(ts) : "";
+  }
+}
+// "Nov 9, 3:42 PM": date without the year, plus the time of day
+function fmtStamp(ts){
+  const d = new Date(ts);
+  return d.toLocaleDateString(undefined,{month:"short",day:"numeric"}) + ", " +
+         d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
+}
+// set a row's state; stamp it when it gets checked, clear the stamp when it is unchecked
+function setCheck(ss, id, next){
+  if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
+  if(next === 1 && !ss.stamps[id]) ss.stamps[id] = Date.now();
+  if(next === 0 || next === 3) delete ss.stamps[id];
 }
 function toggleOne(col, id, originEl, viaText){
   const ss = slotState(col.dataset.slot);
   const cur = ss.checks[id] || 0;
   const row = col.querySelector('li.task[data-row="'+id+'"]');
   const next = nextState(row, cur, viaText);
-  if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
+  setCheck(ss, id, next);
   if(row) paintRow(row, next);
   updateProgress(col);
   updateMarkers(col);
@@ -763,7 +784,7 @@ document.addEventListener("keydown", function(e){
       const row = col.querySelector('li.task[data-row="'+id+'"]');
       if(!row) return;
       const next = nextState(row, ss.checks[id] || 0);
-      if(next === 0) delete ss.checks[id]; else ss.checks[id] = next;
+      setCheck(ss, id, next);
       paintRow(row, next);
     });
     updateProgress(col);
@@ -789,6 +810,7 @@ board.addEventListener("click", function(e){
   if(btn.dataset.act === "reset"){
     if(confirm("Clear all checkmarks for this sermon? The title and passage stay.")){
       slotState(col.dataset.slot).checks = {};
+      slotState(col.dataset.slot).stamps = {};
       save();
       applyChecks(col);
     }
