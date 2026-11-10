@@ -577,13 +577,20 @@ function updateOverdueState(col){
 }
 
 // keep non-overdue (current/upcoming) sermons first, overdue ones last; within each group,
-// order by original slot number so a sermon returns to its normal spot if its date changes again
+// order by sermon date (soonest first), undated columns after dated ones, then by slot number
 function reorderColumns(){
   const cols = Array.prototype.slice.call(board.querySelectorAll('.col'));
+  function dateOf(col){ return slotState(col.dataset.slot).meta.date || ""; }
   cols.sort(function(a, b){
     const ao = a.classList.contains('overdue') ? 1 : 0;
     const bo = b.classList.contains('overdue') ? 1 : 0;
     if(ao !== bo) return ao - bo;
+    const ad = dateOf(a), bd = dateOf(b);
+    if(ad !== bd){
+      if(!ad) return 1;
+      if(!bd) return -1;
+      return ad < bd ? -1 : 1;
+    }
     return parseInt(a.dataset.slot, 10) - parseInt(b.dataset.slot, 10);
   });
   cols.forEach(function(col){ board.appendChild(col); });
