@@ -5,127 +5,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>__TITLE__</title>
+<link rel="stylesheet" href="site.css">
 <style>
-  :root{
-    --bg:#f4f5f7; --card:#ffffff; --ink:#1f2430; --muted:#6b7280; --line:#e6e8ec;
-    --red:#e5484d; --red-soft:#fdecec; --yellow:#d9920b; --yellow-soft:#fdf4e3;
-    --green:#1f9d57; --green-soft:#e9f8ef; --blue:#2f6fed; --blue-soft:#eaf1fe;
-    --gold:#e0a106; --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.05);
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased;line-height:1.45}
-  .wrap{max-width:1180px;margin:0 auto;padding:32px 22px 64px}
-  header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:8px}
-  h1{font-size:30px;margin:0;letter-spacing:-.02em}
-  .subtitle{color:var(--muted);font-size:15px;margin-top:4px}
-  .cascade-btn{display:inline-block;margin-top:8px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 16px;box-shadow:var(--shadow)}
-  .cascade-btn:hover{border-color:#c7ccd4}
-  .updated{color:var(--muted);font-size:13px;white-space:nowrap}
-  .months{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 8px}
-  .month-tab{border:1px solid var(--line);background:var(--card);color:var(--ink);
-    padding:8px 16px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;
-    box-shadow:var(--shadow);transition:.15s}
-  .month-tab:hover{border-color:#c7ccd4}
-  .month-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .month-tab .tag{font-size:11px;opacity:.7;margin-left:6px}
-  .note{background:var(--blue-soft);border:1px solid #cfe0fb;color:#23457f;border-radius:12px;
-    padding:11px 15px;font-size:14px;margin:8px 0 18px}
-  .stats{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 24px;align-items:center}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);min-width:104px}
-  .stat .num{font-size:24px;font-weight:700;line-height:1}
-  .stat .lbl{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
-  .stat.red .num{color:var(--red)} .stat.yellow .num{color:var(--yellow)} .stat.green .num{color:var(--green)}
-  .bar-wrap{flex:1;min-width:220px}
-  .bar-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px}
-  .bar{height:12px;background:#e8eaee;border-radius:999px;overflow:hidden;display:flex}
-  .bar>span{display:block;height:100%}
-  .bar .b-green{background:var(--green)} .bar .b-yellow{background:var(--yellow)} .bar .b-red{background:var(--red)}
-  .top-strip{background:linear-gradient(180deg,#fffdf6,#fff);border:1px solid #f0e2b8;
-    border-radius:16px;padding:16px 18px;margin-top:26px;box-shadow:var(--shadow)}
-  .top-strip h2{margin:0 0 12px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px}
-  .top-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-  .top-item{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-  .pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;align-self:center}
-  .pill.notStarted{background:var(--red-soft);color:var(--red)}
-  .pill.inProgress{background:var(--yellow-soft);color:var(--yellow)}
-  .pill.done{background:var(--green-soft);color:var(--green)}
-  .board{display:flex;gap:18px;align-items:flex-start}
-  @media(max-width:860px){
-    .board{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:10px;margin:0 -22px;padding-left:22px;padding-right:22px}
-    .board .col{flex:0 0 82vw}
-  }
-  @media (orientation:portrait) and (min-width:900px){
-    /* a tall external monitor turned to portrait, not a phone: use the width instead of
-       cramming three narrow columns side by side, so the board actually fills the screen */
-    .board{flex-direction:column;align-items:stretch}
-    .board .col{width:100%;max-width:none;min-width:0;flex:0 0 auto}
-  }
-  .col{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;flex:1 1 0;min-width:0}
-  .col-head{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:15px;border-bottom:1px solid var(--line)}
-  .col-head .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:9px}
-  .col-head .count{font-size:13px;color:var(--muted);font-weight:600}
-  .col.red .col-head{background:var(--red-soft)} .col.red .dot{background:var(--red)}
-  .col.yellow .col-head{background:var(--yellow-soft)} .col.yellow .dot{background:var(--yellow)}
-  .col.green .col-head{background:var(--green-soft)} .col.green .dot{background:var(--green)}
-  .col-body{padding:12px;display:flex;flex-direction:column;gap:10px;flex:1}
-  .card{border:1px solid var(--line);border-left-width:4px;border-radius:10px;padding:11px 13px;font-size:14px;background:#fff}
-  .col.red .card{border-left-color:var(--red)} .col.yellow .card{border-left-color:var(--yellow)} .col.green .card{border-left-color:var(--green)}
-  .card.top{font-weight:700}
-  .card .star{color:var(--gold);font-weight:700;margin-right:4px}
-  .qg-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;color:var(--blue);
-    background:var(--blue-soft);border-radius:6px;padding:2px 7px;margin-right:6px;vertical-align:middle}
-  .card.clickable{display:block;width:100%;text-align:left;color:inherit;text-decoration:none;position:relative;
-    padding-right:28px;border:1px solid var(--line);font:inherit;background:#fff;margin:0;
-    appearance:none;-webkit-appearance:none;transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease}
-  .card.clickable:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(16,24,40,.14);border-color:#b9c0cc;cursor:pointer}
-  .card.clickable:active{transform:translateY(0);box-shadow:0 2px 6px rgba(16,24,40,.1)}
-  .card-arrow{position:absolute;right:11px;top:50%;transform:translateY(-50%) translateX(-5px);
-    opacity:0;transition:opacity .14s ease,transform .14s ease;color:var(--blue);font-weight:700;font-size:17px}
-  .card.clickable:hover .card-arrow{opacity:1;transform:translateY(-50%) translateX(0)}
-  .vision{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
-  .vision .col-head{background:var(--green-soft)} .vision .dot{background:var(--green)}
-  .vision-body{padding:14px 16px}
-  .vision-card{padding:14px 16px}
-  .vision-verse{margin:0;font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:15px;color:var(--ink);line-height:1.5}
-  .vision-cite{display:block;font-style:normal;font-size:12px;color:var(--muted);margin-top:8px}
-  .modal-overlay{position:fixed;inset:0;background:rgba(20,24,32,.45);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
-  .modal-box{background:#fff;border-radius:14px;max-width:560px;width:100%;max-height:80vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-  .modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);
-    font-weight:700;font-size:16px;position:sticky;top:0;background:#fff}
-  .modal-close{background:none;border:none;font-size:22px;line-height:1;cursor:pointer;color:var(--muted);padding:2px 8px;border-radius:6px}
-  .modal-close:hover{background:#f1f2f4;color:var(--ink)}
-  .modal-body{padding:16px 18px;font-size:14px;line-height:1.55}
-  .modal-body ul{margin:6px 0;padding-left:20px}
-  .modal-body ul ul{margin:2px 0}
-  .modal-body li{margin:4px 0}
-  .empty{color:var(--muted);font-size:13px;font-style:italic;padding:6px 4px}
-  .quarter{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
-  .quarter .col-head{background:var(--blue-soft)} .quarter .dot{background:var(--blue)}
-  .quarter>summary{list-style:none;cursor:pointer}
-  .quarter>summary::-webkit-details-marker{display:none}
-  .quarter>summary:hover{background:#dfeafd}
-  .qhead-right{display:flex;align-items:center;gap:8px}
-  .qhead-right .chev{color:var(--muted);font-size:12px;transition:transform .15s;display:inline-block}
-  .quarter[open]>summary .qhead-right .chev{transform:rotate(90deg)}
-  .quarter-body{padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-  .quarter-body .card{border-left-color:var(--blue)}
-  .people{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
-  .people .col-head{background:#eef2f4} .people .dot{background:#5b7083}
-  .people-intro{padding:14px 16px 0;font-size:14px;color:var(--ink)}
-  .people-caption{padding:2px 16px 12px;font-size:12px;color:var(--muted);font-style:italic}
-  .people-body{padding:0 16px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-  .people-body .card{border-left-color:#5b7083}
-  .people-body .pname{font-weight:700}
-  .people-body .pnote{color:var(--muted);font-size:13px;margin-top:2px}
-  .people-disclaimer{padding:0 16px 16px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);margin-top:4px;padding-top:12px}
-  .section-divider{height:1px;background:var(--line);margin:140px 0 0}
-  .sermon-section{margin-top:8px}
-  .sermon-h{font-size:20px;margin:28px 0 4px;letter-spacing:-.01em}
-  .sermon-sub{color:var(--muted);font-size:14px;margin:0 0 14px}
-  .sermon-frame{width:100%;height:820px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow)}
-  footer{margin-top:34px;color:var(--muted);font-size:12.5px;text-align:center}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 56px}
+  @media(max-width:600px){.wrap{padding:20px 16px 48px}}
+
+  header.top{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px}
+  .updated{color:var(--muted);font-size:var(--fs-sm);margin-top:4px}
+
+  .months{display:flex;flex-wrap:wrap;gap:6px;margin:20px 0 0}
+  .months .now{font-size:11px;font-weight:500;opacity:.8;margin-left:4px}
+
+  .note{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin:20px 0 0}
+
+  /* summary: the one place the counts live */
+  .summary{margin:20px 0 0;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:16px 18px;box-shadow:var(--shadow)}
+  .sum-line{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;margin-bottom:10px}
+  .sum-main{font-size:var(--fs-lg)}
+  .sum-main strong{font-family:var(--font-head);font-weight:900;font-size:var(--fs-xl)}
+  .sum-main .rest{color:var(--muted);font-size:var(--fs-md)}
+  .sum-main .rest .late{color:var(--late);font-weight:600}
+  .when{color:var(--muted);font-size:var(--fs-sm);white-space:nowrap}
+  .bar{position:relative;height:10px;background:var(--neutral-soft);border-radius:999px}
+  .bar .seg{position:absolute;top:0;bottom:0;left:0;border-radius:999px}
+  .bar .seg.done{background:var(--done);z-index:2}
+  .bar .seg.prog{background:var(--progress);z-index:1}
+  .bar .today{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--navy);border-radius:1px;z-index:3}
+  .bar-wrap{position:relative;padding-bottom:22px}
+  .today-label{position:absolute;top:16px;font-size:var(--fs-xs);font-weight:700;color:var(--navy);white-space:nowrap;transform:translateX(-50%)}
+  .today-label.at-start{transform:none}
+  .today-label.at-end{transform:translateX(-100%)}
+  .bar-key{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:var(--fs-xs);color:var(--muted)}
+  .bar-key i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  .bar-key .k-done{background:var(--done)} .bar-key .k-prog{background:var(--progress)}
+
+  section.block{margin-top:36px}
+  section.block>h2{margin-bottom:12px}
+  .sec-sub{color:var(--muted);font-size:var(--fs-sm);margin:-6px 0 12px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+
+  /* top objectives */
+  .tops{display:grid;gap:10px}
+  .top{display:flex;gap:12px;align-items:flex-start;font-size:var(--fs-lg);font-weight:600;padding:14px 16px}
+  .top .status{flex:0 0 auto;margin-top:2px;min-width:92px;text-align:center}
+  .top .t{flex:1 1 auto;min-width:0}
+  @media(max-width:600px){.top{flex-direction:column;gap:6px}.top .status{min-width:0}}
+
+  /* kanban: three status columns side by side; an empty column shrinks to a narrow strip */
+  .kanban{display:grid;gap:14px;align-items:start}
+  .kcol{background:var(--neutral-soft);border-radius:var(--radius-lg);padding:12px;min-width:0}
+  .kcol>h3{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;margin:2px 2px 10px}
+  .kcol>h3 .late-note{font-family:var(--font-body);font-weight:600;font-size:var(--fs-xs);color:var(--late)}
+  .kcol .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+  .kcol .none{color:var(--muted);font-size:var(--fs-sm);font-style:italic;margin:0 2px 2px}
+  .kcol.done .card{color:var(--muted)}
+  @media(max-width:700px){ .kanban{grid-template-columns:1fr !important} }
+
+  /* quarterly */
+  details.quarter>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:12px}
+  details.quarter>summary::-webkit-details-marker{display:none}
+  details.quarter>summary h2{display:inline}
+  details.quarter>summary .range{color:var(--muted);font-size:var(--fs-sm)}
+  details.quarter>summary .chev{color:var(--muted);font-size:var(--fs-sm);transition:transform .15s;display:inline-block}
+  details.quarter[open]>summary .chev{transform:rotate(90deg)}
+  .more{display:block;margin-top:6px;font-size:var(--fs-xs);font-weight:600;color:var(--blue)}
+
+  /* vision */
+  .verse{border-left:3px solid var(--navy);padding:14px 16px 14px 18px}
+  .verse q{display:block;font-style:italic;font-size:var(--fs-lg);quotes:"\201C" "\201D"}
+  .verse cite{display:block;font-style:normal;font-size:var(--fs-sm);color:var(--muted);margin-top:6px}
+
+  /* people */
+  .pname{font-weight:700}
+  .pnote{color:var(--muted);font-size:var(--fs-sm);margin-top:2px}
+
+  /* sermon board: sized to its content, so there is no scroll box inside the page */
+  .sermon-frame{display:block;box-sizing:content-box;width:100%;height:600px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--page);overflow:hidden}
 </style>
 </head>
 <body>
@@ -133,45 +89,53 @@
   <header class="top">
     <div>
       <h1 id="hTitle"></h1>
-      <a class="cascade-btn" href="cascade.html">Cascading Goals View &rsaquo;</a>
+      <div class="updated" id="hUpdated"></div>
     </div>
-    <div class="updated" id="hUpdated"></div>
+    <a class="pill-btn" href="cascade.html">Goal cascade &rsaquo;</a>
   </header>
 
-  <div class="months" id="months"></div>
-  <div class="note" id="note" style="display:none"></div>
-  <div class="stats" id="stats"></div>
-  <div class="board" id="board"></div>
-  <div class="top-strip" id="topStrip" style="display:none">
-    <h2>&#9733; Top Objectives This Month</h2>
-    <div class="top-list" id="topList"></div>
-  </div>
-  <details class="quarter" id="quarter" open style="display:none">
-    <summary class="col-head"><span><span class="dot"></span><span id="qLabel">Quarterly Goals</span></span><span class="qhead-right"><span class="count" id="qCount"></span><span class="chev">&#9656;</span></span></summary>
-    <div class="quarter-body" id="quarterBody"></div>
-  </details>
-  <div class="vision" id="visionSection" style="display:none">
-    <div class="col-head"><span><span class="dot"></span>Three-Year Vision</span></div>
-    <div class="vision-body">
-      <button class="card clickable vision-card" id="visionCard" type="button">
-        <blockquote class="vision-verse" id="visionVerse"></blockquote>
-        <span class="card-arrow">&#8250;</span>
-      </button>
-    </div>
-  </div>
-  <div class="people" id="people" style="display:none">
-    <div class="col-head"><span><span class="dot"></span>People - Some people I was able to connect with this month</span><span class="count" id="pCount"></span></div>
-    <div class="people-caption">AI notice: the names and descriptions in this section are automatically gathered and summarized by AI from personal notes. They may be incomplete or not fully accurate.</div>
-    <div class="people-body" id="peopleBody"></div>
-    <div class="people-disclaimer">Experimental section AI automatically generates from my notes.</div>
-  </div>
-  <div class="sermon-section">
-    <div class="section-divider"></div>
-    <h2 class="sermon-h">Sermon progress</h2>
-    <p class="sermon-sub">Where this week's sermon preparation stands, updated as I work through it.</p>
-    <iframe class="sermon-frame" src="sermon-board.html" title="This week's sermon progress" loading="lazy"></iframe>
-  </div>
-  <footer id="foot"></footer>
+  <nav class="months" id="months" aria-label="Month"></nav>
+  <div class="note" id="note" hidden></div>
+  <div class="summary" id="summary"></div>
+
+  <section class="block" id="topSec" hidden>
+    <h2>Top objectives</h2>
+    <div class="tops" id="topList"></div>
+  </section>
+
+  <section class="block" id="boardSec" hidden>
+    <h2 id="boardTitle">All objectives</h2>
+    <div id="board"></div>
+  </section>
+
+  <section class="block" id="quarterSec" hidden>
+    <details class="quarter" open>
+      <summary><h2>Quarterly goals</h2><span class="range" id="qRange"></span><span class="chev" aria-hidden="true">&#9656;</span></summary>
+      <div class="grid" id="quarterBody"></div>
+    </details>
+  </section>
+
+  <section class="block" id="visionSec" hidden>
+    <h2>Three-year vision</h2>
+    <button class="card verse" id="visionCard" type="button">
+      <q id="visionVerse"></q><cite id="visionCite"></cite>
+      <span class="more">See the specific results &rsaquo;</span>
+    </button>
+  </section>
+
+  <section class="block" id="peopleSec" hidden>
+    <h2>People I connected with</h2>
+    <p class="sec-sub">Gathered and summarized by AI from my personal notes, so it may be incomplete or not fully accurate.</p>
+    <div class="grid" id="peopleBody"></div>
+  </section>
+
+  <section class="block">
+    <h2>Sermon progress</h2>
+    <p class="sec-sub">Where this week's sermon preparation stands, updated as I work through it.</p>
+    <iframe class="sermon-frame" id="sermonFrame" src="sermon-board.html" title="This week's sermon progress" scrolling="no"></iframe>
+  </section>
+
+  <footer class="site-foot" id="foot"></footer>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -184,56 +148,53 @@
 <script id="data" type="application/json">__DATA__</script>
 <script>
 const DATA = JSON.parse(document.getElementById('data').textContent);
-const STATUS = {notStarted:{label:'Not Started',cls:'red'},inProgress:{label:'In Progress',cls:'yellow'},done:{label:'Done',cls:'green'}};
+const LABEL = {notStarted:'Not started', inProgress:'In progress', done:'Done', quarterly:'Quarterly'};
 let current = (function(){
   const pref = DATA.defaultMonth || DATA.activeMonth;
   if(pref){const i=DATA.months.findIndex(m=>m.key===pref); if(i>=0) return i;}
   return DATA.months.length-1;
 })();
 
-function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
-function fmtDate(iso){
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function fmtDate(iso, withYear){
   if(!iso) return '';
   const d=new Date(iso+'T00:00:00');
   if(isNaN(d)) return iso;
-  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  return d.toLocaleDateString('en-US', withYear===false ? {month:'short',day:'numeric'} : {month:'short',day:'numeric',year:'numeric'});
 }
 function fmtQuarterRange(startIso,endIso){
   if(!endIso) return '';
-  if(!startIso) return fmtDate(endIso);
-  const s=new Date(startIso+'T00:00:00'), e=new Date(endIso+'T00:00:00');
-  if(isNaN(s)||isNaN(e)) return fmtDate(endIso);
-  if(s.getFullYear()===e.getFullYear() && s.getMonth()===e.getMonth()){
-    const mon=s.toLocaleDateString('en-US',{month:'short'});
-    return `${mon} ${s.getDate()}–${e.getDate()}, ${e.getFullYear()}`;
-  }
-  return `${fmtDate(startIso)} – ${fmtDate(endIso)}`;
+  if(!startIso) return 'through '+fmtDate(endIso);
+  return fmtDate(startIso,false)+' to '+fmtDate(endIso);
 }
 
-function renderMonths(){
-  const box=document.getElementById('months'); box.innerHTML='';
-  DATA.months.forEach((m,i)=>{
-    const b=document.createElement('button');
-    b.className='month-tab'+(i===current?' active':'');
-    const tag = (DATA.activeMonth===m.key)?'<span class="tag">current</span>':'';
-    b.innerHTML=esc(m.label)+tag; b.onclick=()=>{current=i;render();};
-    box.appendChild(b);
-  });
+/* Leading [TAG]s become chips. A month tag that matches the tab is dropped. */
+const MONTH_NAMES={jan:0,january:0,feb:1,february:1,mar:2,march:2,apr:3,april:3,may:4,jun:5,june:5,jul:6,july:6,
+  aug:7,august:7,sep:8,sept:8,september:8,oct:9,october:9,nov:10,november:10,dec:11,december:11};
+function monthIndexOf(tag){ const i=MONTH_NAMES[tag.trim().toLowerCase()]; return i===undefined ? -1 : i; }
+function parseTitle(title, monthKey){
+  let rest=String(title||''); const tags=[];
+  const re=/^\s*\[([^\]]+)\]\s*/;
+  let m;
+  while((m=re.exec(rest))){ tags.push(m[1].trim()); rest=rest.slice(m[0].length); }
+  const tabMonth = monthKey ? parseInt(monthKey.slice(5,7),10)-1 : -1;
+  const keep = tags.filter(t=>monthIndexOf(t)!==tabMonth);
+  return {tags:keep, text:rest.trim()||String(title||'')};
 }
-function card(it){
-  const star = it.top ? '<span class="star">&#9733;</span>' : '';
-  const qg = it.qg ? `<span class="qg-badge">${esc(it.qg)}</span>` : '';
-  return `<div class="card${it.top?' top':''}">${qg}${star}${esc(it.title)}</div>`;
+function chips(it, monthKey){
+  const p=parseTitle(it.title, monthKey);
+  const tags=(it.qg?[it.qg]:[]).concat(p.tags);
+  return {html: tags.map(t=>`<span class="chip">${esc(t)}</span>`).join(''), text:p.text};
 }
-function qcard(it,idx){
-  const qg = it.qg ? `<span class="qg-badge">${esc(it.qg)}</span>` : '';
-  const hasDetails = !!(it.details && it.details.trim());
-  const cls = `card${hasDetails?' clickable':''}`;
-  const arrow = hasDetails ? '<span class="card-arrow">&#8250;</span>' : '';
-  const attrs = hasDetails ? ` type="button" data-qidx="${idx}"` : '';
-  const tag = hasDetails ? 'button' : 'div';
-  return `<${tag} class="${cls}"${attrs}>${qg}${esc(it.title)}${arrow}</${tag}>`;
+
+function monthEnd(key){ const y=+key.slice(0,4), mo=+key.slice(5,7); return new Date(y, mo, 0); }
+function monthEnded(key){ const t=new Date(); t.setHours(0,0,0,0); return monthEnd(key) < t; }
+function dayInfo(key){
+  const t=new Date(); const y=+key.slice(0,4), mo=+key.slice(5,7);
+  if(t.getFullYear()!==y || t.getMonth()+1!==mo) return null;
+  return {day:t.getDate(), days:monthEnd(key).getDate()};
 }
+
 function renderBulletText(text){
   if(!text || !text.trim()) return '<p class="empty">No additional details.</p>';
   const lines=text.replace(/\r\n/g,'\n').split('\n');
@@ -254,89 +215,150 @@ function renderBulletText(text){
 function openModal(title,bodyHtml){
   document.getElementById('modalTitle').textContent=title;
   document.getElementById('modalBody').innerHTML=bodyHtml;
-  document.getElementById('modalOverlay').style.display='flex';
+  document.getElementById('modalOverlay').classList.add('open');
 }
-function closeModal(){document.getElementById('modalOverlay').style.display='none';}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
 document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+function show(id, on){ document.getElementById(id).hidden = !on; }
+
 function render(){
   document.getElementById('hTitle').textContent=DATA.title;
-  document.getElementById('hUpdated').textContent='Last updated: '+DATA.lastUpdated;
-  renderMonths();
-  const m=DATA.months[current];
+  document.getElementById('hUpdated').textContent='Updated '+fmtDate(DATA.lastUpdated);
+  document.getElementById('foot').textContent='Mirrors the "'+ DATA.title +'" board in TickTick, refreshed automatically twice a week.';
+
+  const mbox=document.getElementById('months'); mbox.innerHTML='';
+  DATA.months.forEach((m,i)=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='pill-btn'+(i===current?' active':'');
+    b.setAttribute('aria-pressed', i===current?'true':'false');
+    b.innerHTML=esc(m.label)+(DATA.activeMonth===m.key?'<span class="now">current</span>':'');
+    b.onclick=()=>{current=i;render();};
+    mbox.appendChild(b);
+  });
+
+  const m=DATA.months[current], key=m.key;
+  const ended=monthEnded(key);
   const noteEl=document.getElementById('note');
-  if(m.note){noteEl.style.display='';noteEl.textContent=m.note;} else {noteEl.style.display='none';}
-  const by={notStarted:[],inProgress:[],done:[],quarterly:[]};
-  (m.items||[]).forEach(it=>(by[it.status]||by.quarterly).push(it));
-  Object.keys(by).forEach(k=>by[k].sort((a,b)=>(b.top?1:0)-(a.top?1:0)));
+  noteEl.hidden=!m.note; noteEl.textContent=m.note||'';
 
-  const tops=(m.items||[]).filter(it=>it.top);
-  const strip=document.getElementById('topStrip'), tl=document.getElementById('topList');
-  if(tops.length){strip.style.display='';tl.innerHTML=tops.map(it=>{
-    const st=STATUS[it.status]||{label:'Quarterly',cls:''};
-    return `<div class="top-item"><span class="pill ${it.status}">${st.label}</span><span>${esc(it.title)}</span></div>`;}).join('');}
-  else strip.style.display='none';
+  const items=m.items||[];
+  const monthly=items.filter(it=>it.status!=='quarterly');
+  const quarterly=items.filter(it=>it.status==='quarterly');
+  const n={notStarted:0,inProgress:0,done:0};
+  monthly.forEach(it=>{ if(n[it.status]!==undefined) n[it.status]++; });
+  const total=monthly.length, unfinished=n.notStarted+n.inProgress;
+  const isLate=it=>ended && (it.status==='notStarted'||it.status==='inProgress');
 
-  const total=by.notStarted.length+by.inProgress.length+by.done.length;
-  const pct=total?Math.round(by.done.length/total*100):0;
-  document.getElementById('stats').innerHTML=`
-    <div class="stat red"><div class="num">${by.notStarted.length}</div><div class="lbl">Not Started</div></div>
-    <div class="stat yellow"><div class="num">${by.inProgress.length}</div><div class="lbl">In Progress</div></div>
-    <div class="stat green"><div class="num">${by.done.length}</div><div class="lbl">Done</div></div>
-    <div class="bar-wrap">
-      <div class="bar-label"><span>${pct}% complete</span><span>${by.done.length}/${total} objectives</span></div>
-      <div class="bar">
-        <span class="b-green" style="width:${total?by.done.length/total*100:0}%"></span>
-        <span class="b-yellow" style="width:${total?by.inProgress.length/total*100:0}%"></span>
-        <span class="b-red" style="width:${total?by.notStarted.length/total*100:0}%"></span>
+  /* summary */
+  const sum=document.getElementById('summary');
+  if(!total){ sum.hidden=true; }
+  else{
+    sum.hidden=false;
+    const di=dayInfo(key);
+    const rest=[];
+    if(ended){ if(unfinished) rest.push(`<span class="late">${unfinished} not finished</span>`); }
+    else{
+      if(n.inProgress) rest.push(`${n.inProgress} in progress`);
+      if(n.notStarted) rest.push(`${n.notStarted} not started`);
+    }
+    const when = di ? '' : (ended ? 'Month ended' : '');
+    const pDone=n.done/total*100, pProg=(n.done+n.inProgress)/total*100;
+    const todayPct = di ? di.day/di.days*100 : 0;
+    const tick = di ? `<i class="today" style="left:calc(${todayPct.toFixed(1)}% - 1px)"></i>` : '';
+    const edge = todayPct<8 ? ' at-start' : (todayPct>92 ? ' at-end' : '');
+    const todayLabel = di ? `<span class="today-label${edge}" style="left:${todayPct.toFixed(1)}%">Day ${di.day} of ${di.days}</span>` : '';
+    sum.innerHTML=`
+      <div class="sum-line">
+        <div class="sum-main"><strong>${n.done} of ${total} done</strong>${rest.length?' <span class="rest">· '+rest.join(' · ')+'</span>':''}</div>
+        <div class="when">${when}</div>
       </div>
-    </div>`;
+      <div class="${di?'bar-wrap':''}">
+        <div class="bar" role="img" aria-label="${n.done} of ${total} objectives done${di?', day '+di.day+' of '+di.days:''}">
+          <span class="seg prog" style="width:${pProg}%"></span><span class="seg done" style="width:${pDone}%"></span>${tick}
+        </div>${todayLabel}
+      </div>
+      <div class="bar-key"><span><i class="k-done"></i>Done</span><span><i class="k-prog"></i>In progress</span></div>`;
+  }
 
-  const order=['notStarted','inProgress','done'];
-  document.getElementById('board').innerHTML=order.map(k=>{
-    const st=STATUS[k], items=by[k];
-    const body=items.length?items.map(card).join(''):'<div class="empty">Nothing here yet.</div>';
-    return `<div class="col ${st.cls}"><div class="col-head"><span><span class="dot"></span>${st.label}</span><span class="count">${items.length}</span></div><div class="col-body">${body}</div></div>`;
+  /* top objectives: shown here only */
+  const tops=items.filter(it=>it.top);
+  show('topSec', tops.length>0);
+  document.getElementById('topList').innerHTML=tops.map(it=>{
+    const c=chips(it,key);
+    const late=isLate(it);
+    const cls=late?'late':it.status, lab=late?'Not finished':LABEL[it.status]||'';
+    return `<div class="card top${late?' late':''}"><span class="status ${cls}">${lab}</span><span class="t">${c.html}${esc(c.text)}</span></div>`;
   }).join('');
 
-  const q=document.getElementById('quarter');
-  if(by.quarterly.length){q.style.display='';
-    document.getElementById('qCount').textContent=by.quarterly.length;
-    const qBody=document.getElementById('quarterBody');
-    qBody.innerHTML=by.quarterly.map(qcard).join('');
-    qBody.querySelectorAll('[data-qidx]').forEach(el=>{
-      el.addEventListener('click',()=>{
-        const it=by.quarterly[+el.dataset.qidx];
-        openModal((it.qg?it.qg+' — ':'')+it.title, renderBulletText(it.details));
-      });
-    });
-    const qEnd=m.quarterEndDate||DATA.quarterEndDate;
-    const qStart=m.quarterStartDate||DATA.quarterStartDate;
-    document.getElementById('qLabel').textContent='Quarterly Goals'+(qEnd?' — '+fmtQuarterRange(qStart,qEnd):'');}
-  else q.style.display='none';
+  /* everything else, grouped by status; empty groups are left out */
+  const rest=monthly.filter(it=>!it.top);
+  show('boardSec', rest.length>0);
+  document.getElementById('boardTitle').textContent = tops.length ? 'Other objectives' : 'Objectives';
+  const STAT=['notStarted','inProgress','done'];
+  const lists=STAT.map(s=>rest.filter(it=>it.status===s));
+  const boardEl=document.getElementById('board');
+  boardEl.className='kanban';
+  boardEl.style.gridTemplateColumns=lists.map(l=>l.length?'minmax(0,1fr)':'minmax(140px,170px)').join(' ');
+  boardEl.innerHTML=STAT.map((s,i)=>{
+    const list=lists[i];
+    const lateCol = ended && s!=='done' && list.length>0;
+    return `<div class="kcol ${s}"><h3>${LABEL[s]}${lateCol?'<span class="late-note">not finished by month end</span>':''}</h3>${
+      list.length ? `<div class="cards">${list.map(it=>{const c=chips(it,key);return `<div class="card${lateCol?' late':''}">${c.html}${esc(c.text)}</div>`;}).join('')}</div>`
+                  : '<p class="none">None yet</p>'
+    }</div>`;
+  }).join('');
 
-  const visionSec=document.getElementById('visionSection');
-  if(DATA.vision && DATA.vision.verse){
-    visionSec.style.display='';
-    document.getElementById('visionVerse').innerHTML=`“${esc(DATA.vision.verse)}”<span class="vision-cite">${esc(DATA.vision.reference||'')}</span>`;
-    const vCard=document.getElementById('visionCard');
-    vCard.onclick=()=>{
-      const results=(DATA.vision.results||[]).map(r=>`<li>${esc(r)}</li>`).join('');
-      openModal('Three-Year Vision — Specific Results', results?`<ul>${results}</ul>`:'<p class="empty">No results listed.</p>');
+  /* quarterly goals (the starred one is already under Top objectives) */
+  const qList=quarterly.filter(it=>!it.top);
+  show('quarterSec', qList.length>0);
+  const qEnd=m.quarterEndDate||DATA.quarterEndDate, qStart=m.quarterStartDate||DATA.quarterStartDate;
+  document.getElementById('qRange').textContent=fmtQuarterRange(qStart,qEnd);
+  const qBody=document.getElementById('quarterBody');
+  qBody.innerHTML=qList.map((it,i)=>{
+    const c=chips(it,key);
+    const has=!!(it.details&&it.details.trim());
+    return has ? `<button class="card" type="button" data-qidx="${i}">${c.html}${esc(c.text)}<span class="more">Details &rsaquo;</span></button>`
+               : `<div class="card">${c.html}${esc(c.text)}</div>`;
+  }).join('');
+  qBody.querySelectorAll('[data-qidx]').forEach(el=>el.addEventListener('click',()=>{
+    const it=qList[+el.dataset.qidx]; const c=parseTitle(it.title,key);
+    openModal(c.text, renderBulletText(it.details));
+  }));
+
+  /* vision */
+  const V=DATA.vision;
+  show('visionSec', !!(V&&V.verse));
+  if(V&&V.verse){
+    document.getElementById('visionVerse').textContent=V.verse;
+    document.getElementById('visionCite').textContent=V.reference||'';
+    document.getElementById('visionCard').onclick=()=>{
+      const r=(V.results||[]).map(x=>`<li>${esc(x)}</li>`).join('');
+      openModal('Three-year vision: specific results', r?`<ul>${r}</ul>`:'<p class="empty">No results listed.</p>');
     };
-  } else { visionSec.style.display='none'; }
+  }
 
-  const pe=document.getElementById('people');
-  const ppl=(m.people||[]);
-  if(ppl.length){pe.style.display='';
-    document.getElementById('pCount').textContent=ppl.length;
-    document.getElementById('peopleBody').innerHTML=ppl.map(p=>`<div class="card"><div class="pname">${esc(p.name)}</div>${p.note?`<div class="pnote">${esc(p.note)}</div>`:''}</div>`).join('');}
-  else {pe.style.display='none';}
-
-  document.getElementById('foot').textContent='Mirrors the "'+ DATA.title +'" board in TickTick, refreshed automatically twice a week.';
+  /* people */
+  const ppl=m.people||[];
+  show('peopleSec', ppl.length>0);
+  document.getElementById('peopleBody').innerHTML=ppl.map(p=>`<div class="card"><div class="pname">${esc(p.name)}</div>${p.note?`<div class="pnote">${esc(p.note)}</div>`:''}</div>`).join('');
 }
 render();
+
+/* size the sermon board to its content */
+(function(){
+  const fr=document.getElementById('sermonFrame');
+  function fit(){
+    try{ const b=fr.contentDocument && fr.contentDocument.body; if(b) fr.style.height=Math.ceil(b.getBoundingClientRect().height)+'px'; }catch(e){}
+  }
+  fr.addEventListener('load',function(){
+    fit();
+    try{ new ResizeObserver(fit).observe(fr.contentDocument.body); }catch(e){}
+  });
+  window.addEventListener('resize', fit);
+})();
 </script>
 </body>
 </html>

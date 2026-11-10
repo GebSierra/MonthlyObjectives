@@ -1,0 +1,108 @@
+/* Shared look for the Monthly Objectives site: index (from template.html), cascade, sermon board.
+   Brand from mytrinitybible.com: Mulish 900 headings, Montserrat body, navy #141b35, orange #ea533c.
+   Color carries meaning only: blue = done / in progress, orange-red = late, gray = not started. */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Mulish:wght@800;900&display=swap");
+
+:root{
+  /* brand */
+  --navy:#141b35;
+  --blue:#204472;
+  --orange:#ea533c;
+
+  /* surfaces and text */
+  --page:#f5f5f6;
+  --card:#ffffff;
+  --ink:#141b35;
+  --muted:#575c6b;     /* 6.6:1 on white */
+  --line:#e0e0e0;
+  --line-strong:#c9cacf;
+
+  /* meaning */
+  --done:#204472;            /* done fill */
+  --progress:#8ea4c3;        /* in progress fill (bars only, never text) */
+  --progress-text:#204472;
+  --progress-soft:#e8eef6;
+  --late:#bc4330;            /* late text and edges, 5.2:1 on white */
+  --late-soft:#fdeeeb;
+  --neutral-soft:#eeeef0;
+
+  /* type scale */
+  --fs-xs:12px;
+  --fs-sm:13px;
+  --fs-md:14px;
+  --fs-lg:16px;
+  --fs-xl:20px;
+  --fs-2xl:28px;
+
+  --font-body:"Montserrat",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-head:"Mulish","Montserrat",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+
+  --radius:10px;
+  --radius-lg:14px;
+  --shadow:0 1px 2px rgba(20,27,53,.06);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--page);color:var(--ink);
+  font-family:var(--font-body);font-size:var(--fs-md);line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--font-head);font-weight:900;color:var(--navy);margin:0;line-height:1.2}
+h1{font-size:var(--fs-2xl);letter-spacing:-.01em}
+h2{font-size:var(--fs-xl)}
+h3{font-size:var(--fs-lg)}
+a{color:var(--blue)}
+
+/* small uppercase label, as on the church site's navigation */
+.label{font-size:var(--fs-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* tag chip: [VISION] [ADMIN] etc. */
+.chip{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--blue);background:#eef2f8;border-radius:4px;padding:2px 6px;margin:0 4px 4px 0;
+  line-height:1.4;vertical-align:baseline;white-space:nowrap;
+}
+
+/* status chip */
+.status{display:inline-block;font-size:var(--fs-xs);font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap;line-height:1.5}
+.status.notStarted{background:var(--neutral-soft);color:var(--muted)}
+.status.inProgress{background:var(--progress-soft);color:var(--progress-text)}
+.status.done{background:var(--done);color:#fff}
+.status.late{background:var(--late-soft);color:var(--late)}
+.status.quarterly{background:var(--neutral-soft);color:var(--navy)}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 14px;font-size:var(--fs-md);box-shadow:var(--shadow);
+  overflow-wrap:anywhere;
+}
+.card.late{border-left:3px solid var(--late)}
+
+button.card{display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;appearance:none;-webkit-appearance:none}
+button.card:hover{border-color:var(--line-strong)}
+button.card:focus-visible,.pill-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.pill-btn{
+  display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:var(--fs-sm);font-weight:600;
+  color:var(--navy);background:var(--card);border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;text-decoration:none;cursor:pointer;white-space:nowrap;
+}
+.pill-btn:hover{border-color:var(--line-strong)}
+.pill-btn.active{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* modal, shared by index and cascade */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,27,53,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:var(--radius-lg);max-width:560px;width:100%;max-height:85vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);
+  font-family:var(--font-head);font-weight:900;font-size:var(--fs-lg);color:var(--navy);position:sticky;top:0;background:#fff}
+.modal-close{background:none;border:none;font-size:24px;line-height:1;cursor:pointer;color:var(--muted);padding:0 6px;border-radius:6px}
+.modal-close:hover{background:var(--neutral-soft);color:var(--ink)}
+.modal-body{padding:14px 18px 18px;font-size:var(--fs-md)}
+.modal-body ul{margin:6px 0;padding-left:20px}
+.modal-body li{margin:4px 0}
+.empty{color:var(--muted);font-style:italic}
+
+footer.site-foot{margin-top:40px;color:var(--muted);font-size:var(--fs-xs);text-align:center}
