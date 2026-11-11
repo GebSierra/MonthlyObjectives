@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-11-09",
+  "lastUpdated": "2026-11-11",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -1108,6 +1108,61 @@
       "label": "November 2026",
       "items": [
         {
+          "title": "[Nov] [ADMIN] Finish unifying disparate admin accounts.",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "RE THINK ADVENT IN LIGHT OF STEPHANIES EMAILS . Craig preaches the first week. Can we do all of it in luke broken up into 4 sections?",
+          "status": "done",
+          "top": true
+        },
+        {
+          "title": "[Nov] [CARE] Hold the Nov 8 membership class and personally invite 5 regular attenders",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "[Nov] [ADMIN] Microsoft shut down and WordPress hosting cancelled by Nov 20",
+          "status": "done",
+          "top": true
+        },
+        {
+          "title": "[Nov] Advent ready by Nov 22: series plan set, Craig's week confirmed, all four sermons outlined",
+          "status": "inProgress",
+          "top": true
+        },
+        {
+          "title": "[Nov] [Personal] Car and Daisy errands",
+          "status": "inProgress",
+          "top": false
+        },
+        {
+          "title": "[Nov] [VISION] Write the State of the Church address and send it out",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "[Nov] Schedule a premarital session with Pat and Ashley",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "[Nov] RTBC prep",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "[Nov] Reach out to Seth Thomey to get together",
+          "status": "done",
+          "top": false
+        },
+        {
+          "title": "[Nov] Coordinate 5th Sunday Family Worship with Craig Clapper and Janna Marshall",
+          "status": "inProgress",
+          "top": false
+        },
+        {
           "title": "[MISSIONS] Q4 Rock (Dan owns): Missions",
           "status": "quarterly",
           "top": false,
@@ -1125,42 +1180,7 @@
           "top": true
         },
         {
-          "title": "[Nov] [ADMIN] Finish unifying disparate admin accounts.",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "[Nov] [Personal] Car and Daisy errands",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "[Nov] Coordinate 5th Sunday Family Worship with Craig Clapper and Janna Marshall",
-          "status": "notStarted",
-          "top": false
-        },
-        {
           "title": "[Nov] Reach out to David Kanczuzewski to get together",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "[Nov] Reach out to Seth Thomey to get together",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "[Nov] RTBC prep",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "[Nov] Schedule a premarital session with Pat and Ashley",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "[Nov] [VISION] Write the State of the Church address and send it out",
           "status": "notStarted",
           "top": false
         },
@@ -1168,21 +1188,6 @@
           "title": "[Nov] [Personal] Family devotions on Saturday to prep for Sunday, 3 weeks in a row; plan a family getaway between Christmas and New Year's",
           "status": "notStarted",
           "top": false
-        },
-        {
-          "title": "[Nov] [CARE] Hold the Nov 8 membership class and personally invite 5 regular attenders",
-          "status": "notStarted",
-          "top": false
-        },
-        {
-          "title": "[Nov] Advent ready by Nov 22: series plan set, Craig's week confirmed, all four sermons outlined",
-          "status": "notStarted",
-          "top": true
-        },
-        {
-          "title": "[Nov] [ADMIN] Microsoft shut down and WordPress hosting cancelled by Nov 20",
-          "status": "notStarted",
-          "top": true
         },
         {
           "title": "[CARE] Q4 Rock (Dan owns): Member care",
@@ -1213,6 +1218,10 @@
         {
           "name": "Derek Middleton",
           "note": "Geb got to connect with him"
+        },
+        {
+          "name": "Val Bartell",
+          "note": "Geb got to connect with her by phone"
         }
       ],
       "quarterEndDate": "2027-01-08"
