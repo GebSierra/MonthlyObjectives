@@ -1,7 +1,7 @@
 {
   "title": "Monthly Objectives",
   "subtitle": "Trinity Bible Church",
-  "lastUpdated": "2026-11-12",
+  "lastUpdated": "2026-11-16",
   "ticktickProjectId": "6a2c3f2eebcf3900000001fe",
   "months": [
     {
@@ -1128,8 +1128,8 @@
           "top": true
         },
         {
-          "title": "[Nov] Advent ready by Nov 22: series plan set, Craig's week confirmed, all four sermons outlined",
-          "status": "inProgress",
+          "title": "[Nov] Advent ready by Nov 22: series plan set, Craig's week confirmed, all four sermon themes named",
+          "status": "done",
           "top": true
         },
         {
@@ -1178,6 +1178,11 @@
           "title": "[Nov] [VISION] Draft the Established 2027 one-pager and bring it to the elders meeting due by the 18th",
           "status": "notStarted",
           "top": true
+        },
+        {
+          "title": "[Nov] Jan to June 2027 preaching schedule set and lay preachers asked by mid December",
+          "status": "inProgress",
+          "top": false
         },
         {
           "title": "[Nov] Reach out to David Kanczuzewski to get together",
